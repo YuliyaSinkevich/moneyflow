@@ -1,0 +1,232 @@
+{% extends 'index.html' %}
+{% block css %}
+{% endblock %}
+{% block script %}
+<script>
+    function add_revenue() {
+        $.ajax({
+            url: "/user/revenue/add",
+            type: "POST",
+            dataType: 'json',
+            data: $('#revenue_add_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function remove_revenue(revenue_id) {
+        $.ajax({
+            url: "/user/revenue/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"revenue_id":revenue_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function add_expense() {
+        $.ajax({
+            url: "/user/expense/add",
+            type: "POST",
+            dataType: 'json',
+            data: $('#expense_add_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function remove_expense(expense_id) {
+        $.ajax({
+            url: "/user/expense/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"expense_id":expense_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+</script>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <p>Welcome {{ current_user.email }}</p>
+        <a href="{{ url_for('user.logout') }}">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4 class="card-title">Revenues:</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="number">#</th>
+                    <th class="description">Description</th>
+                    <th class="value">Value</th>
+                    <th class="currency">Currency</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for revenue in current_user.revenues %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ revenue.description }}</td>
+                    <td>{{ revenue.value }}</td>
+                    <td>{{ revenue.currency }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-danger btn-xs"
+                                onclick="remove_revenue('{{ revenue.id }}')">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <div class="container">
+                <h4 class="card-title">Add Revenue:</h4>
+                <form id="revenue_add_form">
+                    <div class="row">
+                        <label class="col-md-6">Description:</label>
+                        <div class="col-md-6">
+                            <input type="text" name="description" id="description" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="col-md-6">Value:</label>
+                        <div class="col-md-6">
+                            <input type="number" min="0" step="0.01" placeholder="0.00" value="0" name="value"
+                                   id="value"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="col-md-2">Currency:</label>
+                        <div class="col-md-6">
+                            <select class="input-medium bfh-currencies" name="currency" data-currency="USD"></select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <input type="button" id="add_revenue" class="btn btn-primary btn-lg"
+                                   value="Add">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4 class="card-title">Expenses:</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class="number">#</th>
+                    <th class="description">Description</th>
+                    <th class="value">Value</th>
+                    <th class="currency">Currency</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for expense in current_user.expenses %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.value }}</td>
+                    <td>{{ expense.currency }}</td>
+                    <td>
+                        <button type="submit" class="btn btn-danger btn-xs"
+                                onclick="remove_expense('{{ expense.id }}')">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <div class="container">
+                <h4 class="card-title">Add Expense:</h4>
+                <form id="expense_add_form">
+                    <div class="row">
+                        <label class="col-md-6">Description:</label>
+                        <div class="col-md-6">
+                            <input type="text" name="description" id="description" class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="col-md-6">Value:</label>
+                        <div class="col-md-6">
+                            <input type="number" min="0" step="0.01" placeholder="0.00" value="0" name="value"
+                                   id="value"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <label class="col-md-2">Currency:</label>
+                        <div class="col-md-6">
+                            <select class="input-medium bfh-currencies" name="currency" data-currency="USD"></select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <input type="button" id="add_expense" class="btn btn-primary btn-lg"
+                                   value="Add">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/static/assets/js/jquery.min.js"></script>
+
+<script src="/static/assets/js/bootstrap-formhelpers-selectbox.js"></script>
+<script src="/static/assets/js/bootstrap-formhelpers-currencies.en_US.js"></script>
+<script src="/static/assets/js/bootstrap-formhelpers-currencies.js"></script>
+<script>
+    $(function () {
+        $("#add_revenue").click(function () {
+            add_revenue();
+        });
+    });
+
+
+    $(function () {
+        $("#add_expense").click(function () {
+            add_expense();
+        });
+    });
+</script>
+{% endblock %}
