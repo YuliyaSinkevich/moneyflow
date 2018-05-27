@@ -1,5 +1,5 @@
 # moneyflow
-Python moneyflow server\
+Python moneyflow server
 
 How to run:
 -------------
