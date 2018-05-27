@@ -19,7 +19,14 @@ def new_money_entry_from_form(form):
 @user.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('user/dashboard.html')
+    total = 0.00
+    for rev in current_user.revenues:
+        total += rev.value
+
+    for exp in current_user.expenses:
+        total -= exp.value
+
+    return render_template('user/dashboard.html', total=total, currency='USD')
 
 
 @user.route('/logout')

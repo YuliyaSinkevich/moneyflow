@@ -13,7 +13,7 @@ class MoneyEntry(db.EmbeddedDocument):
     id = db.ObjectIdField(required=True, default=ObjectId,
                           unique=True, primary_key=True)
     description = db.StringField(required=True)
-    value = db.StringField(required=True)
+    value = db.FloatField(required=True)
     currency = db.StringField(required=True)
 
 
