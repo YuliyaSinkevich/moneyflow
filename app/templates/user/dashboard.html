@@ -4,6 +4,8 @@
 <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <!-- Bootstrap Form Helpers -->
 <link href="/static/assets/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+<!-- Bootstrap Date picker Helpers -->
+<link href="/static/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" media="screen">
 {% endblock %}
 {% block script %}
 <script>
@@ -15,6 +17,7 @@
             data: $('#revenue_add_form').serialize(),
             success: function (response) {
                 console.log(response);
+                $("#revenue_modal").modal('hide');
                 window.location.reload();
             },
             error: function (error) {
@@ -46,6 +49,7 @@
             data: $('#expense_add_form').serialize(),
             success: function (response) {
                 console.log(response);
+                $("#expense_modal").modal('hide');
                 window.location.reload();
             },
             error: function (error) {
@@ -90,7 +94,6 @@
                 <thead>
                 <tr>
                     <th class="number">#</th>
-                    <th class="description">Description</th>
                     <th class="value">Value</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
@@ -100,7 +103,6 @@
                 {% for revenue in current_user.revenues %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ revenue.description }}</td>
                     <td>{{ revenue.value }}</td>
                     <td>{{ revenue.currency }}</td>
                     <td>
@@ -113,39 +115,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <br>
-
-            <h4 class="card-title">Add Revenue:</h4>
-            <form id="revenue_add_form">
-                <div class="row">
-                    <label class="col-md-6">Description:</label>
-                    <div class="col-md-6">
-                        <input type="text" name="description" class="form-control">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="col-md-6">Value:</label>
-                    <div class="col-md-6">
-                        <input type="number" min="0" step="0.01" placeholder="0.00" value="0" name="value"
-                               class="form-control">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="col-md-2">Currency:</label>
-                    <div class="col-md-6">
-                        <select class="input-medium bfh-currencies" name="currency" data-currency="USD"></select>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <input type="button" id="add_revenue" class="btn btn-primary btn-lg"
-                               value="Add">
-                    </div>
-                </div>
-            </form>
+            <button id="revenue_button" class="btn-lg btn-success btn-send" data-toggle="modal"
+                    data-target="#revenue">
+                Add
+            </button>
         </div>
         <div class="col-md-6">
             <h4 class="card-title">Expenses:</h4>
@@ -153,7 +126,6 @@
                 <thead>
                 <tr>
                     <th class="number">#</th>
-                    <th class="description">Description</th>
                     <th class="value">Value</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
@@ -163,7 +135,6 @@
                 {% for expense in current_user.expenses %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ expense.description }}</td>
                     <td>{{ expense.value }}</td>
                     <td>{{ expense.currency }}</td>
                     <td>
@@ -176,39 +147,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <br>
-
-            <h4 class="card-title">Add Expense:</h4>
-            <form id="expense_add_form">
-                <div class="row">
-                    <label class="col-md-6">Description:</label>
-                    <div class="col-md-6">
-                        <input type="text" name="description" class="form-control">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="col-md-6">Value:</label>
-                    <div class="col-md-6">
-                        <input type="number" min="0" step="0.01" placeholder="0.00" value="0" name="value"
-                               class="form-control">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <label class="col-md-2">Currency:</label>
-                    <div class="col-md-6">
-                        <select class="input-medium bfh-currencies" name="currency" data-currency="USD"></select>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <input type="button" id="add_expense" class="btn btn-primary btn-lg"
-                               value="Add">
-                    </div>
-                </div>
-            </form>
+            <button id="expense_button" class="btn-lg btn-success btn-send" data-toggle="modal"
+                    data-target="#expense">
+                Add
+            </button>
         </div>
     </div>
 </div>
@@ -228,27 +170,111 @@
                     <input type="number" value="{{total}}" name="value" class="form-control">
                 </div>
                 <div class="col-md-6">
-                    <select class="input-medium bfh-currencies" name="currency" data-currency="USD"></select>
+                    <form>
+                        <select class="input-medium bfh-currencies" name="currency"
+                                data-currency="{{currency}}"></select>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+{% with modal_id='expense' %}
+{% include 'user/money_entry_dialog.html' %}
+{% endwith %}
+
+{% with modal_id='revenue' %}
+{% include 'user/money_entry_dialog.html' %}
+{% endwith %}
+
 <!-- Bootstrap core JavaScript -->
 <script src="/static/assets/js/jquery.min.js"></script>
 <script src="/static/assets/js/bootstrap.min.js"></script>
 <script src="/static/assets/js/bootstrap-formhelpers.js"></script>
+<script src="/static/assets/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ar.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.bg.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.bs.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ca.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.cs.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.cy.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.da.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.de.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.el.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.et.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.eu.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.fa.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.fo.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.fr-CH.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.gl.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.he.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.hr.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.hu.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.hy.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.is.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.it.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.it-CH.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ja.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ka.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.kh.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.kk.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.kr.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.lt.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.lv.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.mk.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ms.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.nb.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.nl.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.nl-BE.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.no.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.pl.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.pt.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ro.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.rs.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.rs-latin.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sk.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sl.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sq.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sr.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sr-latin.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sv.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.sw.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.tr.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.uk.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
+<script src="/static/assets/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>
 <script>
     $(function () {
-        $("#add_revenue").click(function () {
+        $('#add_revenue').click(function () {
             add_revenue();
         });
     });
 
     $(function () {
-        $("#add_expense").click(function () {
+        $('#add_expense').click(function () {
             add_expense();
+        });
+    });
+
+    $(function () {
+        $('#expense_datetimepicker').datepicker({
+            language: '{{language}}'
+        });
+    });
+    $(function () {
+        $('#revenue_datetimepicker').datepicker({
+            language: '{{language}}'
         });
     });
 </script>

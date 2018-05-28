@@ -5,15 +5,17 @@ from app.user import user
 from app.home.user_loging_manager import MoneyEntry
 
 
-def new_money_entry(description: str, value: int, currency: str):
-    return MoneyEntry(description=description, value=value, currency=currency)
+def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
+    return MoneyEntry(description=description, value=value, currency=currency, category=category)
 
 
 def new_money_entry_from_form(form):
-    description = request.form['description']
-    value = request.form['value']
-    currency = request.form['currency']
-    return new_money_entry(description, value, currency)
+    description = form['description']
+    value = form['value']
+    currency = form['currency']
+    category = form['category']
+    date = form['date']
+    return new_money_entry(description, value, currency, category, date)
 
 
 @user.route('/dashboard')
@@ -26,7 +28,7 @@ def dashboard():
     for exp in current_user.expenses:
         total -= exp.value
 
-    return render_template('user/dashboard.html', total=total, currency='USD')
+    return render_template('user/dashboard.html', total=total, currency='USD', language='en')
 
 
 @user.route('/logout')

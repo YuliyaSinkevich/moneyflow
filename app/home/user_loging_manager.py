@@ -15,6 +15,8 @@ class MoneyEntry(db.EmbeddedDocument):
     description = db.StringField(required=True)
     value = db.FloatField(required=True)
     currency = db.StringField(required=True)
+    category = db.StringField(required=True)
+    date = db.DateTimeField(default=datetime.datetime.now)
 
 
 class User(UserMixin, db.Document):
