@@ -1,4 +1,3 @@
-from PIL._imaging import font
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, current_user
 from flask_wtf import FlaskForm
