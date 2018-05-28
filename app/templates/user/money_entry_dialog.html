@@ -1,4 +1,11 @@
 <!-- Modal -->
+<!-- button emit event on id add_{{modal_id}} => get data from {{modal_id}}_add_form" fields:
+  date
+  category
+  value
+  currency
+  description
+  -->
 <div class="modal modal-alert fade" id="{{modal_id}}" tabindex="-1" role="dialog" aria-labelledby="{{modal_id}}"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -56,9 +63,16 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                <button type="button" id="add_{{modal_id}}" class="btn btn-success">Confirm
-                </button>
+                <a id="add_{{modal_id}}" class="btn btn-success" onclick="{{func}};">Confirm</a>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('#{{modal_id}}_datetimepicker').datepicker({
+            language: '{{language}}'
+        });
+    });
+</script>
