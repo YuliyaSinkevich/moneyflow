@@ -2,24 +2,27 @@
 {% block css %}
 {% endblock %}
 {% block content %}
-<h1>Registration</h1>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-{{message[0]}}">
-    {{ message[1] }}
+<div class="container">
+    <h1>Registration</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message[0]}}">
+        {{ message[1] }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <form action="/register" method="post">
+        <p>Email</p>
+        {{ form.email }}
+        <p>Password</p>
+        {{ form.password }}
+        {{ form.hidden_tag() }}
+        <br>
+        <br>
+        <input type="submit" class="btn btn-primary btn-lg"
+               value="Submit">
+    </form>
 </div>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<form action="/register" method="post">
-    <p>Email</p>
-    {{ form.email }}
-    <p>Password</p>
-    {{ form.password }}
-    {{ form.hidden_tag() }}
-    <br>
-    <br>
-    <input type="submit" value="Submit">
-</form>
 {% endblock %}
