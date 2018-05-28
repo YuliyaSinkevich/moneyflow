@@ -1,5 +1,5 @@
 <!-- Modal -->
-<!-- button emit event on id add_{{modal_id}} => get data from {{modal_id}}_add_form" fields:
+<!-- button emit click on {{func}} => get data from {{modal_id}}_add_form" fields:
   date
   category
   value
@@ -11,7 +11,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title col-md-10">Add expense</div>
+                <div class="modal-title col-md-10">{{title}}</div>
                 <button type="button" class="close col-md-2" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -21,10 +21,10 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class='input-group date' id='{{modal_id}}_datetimepicker'>
-                                    <input type='text' name="date" class="form-control"/>
+                                    <input type='text' class="form-control"/>
                                     <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -48,8 +48,9 @@
                     <div class="row">
                         <label class="col-md-2">Currency:</label>
                         <div class="col-md-6">
-                            <select class="input-medium bfh-currencies" name="currency"
-                                    data-currency="{{currency}}"></select>
+                            <div class="bfh-selectbox bfh-currencies" name="currency" data-currency="{{currency}}"
+                                 data-flags="true">
+                            </div>
                         </div>
                     </div>
                     <br>
@@ -71,8 +72,9 @@
 
 <script>
     $(function () {
-        $('#{{modal_id}}_datetimepicker').datepicker({
-            language: '{{language}}'
+        $('#{{modal_id}}_datetimepicker').datetimepicker({
+            locale: '{{language}}'
         });
     });
+
 </script>

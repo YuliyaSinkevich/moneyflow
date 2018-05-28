@@ -1,80 +1,21 @@
 {% extends 'index.html' %}
 {% block css %}
-<!-- Bootstrap -->
-<link href="/static/assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <!-- Bootstrap Form Helpers -->
-<link href="/static/assets/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+<link href="/static/assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
 <!-- Bootstrap Date picker Helpers -->
-<link href="/static/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" media="screen">
+<link href="/static/assets/bootstrap-datetimepicker-4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet"
+      media="screen">
+
 {% endblock %}
 {% block script %}
 <!-- Bootstrap core JavaScript -->
 <script src="/static/assets/js/jquery.min.js"></script>
-<script src="/static/assets/js/bootstrap.min.js"></script>
-<script src="/static/assets/js/bootstrap-formhelpers.js"></script>
-<script src="/static/assets/js/bootstrap-datepicker.min.js"></script>
+<script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="/static/assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js"></script>
 
-<script src="/static/assets/locales/bootstrap-datepicker.ar.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.az.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.bg.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.bs.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ca.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.cs.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.cy.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.da.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.de.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.el.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.en-GB.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.et.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.eu.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.fa.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.fi.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.fo.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.fr.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.fr-CH.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.gl.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.he.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.hr.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.hu.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.hy.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.id.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.is.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.it.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.it-CH.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ja.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ka.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.kh.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.kk.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.kr.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.lt.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.lv.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.mk.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ms.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.nb.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.nl.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.nl-BE.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.no.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.pl.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.pt.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ro.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.rs.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.rs-latin.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sk.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sl.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sq.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sr.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sr-latin.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sv.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.sw.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.th.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.tr.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.uk.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.vi.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
-<script src="/static/assets/locales/bootstrap-datepicker.zh-TW.min.js" charset="UTF-8"></script>
+<!--- http://eonasdan.github.io -->
+<script src="/static/assets/js/moment-with-locales.min.js"></script>
+<script src="/static/assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script>
     function add_revenue() {
@@ -141,7 +82,6 @@
         });
     }
 
-
 </script>
 {% endblock %}
 {% block content %}
@@ -176,7 +116,8 @@
                     <td>{{ revenue.value }}</td>
                     <td>{{ revenue.currency }}</td>
                     <td>
-                        <button type="submit" class="btn btn-danger btn-xs" onclick="remove_revenue('{{ revenue.id }}')">
+                        <button type="submit" class="btn btn-danger btn-xs"
+                                onclick="remove_revenue('{{ revenue.id }}')">
                             Remove
                         </button>
                     </td>
@@ -238,8 +179,9 @@
                 </div>
                 <div class="col-md-6">
                     <form>
-                        <select class="input-medium bfh-currencies" name="currency"
-                                data-currency="{{currency}}"></select>
+                        <div class="bfh-selectbox bfh-currencies" name="balance_currency" data-currency="{{currency}}"
+                             data-flags="true">
+                        </div>
                     </form>
                 </div>
             </div>
@@ -247,11 +189,11 @@
     </div>
 </div>
 
-{% with modal_id='expense', func='add_expense()', language=language %}
+{% with modal_id='expense', func='add_expense()', language=language, title = 'Add expense' %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='revenue', func='add_revenue()', language=language %}
+{% with modal_id='revenue', func='add_revenue()', language=language, title = 'Add revenue' %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
