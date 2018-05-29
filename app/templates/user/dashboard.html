@@ -1,3 +1,4 @@
+<!-- args: total, available_currencies, currency, language -->
 {% extends 'index.html' %}
 {% block css %}
 <!-- Bootstrap Form Helpers -->
@@ -82,16 +83,16 @@
             }
         });
     }
-
-
-
 </script>
 {% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-10">
             <p>Welcome {{ current_user.email }}</p>
+        </div>
+        <div class="col-md-1">
+            <a href="{{ url_for('user.settings') }}" class="btn btn-info" role="button">Settings</a>
         </div>
         <div class="col-md-1">
             <a href="{{ url_for('user.logout') }}" class="btn btn-info" role="button">Logout</a>
@@ -193,11 +194,11 @@
     </div>
 </div>
 
-{% with modal_id='revenue', func='add_revenue()', language=language, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
+{% with modal_id='revenue', func='add_revenue()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='expense', func='add_expense()', language=language, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
+{% with modal_id='expense', func='add_expense()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 

@@ -1,0 +1,82 @@
+<!-- args: current_language, available_languages, current_currency, available_currencies -->
+{% extends 'index.html' %}
+{% block css %}
+<!-- Bootstrap Form Helpers -->
+<link href="/static/assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+{% endblock %}
+{% block script %}
+<!-- Bootstrap core JavaScript -->
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!-- http://bootstrapformhelpers.com -->
+<script src="/static/assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js"></script>
+<script>
+    function apply_settings() {
+        $.ajax({
+            url: "/user/settings/apply",
+            type: "POST",
+            dataType: 'json',
+            data: $('#settings_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+</script>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-11">
+            <p>Settings {{ current_user.email }}</p>
+        </div>
+        <div class="col-md-1">
+            <a href="{{ url_for('user.dashboard') }}" class="btn btn-info" role="button">Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<div class="container well">
+    <form id="settings_form">
+        <div class="row">
+            <label class="col-md-6">Language:</label>
+            <div class="col-md-6">
+                <select class="form-control" name="language">
+                    {% for language in available_languages %}
+                    {% with lang = language.language() %}
+                    {% if lang == current_language.language() %}
+                    <option value="{{lang}}" selected="selected">{{lang}}</option>
+                    {% else %}
+                    <option value="{{lang}}">{{lang}}</option>
+                    {% endif %}
+                    {% endwith %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <label class="col-md-6">Default currency:</label>
+            <div class="col-md-6">
+                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{current_currency}}"
+                     data-available="{{available_currencies}}" data-flags="true">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-primary btn-lg"
+                    onclick="apply_settings()">
+                Apply
+            </button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

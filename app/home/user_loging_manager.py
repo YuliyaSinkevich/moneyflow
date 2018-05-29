@@ -21,13 +21,16 @@ class MoneyEntry(db.EmbeddedDocument):
 
 
 class Language(db.EmbeddedDocument):
-    language = db.StringField(default=constants.DEFAULT_LANGUAGE)
-    locale = db.StringField(default=constants.DEFAULT_LOCALE)
+    language = db.StringField(default=constants.DEFAULT_LANGUAGE.language())
+    locale = db.StringField(default=constants.DEFAULT_LANGUAGE.locale())
+
+    def to_language(self) -> constants.Language:
+        return constants.Language(self.language, self.locale)
 
 
 class Settings(db.EmbeddedDocument):
     currency = db.StringField(default=constants.DEFAULT_CURRENCY)
-    language = Language()
+    language = db.EmbeddedDocumentField(Language, default=Language)
 
 
 class User(UserMixin, db.Document):
@@ -48,4 +51,4 @@ class User(UserMixin, db.Document):
     expenses = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
     expenses_categories = db.ListField(db.StringField(), default=constants.EXPENSES_CATEGORIES)
 
-    settings = Settings()
+    settings = db.EmbeddedDocumentField(Settings, default=Settings)

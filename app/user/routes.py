@@ -6,7 +6,8 @@ from forex_python.converter import CurrencyRates
 import app.constants as constants
 
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry
+from app.home.user_loging_manager import MoneyEntry, Settings, Language
+
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
     dt = datetime.strptime(date, '%m/%d/%Y %I:%M %p')
@@ -33,7 +34,7 @@ def new_money_entry_from_form(form):
 def dashboard():
     total = 0.00
     currency = current_user.settings.currency
-    locale = current_user.settings.language.locale
+    language = current_user.settings.language
     for rev in current_user.revenues:
         if rev.currency == currency:
             total += rev.value
@@ -46,8 +47,33 @@ def dashboard():
         else:
             total -= exchange(exp.currency, currency, exp.value)
 
-    return render_template('user/dashboard.html', total=total, available_currencies=','.join(constants.AVAILABLE_CURRENCIES),
-                           currency=currency, language=locale)
+    return render_template('user/dashboard.html', total=total,
+                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES),
+                           currency=currency, language=language)
+
+
+@user.route('/settings')
+@login_required
+def settings():
+    language = current_user.settings.language.to_language()
+    currency = current_user.settings.currency
+    return render_template('user/settings.html', current_language=language,
+                           available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
+                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES))
+
+
+@user.route('/settings/apply', methods=['POST'])
+@login_required
+def settings_apply():
+    currency = request.form['currency']
+    language = request.form['language']
+    lang = constants.get_language_by_name(language)
+    dblang = Language(lang.language(), lang.locale())
+    settings = Settings(currency=currency, language=dblang)
+    current_user.settings = settings
+    current_user.save()
+    response = {}
+    return jsonify(response), 200
 
 
 @user.route('/logout')

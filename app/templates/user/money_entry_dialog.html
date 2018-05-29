@@ -17,8 +17,8 @@
             <div class="modal-body">
                 <form id="{{modal_id}}_add_form">
                     <div class="row">
-                        <label class="col-md-6">Date:</label>
-                        <div class="col-md-6">
+                        <label class="col-md-4">Date:</label>
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <div class="input-group date" id="{{modal_id}}_datetimepicker">
                                     <input type='text' name="date" class="form-control"/>
@@ -31,8 +31,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="col-md-6">Category:</label>
-                        <div class="col-md-6">
+                        <label class="col-md-4">Category:</label>
+                        <div class="col-md-8">
                             <select class="form-control" name="category">
                                 {% for category in categories %}
                                 <option value="{{category}}">{{category}}</option>
@@ -42,16 +42,16 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="col-md-6">Value:</label>
-                        <div class="col-md-6">
+                        <label class="col-md-4">Value:</label>
+                        <div class="col-md-8">
                             <input type="number" min="0" step="0.01" placeholder="0.00" value="0" name="value"
                                    class="form-control">
                         </div>
                     </div>
                     <br>
                     <div class="row">
-                        <label class="col-md-6">Currency:</label>
-                        <div class="col-md-6">
+                        <label class="col-md-4">Currency:</label>
+                        <div class="col-md-8">
                             <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{currency}}"
                                  data-available="{{available_currencies}}" data-flags="true">
                             </div>
@@ -59,8 +59,8 @@
                     </div>
                     <br>
                     <div class="row">
-                        <label class="col-md-6">Description:</label>
-                        <div class="col-md-6">
+                        <label class="col-md-4">Description:</label>
+                        <div class="col-md-8">
                             <input type="text" name="description" class="form-control">
                         </div>
                     </div>
@@ -77,7 +77,7 @@
 <script>
     $(function () {
         $('#{{modal_id}}_datetimepicker').datetimepicker({
-            locale: '{{language}}'
+            locale: '{{locale}}'
         });
     });
 </script>
