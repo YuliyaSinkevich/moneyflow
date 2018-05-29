@@ -9,4 +9,4 @@ Setup:
 
 How to run:
 -------------
-`python3 server.py runserver --port 8080`
+`./server.py --host 0.0.0.0 --port 8080`
