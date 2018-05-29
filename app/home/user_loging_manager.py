@@ -3,6 +3,7 @@ from app import db
 import datetime
 from enum import IntEnum
 from bson.objectid import ObjectId
+import app.constants as constants
 
 
 # revenues
@@ -19,8 +20,14 @@ class MoneyEntry(db.EmbeddedDocument):
     date = db.DateTimeField(default=datetime.datetime.now)
 
 
-REVENUES_CATEGORIES = ['salary', 'other']
-EXPENSES_CATEGORIES = ['food', 'sport', 'other']
+class Language(db.EmbeddedDocument):
+    language = db.StringField(default=constants.DEFAULT_LANGUAGE)
+    locale = db.StringField(default=constants.DEFAULT_LOCALE)
+
+
+class Settings(db.EmbeddedDocument):
+    currency = db.StringField(default=constants.DEFAULT_CURRENCY)
+    language = Language()
 
 
 class User(UserMixin, db.Document):
@@ -36,7 +43,9 @@ class User(UserMixin, db.Document):
     status = db.IntField(default=Status.NO_ACTIVE)
 
     revenues = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
-    revenues_categories = db.ListField(db.StringField(), default=REVENUES_CATEGORIES)
+    revenues_categories = db.ListField(db.StringField(), default=constants.REVENUES_CATEGORIES)
 
     expenses = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
-    expenses_categories = db.ListField(db.StringField(), default=EXPENSES_CATEGORIES)
+    expenses_categories = db.ListField(db.StringField(), default=constants.EXPENSES_CATEGORIES)
+
+    settings = Settings()
