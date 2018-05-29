@@ -2,4 +2,5 @@ flask==1.0.2
 flask_mongoengine==0.9.5
 flask_login==0.4.1
 flask_mail==0.9.1
+forex-python==1.0.0
 git+git://github.com/fastogt/pyfastogt@master#egg=pyfastogt

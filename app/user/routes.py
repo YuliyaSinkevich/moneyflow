@@ -1,12 +1,26 @@
 from flask import render_template, redirect, url_for, jsonify, request
 from flask_login import logout_user, login_required, current_user
 
+from datetime import datetime
+from forex_python.converter import CurrencyRates
+
 from app.user import user
 from app.home.user_loging_manager import MoneyEntry
 
+AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'GBP', 'HKD', 'HRK', 'HUF',
+                        'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON',
+                        'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR']
+
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
-    return MoneyEntry(description=description, value=value, currency=currency, category=category)
+    dt = datetime.strptime(date, '%m/%d/%Y %I:%M %p')
+    return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
+
+
+def exchange(fr: str, to: str, amount: float):
+    c = CurrencyRates()
+    val = c.convert(fr, to, amount)
+    return val
 
 
 def new_money_entry_from_form(form):
@@ -22,13 +36,21 @@ def new_money_entry_from_form(form):
 @login_required
 def dashboard():
     total = 0.00
+    currency = 'USD'
     for rev in current_user.revenues:
-        total += rev.value
+        if rev.currency == currency:
+            total += rev.value
+        else:
+            total += exchange(rev.currency, currency, rev.value)
 
     for exp in current_user.expenses:
-        total -= exp.value
+        if exp.currency == currency:
+            total -= exp.value
+        else:
+            total += exchange(exp.currency, currency, exp.value)
 
-    return render_template('user/dashboard.html', total=total, currency='USD', language='en')
+    return render_template('user/dashboard.html', total=total, available_currencies=','.join(AVAILABLE_CURRENCIES),
+                           currency=currency, language='en')
 
 
 @user.route('/logout')

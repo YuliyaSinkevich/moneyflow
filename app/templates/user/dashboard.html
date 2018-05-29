@@ -11,6 +11,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="/static/assets/js/jquery.min.js"></script>
 <script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!-- http://bootstrapformhelpers.com -->
 <script src="/static/assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js"></script>
 
 <!--- http://eonasdan.github.io -->
@@ -81,6 +82,7 @@
             }
         });
     }
+
 
 </script>
 {% endblock %}
@@ -169,7 +171,7 @@
 <br>
 <br>
 
-<div class="container card card-block bg-faded">
+<div class="container well">
     <div class="row">
         <h2 class="col-md-6">Total:</h2>
         <div class="col-md-6">
@@ -179,8 +181,9 @@
                 </div>
                 <div class="col-md-6">
                     <form>
-                        <div class="bfh-selectbox bfh-currencies" name="balance_currency" data-currency="{{currency}}"
-                             data-flags="true">
+                        <div class="bfh-selectbox bfh-currencies" data-name="balance_currency"
+                             data-currency="{{currency}}"
+                             data-available="{{available_currencies}}" data-flags="true">
                         </div>
                     </form>
                 </div>
@@ -189,11 +192,11 @@
     </div>
 </div>
 
-{% with modal_id='expense', func='add_expense()', language=language, title = 'Add expense' %}
+{% with modal_id='expense', func='add_expense()', language=language, title='Add expense', available_currencies=available_currencies %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='revenue', func='add_revenue()', language=language, title = 'Add revenue' %}
+{% with modal_id='revenue', func='add_revenue()', language=language, title='Add revenue', available_currencies=available_currencies %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
