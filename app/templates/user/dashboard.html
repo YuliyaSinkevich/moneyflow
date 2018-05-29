@@ -84,6 +84,7 @@
     }
 
 
+
 </script>
 {% endblock %}
 {% block content %}
@@ -100,7 +101,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 well">
             <h4 class="card-title">Revenues:</h4>
             <table class="table">
                 <thead>
@@ -131,7 +132,7 @@
                 Add
             </button>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 well">
             <h4 class="card-title">Expenses:</h4>
             <table class="table">
                 <thead>
@@ -173,11 +174,11 @@
 
 <div class="container well">
     <div class="row">
-        <h2 class="col-md-6">Total:</h2>
+        <h2 class="col-md-6">Balance:</h2>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="number" value="{{total}}" name="value" class="form-control">
+                    <input type="number" value="{{total}}" name="value" class="form-control" readonly>
                 </div>
                 <div class="col-md-6">
                     <form>
@@ -192,11 +193,11 @@
     </div>
 </div>
 
-{% with modal_id='expense', func='add_expense()', language=language, title='Add expense', available_currencies=available_currencies %}
+{% with modal_id='revenue', func='add_revenue()', language=language, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='revenue', func='add_revenue()', language=language, title='Add revenue', available_currencies=available_currencies %}
+{% with modal_id='expense', func='add_expense()', language=language, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 

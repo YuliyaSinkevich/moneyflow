@@ -19,6 +19,10 @@ class MoneyEntry(db.EmbeddedDocument):
     date = db.DateTimeField(default=datetime.datetime.now)
 
 
+REVENUES_CATEGORIES = ['salary', 'other']
+EXPENSES_CATEGORIES = ['food', 'sport', 'other']
+
+
 class User(UserMixin, db.Document):
     class Status(IntEnum):
         NO_ACTIVE = 1
@@ -30,5 +34,9 @@ class User(UserMixin, db.Document):
     password = db.StringField(required=True)
     created_date = db.DateTimeField(default=datetime.datetime.now)
     status = db.IntField(default=Status.NO_ACTIVE)
+
     revenues = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
+    revenues_categories = db.ListField(db.StringField(), default=REVENUES_CATEGORIES)
+
     expenses = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
+    expenses_categories = db.ListField(db.StringField(), default=EXPENSES_CATEGORIES)

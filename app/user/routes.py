@@ -37,6 +37,7 @@ def new_money_entry_from_form(form):
 def dashboard():
     total = 0.00
     currency = 'USD'
+    language = 'en'
     for rev in current_user.revenues:
         if rev.currency == currency:
             total += rev.value
@@ -47,10 +48,10 @@ def dashboard():
         if exp.currency == currency:
             total -= exp.value
         else:
-            total += exchange(exp.currency, currency, exp.value)
+            total -= exchange(exp.currency, currency, exp.value)
 
     return render_template('user/dashboard.html', total=total, available_currencies=','.join(AVAILABLE_CURRENCIES),
-                           currency=currency, language='en')
+                           currency=currency, language=language)
 
 
 @user.route('/logout')

@@ -33,7 +33,11 @@
                     <div class="row">
                         <label class="col-md-6">Category:</label>
                         <div class="col-md-6">
-                            <input type="text" name="category" class="form-control" placeholder="sport">
+                            <select class="form-control" name="category">
+                                {% for category in categories %}
+                                <option value="{{category}}">{{category}}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                     </div>
                     <br>
@@ -76,9 +80,4 @@
             locale: '{{language}}'
         });
     });
-
-
-
-
-
 </script>
