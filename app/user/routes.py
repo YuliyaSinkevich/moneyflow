@@ -10,7 +10,7 @@ from app.home.user_loging_manager import MoneyEntry, Settings, Language
 
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
-    dt = datetime.strptime(date, '%m/%d/%Y %I:%M %p')
+    dt = datetime.strptime(date, '%m/%d/%Y %H:%M:%S')
     return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
 
 
@@ -94,6 +94,17 @@ def add_revenue():
     return jsonify(response), 200
 
 
+@user.route('/revenue/add_category', methods=['POST'])
+@login_required
+def add_category_revenue():
+    category = request.form['category']
+    current_user.revenues_categories.append(category)
+    current_user.save()
+
+    response = {}
+    return jsonify(response), 200
+
+
 @user.route('/revenue/remove', methods=['POST'])
 @login_required
 def remove_revenue():
@@ -117,6 +128,17 @@ def add_expense():
     current_user.save()
 
     response = {"expense_id": str(new_expense.id)}
+    return jsonify(response), 200
+
+
+@user.route('/expense/add_category', methods=['POST'])
+@login_required
+def add_category_expense():
+    category = request.form['category']
+    current_user.expenses_categories.append(category)
+    current_user.save()
+
+    response = {}
     return jsonify(response), 200
 
 

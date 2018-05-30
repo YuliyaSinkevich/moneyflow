@@ -20,15 +20,15 @@
 <script src="/static/assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
 <script>
+    // revenue
     function add_revenue() {
         $.ajax({
             url: "/user/revenue/add",
             type: "POST",
             dataType: 'json',
-            data: $('#revenue_add_form').serialize(),
+            data: $('#add_revenue_form').serialize(),
             success: function (response) {
                 console.log(response);
-                $("#revenue_modal").modal('hide');
                 window.location.reload();
             },
             error: function (error) {
@@ -52,15 +52,31 @@
         });
     }
 
+    function add_revenue_category() {
+        $.ajax({
+            url: "/user/revenue/add_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_revenue_add_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_revenue_add_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // expense
     function add_expense() {
         $.ajax({
             url: "/user/expense/add",
             type: "POST",
             dataType: 'json',
-            data: $('#expense_add_form').serialize(),
+            data: $('#add_expense_form').serialize(),
             success: function (response) {
                 console.log(response);
-                $("#expense_modal").modal('hide');
                 window.location.reload();
             },
             error: function (error) {
@@ -77,6 +93,22 @@
             success: function (response) {
                 console.log(response);
                 window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function add_expense_category() {
+        $.ajax({
+            url: "/user/expense/add_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_expense_add_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_expense_add_category").modal('hide');
             },
             error: function (error) {
                 console.error(error);
@@ -129,7 +161,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="revenue_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#revenue">
+            <button id="revenue_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_revenue">
                 Add
             </button>
         </div>
@@ -160,7 +192,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="expense_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#expense">
+            <button id="expense_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_expense">
                 Add
             </button>
         </div>
@@ -194,11 +226,11 @@
     </div>
 </div>
 
-{% with modal_id='revenue', func='add_revenue()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
+{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='expense', func='add_expense()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
+{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
