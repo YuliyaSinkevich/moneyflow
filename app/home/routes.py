@@ -102,6 +102,16 @@ def login():
     return render_template('home/login.html', form=form)
 
 
+@home.route('/private_policy')
+def private_policy():
+    return render_template('home/private_policy.html')
+
+
+@home.route('/term_of_use')
+def term_of_use():
+    return render_template('home/term_of_use.html')
+
+
 def post_register(form):
     if not form.validate():
         flash_errors(form)

@@ -21,3 +21,6 @@ from app.user import user as user_blueprint
 app.register_blueprint(user_blueprint, url_prefix='/user')
 
 login_manager.login_view = "home.login"
+
+public_config = app.config['PUBLIC_CONFIG']
+app.jinja_env.globals['PUBLIC_CONFIG'] = public_config
