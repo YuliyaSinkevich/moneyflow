@@ -69,8 +69,7 @@ def settings_apply():
     language = request.form['language']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    settings = Settings(currency=currency, language=dblang)
-    current_user.settings = settings
+    current_user.settings = Settings(currency=currency, language=dblang)
     current_user.save()
     response = {}
     return jsonify(response), 200

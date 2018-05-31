@@ -64,7 +64,7 @@ Settings | {{ PUBLIC_CONFIG.site.title }}
         </div>
         <br>
         <div class="row">
-            <label class="col-md-6">Default currency:</label>
+            <label class="col-md-6">Currency:</label>
             <div class="col-md-6">
                 <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{current_currency}}"
                      data-available="{{available_currencies}}" data-flags="true">
@@ -72,10 +72,12 @@ Settings | {{ PUBLIC_CONFIG.site.title }}
             </div>
         </div>
         <div class="row">
-            <button type="button" class="btn btn-primary btn-lg"
-                    onclick="apply_settings()">
-                Apply
-            </button>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-lg"
+                        onclick="apply_settings()">
+                    Apply
+                </button>
+            </div>
         </div>
     </form>
 </div>
