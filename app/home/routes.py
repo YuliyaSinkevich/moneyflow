@@ -8,12 +8,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+import app.utils as utils
+
 from app.home import home
 from app import login_manager
 from app import mail
 from app.home.user_loging_manager import User
-
-from pyfastogt import utils
 
 CONFIRM_LINK_TTL = 3600
 SALT_LINK = 'email-confirm'
