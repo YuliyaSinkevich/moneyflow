@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <title>
+        {% block title %}
+        {{ PUBLIC_CONFIG.site.title }}
+        {% endblock %}
+    </title>
+
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='assets/css/main.css')}}"/>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css"
+          href="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css')}}"/>
+    {% endblock %}
+
+    {% block script %}
+    {% endblock %}
+</head>
+<body>
+{% block body%}
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="footer">
+    {% block footer %}
+    {% endblock %}
+</div>
+{% endblock %}
+</body>
+</html>

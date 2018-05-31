@@ -1,20 +1,22 @@
 <!-- args: current_language, available_languages, current_currency, available_currencies -->
-{% extends 'index.html' %}
+{% extends 'layouts/layout_user.html' %}
 {% block title %}
 Settings | {{ PUBLIC_CONFIG.site.title }}
 {% endblock %}
 {% block css %}
 {{super()}}
 <!-- Bootstrap Form Helpers -->
-<link href="/static/assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" type="text/css"
+      href="{{url_for('static', filename='assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css')}}"/>
 {% endblock %}
 {% block script %}
 {{super()}}
 <!-- Bootstrap core JavaScript -->
-<script src="/static/assets/js/jquery.min.js"></script>
-<script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="{{url_for('static', filename='assets/js/jquery.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
+
 <!-- http://bootstrapformhelpers.com -->
-<script src="/static/assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js"></script>
+<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
 <script>
     function apply_settings() {
         $.ajax({
@@ -31,7 +33,6 @@ Settings | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
 </script>
 {% endblock %}
 {% block content %}
@@ -78,7 +79,4 @@ Settings | {{ PUBLIC_CONFIG.site.title }}
         </div>
     </form>
 </div>
-{% endblock %}
-
-{% block footer %}
 {% endblock %}

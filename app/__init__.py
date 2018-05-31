@@ -15,9 +15,11 @@ app.config['SECRET_KEY'] = os.urandom(24)
 login_manager = LoginManager(app)
 
 from app.home import home as home_blueprint
+
 app.register_blueprint(home_blueprint)
 
 from app.user import user as user_blueprint
+
 app.register_blueprint(user_blueprint, url_prefix='/user')
 
 login_manager.login_view = "home.login"

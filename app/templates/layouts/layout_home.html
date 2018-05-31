@@ -1,0 +1,28 @@
+{% extends 'layouts/layout.html' %}
+{% block title %}
+{{ PUBLIC_CONFIG.site.title }}
+{% endblock %}
+
+{% block body %}
+{% block content %}
+<div class="container">
+    <h1>
+        {% block content_title %}
+        {% endblock %}
+    </h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message[0]}}">
+        {{ message[1] }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% block content_form %}
+    {% endblock %}
+</div>
+{% endblock %}
+{% endblock %}
