@@ -8,16 +8,17 @@ Registration
 {% endblock %}
 
 {% block content_form %}
-<form action="/register" method="post">
-    <p>Email</p>
-    {{ form.email }}
-    <p>Password</p>
-    {{ form.password }}
+<form action="" method="post" role="form">
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" class="form-control" id="email" name="email"
+               placeholder="Your email will be used to contact you.">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter a password.">
+    </div>
     {{ form.hidden_tag() }}
-    <br>
-    <br>
-    <input type="submit" class="btn btn-primary btn-lg"
-           value="Submit">
+    <button type="submit" class="btn btn-success">Sign Up</button>
 </form>
 {% endblock %}
 
