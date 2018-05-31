@@ -83,6 +83,7 @@ def logout():
     return redirect(url_for('home.start'))
 
 
+# revenue
 @user.route('/revenue/add', methods=['POST'])
 @login_required
 def add_revenue():
@@ -91,17 +92,6 @@ def add_revenue():
     current_user.save()
 
     response = {"revenue_id": str(new_revenue.id)}
-    return jsonify(response), 200
-
-
-@user.route('/revenue/add_category', methods=['POST'])
-@login_required
-def add_category_revenue():
-    category = request.form['category']
-    current_user.revenues_categories.append(category)
-    current_user.save()
-
-    response = {}
     return jsonify(response), 200
 
 
@@ -120,6 +110,29 @@ def remove_revenue():
     return jsonify(response), 200
 
 
+@user.route('/revenue/add_category', methods=['POST'])
+@login_required
+def add_category_revenue():
+    category = request.form['category']
+    current_user.revenues_categories.append(category)
+    current_user.save()
+
+    response = {}
+    return jsonify(response), 200
+
+
+@user.route('/revenue/remove_category', methods=['POST'])
+@login_required
+def remove_category_revenue():
+    category = request.form['category']
+    current_user.revenues_categories.remove(category)
+    current_user.save()
+
+    response = {}
+    return jsonify(response), 200
+
+
+# expense
 @user.route('/expense/add', methods=['POST'])
 @login_required
 def add_expense():
@@ -128,17 +141,6 @@ def add_expense():
     current_user.save()
 
     response = {"expense_id": str(new_expense.id)}
-    return jsonify(response), 200
-
-
-@user.route('/expense/add_category', methods=['POST'])
-@login_required
-def add_category_expense():
-    category = request.form['category']
-    current_user.expenses_categories.append(category)
-    current_user.save()
-
-    response = {}
     return jsonify(response), 200
 
 
@@ -154,4 +156,26 @@ def remove_expense():
             break
 
     response = {"expense_id": expense_id}
+    return jsonify(response), 200
+
+
+@user.route('/expense/add_category', methods=['POST'])
+@login_required
+def add_category_expense():
+    category = request.form['category']
+    current_user.expenses_categories.append(category)
+    current_user.save()
+
+    response = {}
+    return jsonify(response), 200
+
+
+@user.route('/expense/remove_category', methods=['POST'])
+@login_required
+def remove_category_expense():
+    category = request.form['category']
+    current_user.expenses_categories.remove(category)
+    current_user.save()
+
+    response = {}
     return jsonify(response), 200

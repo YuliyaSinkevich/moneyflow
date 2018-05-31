@@ -1,10 +1,15 @@
 <!-- args: current_language, available_languages, current_currency, available_currencies -->
 {% extends 'index.html' %}
+{% block title %}
+Settings | {{ PUBLIC_CONFIG.site.title }}
+{% endblock %}
 {% block css %}
+{{super()}}
 <!-- Bootstrap Form Helpers -->
 <link href="/static/assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
 {% endblock %}
 {% block script %}
+{{super()}}
 <!-- Bootstrap core JavaScript -->
 <script src="/static/assets/js/jquery.min.js"></script>
 <script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
@@ -26,17 +31,14 @@
             }
         });
     }
+
 </script>
 {% endblock %}
 {% block content %}
-
 <div class="container">
     <div class="row">
         <div class="col-md-11">
             <p>Settings {{ current_user.email }}</p>
-        </div>
-        <div class="col-md-1">
-            <a href="{{ url_for('user.dashboard') }}" class="btn btn-info" role="button">Dashboard</a>
         </div>
     </div>
 </div>
@@ -76,6 +78,7 @@
         </div>
     </form>
 </div>
+{% endblock %}
 
-
+{% block footer %}
 {% endblock %}

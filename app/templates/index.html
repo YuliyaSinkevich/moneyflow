@@ -1,38 +1,50 @@
 <html>
 <head>
-    <title>{{ PUBLIC_CONFIG.site.title }}</title>
+    <title>
+        {% block title %}
+        {{ PUBLIC_CONFIG.site.title }}
+        {% endblock %}
+    </title>
+
+    {% block css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='assets/css/main.css')}}"/>
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css"
           href="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css')}}"/>
-    {% block css %}
     {% endblock %}
+
     {% block script %}
     {% endblock %}
 </head>
 <body style="margin-top: 25px;">
-{% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <a class="btn btn-lg btn-primary btn-block" href={{ url_for('home.register') }}>Register</a>
-        </div>
-        <div class="col-md-6">
-            <a class="btn btn-lg btn-primary btn-block" href={{ url_for('home.login') }}>Sign in</a>
+<div id="content">
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <a class="btn btn btn-primary btn-block" href={{ url_for('home.register') }}>Register</a>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn btn-primary btn-block" href={{ url_for('home.login') }}>Sign in</a>
+            </div>
         </div>
     </div>
+    {% endblock %}
 </div>
 <br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <a class="btn btn-lg btn-primary btn-block" href={{ url_for('home.private_policy') }}>Private policy</a>
-        </div>
-        <div class="col-md-6">
-            <a class="btn btn-lg btn-primary btn-block" href={{ url_for('home.term_of_use') }}>Term of use</a>
+<div id="footer">
+    {% block footer %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <a class="btn btn btn-primary btn-block" href={{ url_for('home.private_policy') }}>Private policy</a>
+            </div>
+            <div class="col-md-6">
+                <a class="btn btn btn-primary btn-block" href={{ url_for('home.term_of_use') }}>Term of use</a>
+            </div>
         </div>
     </div>
+    {% endblock %}
 </div>
-{% endblock %}
 </body>
 </html>

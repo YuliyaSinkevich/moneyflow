@@ -1,17 +1,22 @@
 <!-- args: total, available_currencies, currency, language -->
 {% extends 'index.html' %}
+{% block title %}
+Dashboard | {{ PUBLIC_CONFIG.site.title }}
+{% endblock %}
 {% block css %}
+{{ super() }}
 <!-- Bootstrap Form Helpers -->
 <link href="/static/assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css" rel="stylesheet" media="screen">
 <!-- Bootstrap Date picker Helpers -->
 <link href="/static/assets/bootstrap-datetimepicker-4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet"
       media="screen">
-
 {% endblock %}
 {% block script %}
+{{ super() }}
 <!-- Bootstrap core JavaScript -->
 <script src="/static/assets/js/jquery.min.js"></script>
 <script src="/static/assets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
 <!-- http://bootstrapformhelpers.com -->
 <script src="/static/assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js"></script>
 
@@ -68,6 +73,22 @@
         });
     }
 
+    function remove_revenue_category() {
+        $.ajax({
+            url: "/user/revenue/remove_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_revenue_remove_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_revenue_remove_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
     // expense
     function add_expense() {
         $.ajax({
@@ -115,6 +136,24 @@
             }
         });
     }
+
+    function remove_expense_category() {
+        $.ajax({
+            url: "/user/expense/remove_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_expense_remove_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_expense_remove_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+
 </script>
 {% endblock %}
 {% block content %}
@@ -226,12 +265,15 @@
     </div>
 </div>
 
-{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
+{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', remove_category_func='remove_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
+{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/money_entry_dialog.html' %}
 {% endwith %}
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
