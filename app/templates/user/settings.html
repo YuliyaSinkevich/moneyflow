@@ -1,7 +1,7 @@
 <!-- args: current_language, available_languages, current_currency, available_currencies -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
-Settings | {{ PUBLIC_CONFIG.site.title }}
+Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 {% block css %}
 {{super()}}

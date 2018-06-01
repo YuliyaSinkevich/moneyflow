@@ -1,7 +1,7 @@
 <!-- args: total, available_currencies, currency, language -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
-Dashboard | {{ PUBLIC_CONFIG.site.title }}
+Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 {% block css %}
 {{ super() }}
@@ -57,7 +57,6 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
     function add_revenue_category() {
         $.ajax({
             url: "/user/revenue/add_category",
@@ -73,7 +72,6 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
     function remove_revenue_category() {
         $.ajax({
             url: "/user/revenue/remove_category",
@@ -121,7 +119,6 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
     function add_expense_category() {
         $.ajax({
             url: "/user/expense/add_category",
@@ -137,7 +134,6 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
     function remove_expense_category() {
         $.ajax({
             url: "/user/expense/remove_category",
@@ -153,10 +149,6 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
             }
         });
     }
-
-
-
-
 </script>
 {% endblock %}
 {% block content %}

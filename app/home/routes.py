@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, current_app as app
 from flask_login import login_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
@@ -104,12 +104,16 @@ def login():
 
 @home.route('/private_policy')
 def private_policy():
-    return render_template('home/private_policy.html')
+    config = app.config['PUBLIC_CONFIG']
+    return render_template('home/private_policy.html', contact_email=config['support']['contact_email'],
+                           title=config['site']['title'])
 
 
 @home.route('/term_of_use')
 def term_of_use():
-    return render_template('home/term_of_use.html')
+    config = app.config['PUBLIC_CONFIG']
+    return render_template('home/term_of_use.html', contact_email=config['support']['contact_email'],
+                           title=config['site']['title'])
 
 
 def post_register(form):

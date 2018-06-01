@@ -3,13 +3,13 @@
 <head>
     <title>
         {% block title %}
-        {{ PUBLIC_CONFIG.site.title }}
+        {{ config['PUBLIC_CONFIG'].site.title }}
         {% endblock %}
     </title>
     <meta charset="utf-8">
-    <meta name="description" content="{{ PUBLIC_CONFIG.site.title }}"/>
-    <meta name="keywords" content="{{ PUBLIC_CONFIG.site.keywords }}"/>
-    <meta name="copyright" content="{{ PUBLIC_CONFIG.company.domain }}"/>
+    <meta name="description" content="{{ config['PUBLIC_CONFIG'].site.title }}"/>
+    <meta name="keywords" content="{{ config['PUBLIC_CONFIG'].site.keywords }}"/>
+    <meta name="copyright" content="{{ config['PUBLIC_CONFIG'].company.domain }}"/>
 
     {% block css %}
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='assets/css/main.css')}}"/>
