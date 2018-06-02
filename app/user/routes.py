@@ -7,6 +7,7 @@ import app.constants as constants
 
 from app.user import user
 from app.home.user_loging_manager import MoneyEntry, Settings, Language
+from collections import defaultdict
 
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
@@ -82,7 +83,37 @@ def logout():
     return redirect(url_for('home.start'))
 
 
+def render_details(title: str, currency: str, entries: list):
+    data_dict = defaultdict(float)
+    total = 0.00
+    for rev in entries:
+        if rev.currency == currency:
+            val = rev.value
+        else:
+            val = exchange(rev.currency, currency, rev.value)
+
+        data_dict[rev.category] += val
+        total += val
+
+    labels = []
+    data = []
+    for key, value in data_dict.items():
+        labels.append(key)
+        r = round(value / total, 2)
+        data.append(r)
+
+    return render_template('user/details.html', title=title, labels=labels, data=data,
+                           colors=constants.AVAILIBLE_CHART_COLORS)
+
+
 # revenue
+@user.route('/revenue/details', methods=['GET'])
+@login_required
+def details_revenue():
+    currency = current_user.settings.currency
+    return render_details('Revenue details', currency, current_user.revenues)
+
+
 @user.route('/revenue/add', methods=['POST'])
 @login_required
 def add_revenue():
@@ -132,6 +163,13 @@ def remove_category_revenue():
 
 
 # expense
+@user.route('/expense/details', methods=['GET'])
+@login_required
+def details_expense():
+    currency = current_user.settings.currency
+    return render_details('Expense details', currency, current_user.expenses)
+
+
 @user.route('/expense/add', methods=['POST'])
 @login_required
 def add_expense():

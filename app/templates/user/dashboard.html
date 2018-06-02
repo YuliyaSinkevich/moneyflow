@@ -149,6 +149,9 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
+
+
+
 </script>
 {% endblock %}
 {% block content %}
@@ -195,9 +198,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="revenue_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_revenue">
-                Add
-            </button>
+            <div class="row">
+                <form action="/user/revenue/details" method="get" class="col-md-2" >
+                    <button type="submit" class="btn btn-info">Details</button>
+                </form>
+                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_revenue">
+                    Add
+                </button>
+            </div>
         </div>
         <div class="col-md-6 well">
             <h4 class="card-title">Expenses:</h4>
@@ -226,9 +234,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="expense_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_expense">
-                Add
-            </button>
+            <div class="row">
+                <form action="/user/expense/details" class="col-md-2" method="get">
+                    <button type="submit" class="btn btn-info">Details</button>
+                </form>
+                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_expense">
+                    Add
+                </button>
+            </div>
         </div>
     </div>
 </div>

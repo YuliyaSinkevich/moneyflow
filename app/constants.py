@@ -25,3 +25,8 @@ AVAILABLE_LANGUAGES = [DEFAULT_LANGUAGE, Language('russian', 'ru')]
 
 def get_language_by_name(language) -> Language:
     return next((x for x in AVAILABLE_LANGUAGES if x.language() == language), None)
+
+
+AVAILIBLE_CHART_COLORS = ['rgba(255, 99, 132, 0.5)', 'rgba(255, 159, 64, 0.5)', 'rgba(255, 205, 86, 0.5)',
+                          'rgba(75, 192, 192, 0.5)', 'rgba(54, 162, 235, 0.5)',
+                          'rgba(153, 102, 255, 0.5)', 'rgba(201, 203, 207, 0.5)']
