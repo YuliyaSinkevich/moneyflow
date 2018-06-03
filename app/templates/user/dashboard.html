@@ -25,6 +25,8 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 <script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
 <script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
 
+<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
+
 <script>
     // revenue
     function add_revenue() {
@@ -149,9 +151,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-
-
-
 </script>
 {% endblock %}
 {% block content %}
@@ -183,14 +182,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </tr>
                 </thead>
                 <tbody>
-                {% for revenue in current_user.revenues %}
+                {% for rev in revenues %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ revenue.value }}</td>
-                    <td>{{ revenue.currency }}</td>
+                    <td>{{ rev.value }}</td>
+                    <td>{{ rev.currency }}</td>
                     <td>
                         <button type="submit" class="btn btn-danger btn-xs"
-                                onclick="remove_revenue('{{ revenue.id }}')">
+                                onclick="remove_revenue('{{ rev.id }}')">
                             Remove
                         </button>
                     </td>
@@ -199,7 +198,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </tbody>
             </table>
             <div class="row">
-                <form action="/user/revenue/details" method="get" class="col-md-2" >
+                <form action="/user/revenue/details" method="get" class="col-md-2">
                     <button type="submit" class="btn btn-info">Details</button>
                 </form>
                 <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_revenue">
@@ -219,14 +218,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </tr>
                 </thead>
                 <tbody>
-                {% for expense in current_user.expenses %}
+                {% for exp in expenses %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ expense.value }}</td>
-                    <td>{{ expense.currency }}</td>
+                    <td>{{ exp.value }}</td>
+                    <td>{{ exp.currency }}</td>
                     <td>
                         <button type="submit" class="btn btn-danger btn-xs"
-                                onclick="remove_expense('{{ expense.id }}')">
+                                onclick="remove_expense('{{ exp.id }}')">
                             Remove
                         </button>
                     </td>
@@ -248,6 +247,12 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 
 <br>
 <br>
+<br>
+<div class="container well">
+    <div class="row">
+        <canvas id="myChart" width="100%" height="20%"></canvas>
+    </div>
+</div>
 <br>
 <br>
 <br>
@@ -280,5 +285,34 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 {% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
+
+<script>
+		window.onload = function() {
+			var canvas = document.getElementById('myChart');
+            var data = {
+                labels: {{chart_labels|safe}},
+                type: "line",
+                datasets: [
+                    {
+                        label: 'Revenue',
+                        fill: false,
+                        backgroundColor: 'rgb(75, 192, 192)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        data: {{chart_revenues}},
+                    },
+                    {
+                        label: 'Expense',
+                        fill: false,
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: {{chart_expenses}},
+                    }
+                ]
+            };
+			var myBarChart = Chart.Line(canvas,{
+                data:data,
+            });
+		};
+</script>
 
 {% endblock %}

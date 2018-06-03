@@ -2,6 +2,8 @@ from flask import render_template, redirect, url_for, jsonify, request
 from flask_login import logout_user, login_required, current_user
 
 from datetime import datetime
+import calendar
+
 from forex_python.converter import CurrencyRates
 import app.constants as constants
 
@@ -30,27 +32,70 @@ def new_money_entry_from_form(form):
     return new_money_entry(description, value, currency, category, date)
 
 
+def year_month_date(date: datetime):
+    dt = date.date()
+    last_day = calendar.monthrange(dt.year, dt.month)[1]
+    max_dt = datetime(dt.year, dt.month, last_day)
+    return max_dt
+
+
+class GraphNode():
+    def __init__(self, revenues=0.00, expenses=0.00):
+        self.revenues = revenues
+        self.expenses = expenses
+
+    expenses = float
+    revenues = float
+
+
 @user.route('/dashboard')
 @login_required
 def dashboard():
+    date = year_month_date(datetime.today())
+
+    revenues = []
+    expenses = []
     total = 0.00
     currency = current_user.settings.currency
     language = current_user.settings.language
+    graph_dict = defaultdict(GraphNode)
     for rev in current_user.revenues:
+        entry_date = year_month_date(rev.date)
         if rev.currency == currency:
-            total += rev.value
+            rev_val = rev.value
         else:
-            total += exchange(rev.currency, currency, rev.value)
+            rev_val = exchange(rev.currency, currency, rev.value)
+        if entry_date == date:
+            total += rev_val
+            revenues.append(rev)
+
+        graph_dict[entry_date].revenues += rev_val
 
     for exp in current_user.expenses:
+        entry_date = year_month_date(rev.date)
         if exp.currency == currency:
-            total -= exp.value
+            exp_val = exp.value
         else:
-            total -= exchange(exp.currency, currency, exp.value)
+            exp_val = exchange(exp.currency, currency, exp.value)
 
-    return render_template('user/dashboard.html', total=total,
+        if entry_date == date:
+            total -= exp_val
+            expenses.append(exp)
+            
+        graph_dict[entry_date].expenses += exp_val
+
+    chart_labels = []
+    chart_revenues = []
+    chart_expenses = []
+    for key, value in sorted(graph_dict.items()):
+        chart_labels.append(key.strftime('%B %Y'))
+        chart_revenues.append(value.revenues)
+        chart_expenses.append(value.expenses)
+
+    return render_template('user/dashboard.html', total=total, revenues=revenues, expenses=expenses,
                            available_currencies=','.join(constants.AVAILABLE_CURRENCIES),
-                           currency=currency, language=language)
+                           currency=currency, language=language, chart_labels=chart_labels,
+                           chart_revenues=chart_revenues, chart_expenses=chart_expenses)
 
 
 @user.route('/settings')
@@ -118,7 +163,16 @@ def details_revenue():
 @login_required
 def add_revenue():
     new_revenue = new_money_entry_from_form(request.form)
-    current_user.revenues.append(new_revenue)
+    inserted = False
+    for index, value in enumerate(current_user.revenues):
+        if value.date > new_revenue.date:
+            current_user.revenues.insert(index, new_revenue)
+            inserted = True
+            break
+
+    if not inserted:
+        current_user.revenues.append(new_revenue)
+
     current_user.save()
 
     response = {"revenue_id": str(new_revenue.id)}
@@ -174,7 +228,16 @@ def details_expense():
 @login_required
 def add_expense():
     new_expense = new_money_entry_from_form(request.form)
-    current_user.expenses.append(new_expense)
+    inserted = False
+    for index, value in enumerate(current_user.expenses):
+        if value.date > new_expense.date:
+            current_user.expenses.insert(index, new_expense)
+            inserted = True
+            break
+
+    if not inserted:
+        current_user.expenses.append(new_expense)
+
     current_user.save()
 
     response = {"expense_id": str(new_expense.id)}
