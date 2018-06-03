@@ -36,7 +36,8 @@ def year_month_date(date: datetime):
     dt = date.date()
     last_day = calendar.monthrange(dt.year, dt.month)[1]
     max_dt = datetime(dt.year, dt.month, last_day)
-    return max_dt
+    min_dt = datetime(dt.year, dt.month, 1)
+    return min_dt, max_dt
 
 
 class GraphNode():
@@ -51,7 +52,8 @@ class GraphNode():
 @user.route('/dashboard')
 @login_required
 def dashboard():
-    date = year_month_date(datetime.today())
+    bar = request.args.to_dict()
+    date_range_min, date_range_max = year_month_date(datetime.today())
 
     revenues = []
     expenses = []
@@ -60,29 +62,32 @@ def dashboard():
     language = current_user.settings.language
     graph_dict = defaultdict(GraphNode)
     for rev in current_user.revenues:
-        entry_date = year_month_date(rev.date)
+        entry_date = rev.date
+        entry_date_min, entry_date_max = year_month_date(entry_date)
         if rev.currency == currency:
             rev_val = rev.value
         else:
             rev_val = exchange(rev.currency, currency, rev.value)
-        if entry_date == date:
+
+        if (date_range_min <= entry_date) and (entry_date <= entry_date_max):
             total += rev_val
             revenues.append(rev)
 
-        graph_dict[entry_date].revenues += rev_val
+        graph_dict[entry_date_max].revenues += rev_val
 
     for exp in current_user.expenses:
-        entry_date = year_month_date(rev.date)
+        entry_date = exp.date
+        entry_date_min, entry_date_max = year_month_date(entry_date)
         if exp.currency == currency:
             exp_val = exp.value
         else:
             exp_val = exchange(exp.currency, currency, exp.value)
 
-        if entry_date == date:
+        if (date_range_min <= entry_date) and (entry_date <= entry_date_max):
             total -= exp_val
             expenses.append(exp)
-            
-        graph_dict[entry_date].expenses += exp_val
+
+        graph_dict[entry_date_max].expenses += exp_val
 
     chart_labels = []
     chart_revenues = []
