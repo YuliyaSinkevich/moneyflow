@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, jsonify, request
+from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
 from datetime import datetime
@@ -52,14 +52,17 @@ class GraphNode():
 @user.route('/dashboard')
 @login_required
 def dashboard():
-    bar = request.args.to_dict()
     date_range_min, date_range_max = year_month_date(datetime.today())
 
     revenues = []
     expenses = []
     total = 0.00
-    currency = current_user.settings.currency
-    language = current_user.settings.language
+    rsettings = current_user.settings
+    if session.get('currency'):
+        currency = session['currency']
+    else:
+        currency = rsettings.currency
+    language = rsettings.language
     graph_dict = defaultdict(GraphNode)
     for rev in current_user.revenues:
         entry_date = rev.date
@@ -106,8 +109,9 @@ def dashboard():
 @user.route('/settings')
 @login_required
 def settings():
-    language = current_user.settings.language.to_language()
-    currency = current_user.settings.currency
+    rsettings = current_user.settings
+    language = rsettings.language.to_language()
+    currency = rsettings.currency
     return render_template('user/settings.html', current_language=language,
                            available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
                            available_currencies=','.join(constants.AVAILABLE_CURRENCIES))
@@ -120,8 +124,16 @@ def settings_apply():
     language = request.form['language']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    current_user.settings = Settings(currency=currency, language=dblang)
+    current_user.set_settings(Settings(currency=currency, language=dblang))
     current_user.save()
+    response = {}
+    return jsonify(response), 200
+
+
+@user.route('/runtime_settings/apply_currency', methods=['POST'])
+@login_required
+def runtime_settings():
+    session['currency'] = request.form['currency']
     response = {}
     return jsonify(response), 200
 
@@ -129,6 +141,7 @@ def settings_apply():
 @user.route('/logout')
 @login_required
 def logout():
+    session.pop('currency', None)
     logout_user()
     return redirect(url_for('home.start'))
 

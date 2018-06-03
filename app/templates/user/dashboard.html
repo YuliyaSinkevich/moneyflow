@@ -151,6 +151,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
+
 </script>
 {% endblock %}
 {% block content %}
@@ -266,9 +267,9 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                     <input type="number" value="{{total}}" name="value" class="form-control" readonly>
                 </div>
                 <div class="col-md-6">
-                    <form>
-                        <div class="bfh-selectbox bfh-currencies" data-name="balance_currency"
-                             data-currency="{{currency}}"
+                    <form id="apply_currency_form">
+                        <div class="bfh-selectbox bfh-currencies" data-name="currency"
+                             data-currency="{{currency}}" id="apply_currency"
                              data-available="{{available_currencies}}" data-flags="true">
                         </div>
                     </form>
@@ -313,6 +314,23 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 data:data,
             });
 		};
+
+        $('#apply_currency').on('change.bfhselectbox', function() {
+            $.ajax({
+                url: "/user/runtime_settings/apply_currency",
+                type: "POST",
+                dataType: 'json',
+                data: $('#apply_currency_form').serialize(),
+                success: function (response) {
+                    console.log(response);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+
 </script>
 
 {% endblock %}
