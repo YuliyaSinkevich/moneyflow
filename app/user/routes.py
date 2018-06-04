@@ -2,14 +2,23 @@ from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
 from datetime import datetime
-import calendar
 
 from forex_python.converter import CurrencyRates
 import app.constants as constants
+import app.utils as utils
 
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry, Settings, Language
+from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange
 from collections import defaultdict
+
+
+class GraphNode(object):
+    def __init__(self, revenues=0.00, expenses=0.00):
+        self.revenues = revenues
+        self.expenses = expenses
+
+    expenses = float
+    revenues = float
 
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
@@ -32,28 +41,9 @@ def new_money_entry_from_form(form):
     return new_money_entry(description, value, currency, category, date)
 
 
-def year_month_date(date: datetime):
-    dt = date.date()
-    last_day = calendar.monthrange(dt.year, dt.month)[1]
-    max_dt = datetime(dt.year, dt.month, last_day)
-    min_dt = datetime(dt.year, dt.month, 1)
-    return min_dt, max_dt
-
-
-class GraphNode():
-    def __init__(self, revenues=0.00, expenses=0.00):
-        self.revenues = revenues
-        self.expenses = expenses
-
-    expenses = float
-    revenues = float
-
-
 @user.route('/dashboard')
 @login_required
 def dashboard():
-    date_range_min, date_range_max = year_month_date(datetime.today())
-
     revenues = []
     expenses = []
     total = 0.00
@@ -64,15 +54,18 @@ def dashboard():
         currency = rsettings.currency
     language = rsettings.language
     graph_dict = defaultdict(GraphNode)
+    start_date = rsettings.date_range.start_date
+    end_date = rsettings.date_range.end_date
+
     for rev in current_user.revenues:
         entry_date = rev.date
-        entry_date_min, entry_date_max = year_month_date(entry_date)
+        entry_date_min, entry_date_max = utils.year_month_date(entry_date)
         if rev.currency == currency:
             rev_val = rev.value
         else:
             rev_val = exchange(rev.currency, currency, rev.value)
 
-        if (date_range_min <= entry_date) and (entry_date <= entry_date_max):
+        if (start_date <= entry_date) and (entry_date <= end_date):
             total += rev_val
             revenues.append(rev)
 
@@ -80,13 +73,13 @@ def dashboard():
 
     for exp in current_user.expenses:
         entry_date = exp.date
-        entry_date_min, entry_date_max = year_month_date(entry_date)
+        entry_date_min, entry_date_max = utils.year_month_date(entry_date)
         if exp.currency == currency:
             exp_val = exp.value
         else:
             exp_val = exchange(exp.currency, currency, exp.value)
 
-        if (date_range_min <= entry_date) and (entry_date <= entry_date_max):
+        if (start_date <= entry_date) and (entry_date <= end_date):
             total -= exp_val
             expenses.append(exp)
 
@@ -112,9 +105,12 @@ def settings():
     rsettings = current_user.settings
     language = rsettings.language.to_language()
     currency = rsettings.currency
+    start_date = rsettings.date_range.start_date.timestamp() * 1000
+    end_date = rsettings.date_range.end_date.timestamp() * 1000
     return render_template('user/settings.html', current_language=language,
                            available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
-                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES))
+                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES), start_date=start_date,
+                           end_date=end_date)
 
 
 @user.route('/settings/apply', methods=['POST'])
@@ -122,9 +118,12 @@ def settings():
 def settings_apply():
     currency = request.form['currency']
     language = request.form['language']
+    start_date = request.form['start_date']
+    end_date = request.form['end_date']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    current_user.set_settings(Settings(currency=currency, language=dblang))
+    date_range = DateRange(datetime.strptime(start_date, '%m/%d/%Y %H:%M:%S'), datetime.strptime(end_date, '%m/%d/%Y %H:%M:%S'))
+    current_user.settings = Settings(currency=currency, language=dblang, date_range=date_range)
     current_user.save()
     response = {}
     return jsonify(response), 200
@@ -149,6 +148,7 @@ def logout():
 def render_details(title: str, currency: str, entries: list):
     data_dict = defaultdict(float)
     total = 0.00
+
     for rev in entries:
         if rev.currency == currency:
             val = rev.value

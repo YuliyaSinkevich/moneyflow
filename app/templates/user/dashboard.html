@@ -178,6 +178,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <tr>
                     <th class="number">#</th>
                     <th class="value">Value</th>
+                    <th class="value">Date</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
                 </tr>
@@ -187,6 +188,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ rev.value }}</td>
+                    <td>{{ rev.date }}</td>
                     <td>{{ rev.currency }}</td>
                     <td>
                         <button type="submit" class="btn btn-danger btn-xs"
@@ -214,6 +216,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <tr>
                     <th class="number">#</th>
                     <th class="value">Value</th>
+                    <th class="value">Date</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
                 </tr>
@@ -223,6 +226,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ exp.value }}</td>
+                    <td>{{ exp.date }}</td>
                     <td>{{ exp.currency }}</td>
                     <td>
                         <button type="submit" class="btn btn-danger btn-xs"
@@ -330,7 +334,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 }
             });
         });
-
 </script>
 
 {% endblock %}

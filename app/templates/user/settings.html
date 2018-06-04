@@ -17,6 +17,10 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 
 <!-- http://bootstrapformhelpers.com -->
 <script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
+
+<!--- http://eonasdan.github.io -->
+<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
     function apply_settings() {
         $.ajax({
@@ -33,6 +37,9 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
+
+
+
 </script>
 {% endblock %}
 {% block content %}
@@ -71,6 +78,30 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
                 </div>
             </div>
         </div>
+        <br>
+        <div class="row">
+            <label class="col-md-6">Display range:</label>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group date" id="start_date_datetimepicker">
+                        <input type='text' name="start_date" class="form-control"/>
+                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group date" id="end_date_datetimepicker">
+                        <input type='text' name="end_date" class="form-control"/>
+                        <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <button type="button" class="btn btn-primary btn-lg"
@@ -81,4 +112,23 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
         </div>
     </form>
 </div>
+
+<script>
+$(function () {
+    var start_date = new Date({{start_date}});
+    $('#start_date_datetimepicker').datetimepicker({
+        locale: '{{locale}}',
+        format: 'MM/DD/YYYY HH:mm:ss',
+        defaultDate: start_date
+    });
+});
+$(function () {
+    var end_date = new Date({{end_date}});
+    $('#end_date_datetimepicker').datetimepicker({
+        locale: '{{locale}}',
+        format: 'MM/DD/YYYY HH:mm:ss',
+        defaultDate:end_date
+    });
+});
+</script>
 {% endblock %}

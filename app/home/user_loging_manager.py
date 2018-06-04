@@ -1,9 +1,10 @@
 from flask_login import UserMixin
 from app import db
-import datetime
+from datetime import datetime
 from enum import IntEnum
 from bson.objectid import ObjectId
 import app.constants as constants
+import app.utils as utils
 
 
 # revenues
@@ -17,7 +18,7 @@ class MoneyEntry(db.EmbeddedDocument):
     value = db.FloatField(required=True)
     currency = db.StringField(required=True)
     category = db.StringField(required=True)
-    date = db.DateTimeField(default=datetime.datetime.now)
+    date = db.DateTimeField(default=datetime.now)
 
 
 class Language(db.EmbeddedDocument):
@@ -28,9 +29,20 @@ class Language(db.EmbeddedDocument):
         return constants.Language(self.language, self.locale)
 
 
+class DateRange(db.EmbeddedDocument):
+    start_date = db.DateTimeField(required=True)
+    end_date = db.DateTimeField(required=True)
+
+
+def new_date_range():
+    start_date, end_date = utils.year_month_date(datetime.today())
+    return DateRange(start_date, end_date)
+
+
 class Settings(db.EmbeddedDocument):
     currency = db.StringField(default=constants.DEFAULT_CURRENCY)
     language = db.EmbeddedDocumentField(Language, default=Language)
+    date_range = db.EmbeddedDocumentField(DateRange, default=new_date_range())
 
 
 class User(UserMixin, db.Document):
@@ -42,7 +54,7 @@ class User(UserMixin, db.Document):
     meta = {'collection': 'users'}
     email = db.StringField(max_length=30, required=True)
     password = db.StringField(required=True)
-    created_date = db.DateTimeField(default=datetime.datetime.now)
+    created_date = db.DateTimeField(default=datetime.now)
     status = db.IntField(default=Status.NO_ACTIVE)
 
     revenues = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
