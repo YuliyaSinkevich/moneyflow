@@ -152,6 +152,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
         });
     }
 
+
 </script>
 {% endblock %}
 {% block content %}
@@ -283,11 +284,11 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 
-{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', remove_category_func='remove_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
+{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', remove_category_func='remove_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories, entry_date=entry_date %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
+{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories, entry_date=entry_date %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
 
@@ -334,6 +335,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 }
             });
         });
+
 </script>
 
 {% endblock %}

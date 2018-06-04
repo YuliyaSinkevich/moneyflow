@@ -13,10 +13,11 @@ from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRan
 from collections import defaultdict
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
+DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
-    dt = datetime.strptime(date, '%m/%d/%Y %H:%M:%S')
+    dt = datetime.strptime(date, DATE_JS_FORMAT)
     return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
 
 
@@ -96,10 +97,11 @@ def dashboard():
         chart_revenues.append(value.revenues)
         chart_expenses.append(value.expenses)
 
+    entry_date_str = datetime.today().now().strftime(DATE_JS_FORMAT)
     return render_template('user/dashboard.html', total=total, revenues=revenues, expenses=expenses,
                            currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,
                            language=language, chart_labels=chart_labels,
-                           chart_revenues=chart_revenues, chart_expenses=chart_expenses)
+                           chart_revenues=chart_revenues, chart_expenses=chart_expenses, entry_date=entry_date_str)
 
 
 @user.route('/settings')
@@ -108,12 +110,12 @@ def settings():
     rsettings = current_user.settings
     language = rsettings.language.to_language()
     currency = rsettings.currency
-    start_date = rsettings.date_range.start_date.timestamp() * 1000
-    end_date = rsettings.date_range.end_date.timestamp() * 1000
+    start_date_str = rsettings.date_range.start_date.strftime(DATE_JS_FORMAT)
+    end_date_str = rsettings.date_range.end_date.strftime(DATE_JS_FORMAT)
     return render_template('user/settings.html', current_language=language,
                            available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
-                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date,
-                           end_date=end_date)
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date_str,
+                           end_date=end_date_str)
 
 
 @user.route('/settings/apply', methods=['POST'])
@@ -125,8 +127,8 @@ def settings_apply():
     end_date = request.form['end_date']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    date_range = DateRange(datetime.strptime(start_date, '%m/%d/%Y %H:%M:%S'),
-                           datetime.strptime(end_date, '%m/%d/%Y %H:%M:%S'))
+    date_range = DateRange(datetime.strptime(start_date, DATE_JS_FORMAT),
+                           datetime.strptime(end_date, DATE_JS_FORMAT))
     current_user.settings = Settings(currency=currency, language=dblang, date_range=date_range)
     current_user.save()
     response = {}

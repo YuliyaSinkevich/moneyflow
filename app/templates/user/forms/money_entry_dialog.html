@@ -142,11 +142,10 @@
 
 <script>
     $(function () {
-        var date_now = new Date();
         $('#{{modal_id}}_datetimepicker').datetimepicker({
             locale: '{{locale}}',
             format: 'MM/DD/YYYY HH:mm:ss',
-            defaultDate:date_now
+            defaultDate:'{{entry_date}}'
         });
     });
 </script>

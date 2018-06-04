@@ -115,19 +115,17 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 
 <script>
 $(function () {
-    var start_date = new Date({{start_date}});
     $('#start_date_datetimepicker').datetimepicker({
         locale: '{{locale}}',
         format: 'MM/DD/YYYY HH:mm:ss',
-        defaultDate: start_date
+        defaultDate: '{{start_date}}'
     });
 });
 $(function () {
-    var end_date = new Date({{end_date}});
     $('#end_date_datetimepicker').datetimepicker({
         locale: '{{locale}}',
         format: 'MM/DD/YYYY HH:mm:ss',
-        defaultDate:end_date
+        defaultDate:'{{end_date}}'
     });
 });
 </script>
