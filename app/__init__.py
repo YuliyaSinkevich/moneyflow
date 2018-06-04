@@ -3,12 +3,15 @@ from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_mail import Mail
 import os
+from app.exchange import OpenExchangeRatesClient
 
 app = Flask(__name__)
 
 app.config.from_pyfile('config.py')
 db = MongoEngine(app)
 mail = Mail(app)
+
+exchange_client = OpenExchangeRatesClient(app.config['OPENEXCHANGERATES_DB_PATH'], app.config['OPENEXCHANGERATES_APP_ID'])
 
 app.config['SECRET_KEY'] = os.urandom(24)
 

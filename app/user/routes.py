@@ -4,9 +4,9 @@ from flask_login import logout_user, login_required, current_user
 from datetime import datetime
 from random import shuffle
 
-from forex_python.converter import CurrencyRates
 import app.constants as constants
 import app.utils as utils
+from app import exchange_client
 
 from app.user import user
 from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange
@@ -21,10 +21,13 @@ def new_money_entry(description: str, value: int, currency: str, category: str, 
     return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
 
 
-def exchange(fr: str, to: str, amount: float) -> float:
-    c = CurrencyRates()
-    val = c.convert(fr, to, amount)
-    return val
+def exchange(base: str, to: str, amount: float) -> float:
+    json = exchange_client.get_rates(base)
+    if not json:
+        return 0.00
+
+    rates = json[to]
+    return amount * rates
 
 
 def new_money_entry_from_form(form):

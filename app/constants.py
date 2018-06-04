@@ -2,7 +2,7 @@ REVENUES_CATEGORIES = ['salary', 'other']
 EXPENSES_CATEGORIES = ['food', 'sport', 'other']
 
 DEFAULT_CURRENCY = 'USD'
-AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'GBP', 'HKD', 'HRK', 'HUF',
+AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'BYN', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'GBP', 'HKD', 'HRK', 'HUF',
                         'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON',
                         'RUB', 'SEK', 'SGD', 'THB', 'TRY', DEFAULT_CURRENCY, 'ZAR']
 
