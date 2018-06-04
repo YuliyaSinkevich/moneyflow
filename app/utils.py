@@ -1,6 +1,7 @@
 from validate_email import validate_email
 from urllib.request import urlopen
 import json
+
 import calendar
 from datetime import datetime
 
@@ -8,7 +9,7 @@ from datetime import datetime
 def year_month_date(date: datetime):
     dt = date.date()
     last_day = calendar.monthrange(dt.year, dt.month)[1]
-    max_dt = datetime(dt.year, dt.month, last_day, 23, 59, 59, 999999)
+    max_dt = datetime(dt.year, dt.month, last_day, 23, 59, 59)
     min_dt = datetime(dt.year, dt.month, 1, 00, 00, 0)
     return min_dt, max_dt
 

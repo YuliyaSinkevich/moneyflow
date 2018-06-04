@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
 from datetime import datetime
+from random import shuffle
 
 from forex_python.converter import CurrencyRates
 import app.constants as constants
@@ -11,14 +12,7 @@ from app.user import user
 from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange
 from collections import defaultdict
 
-
-class GraphNode(object):
-    def __init__(self, revenues=0.00, expenses=0.00):
-        self.revenues = revenues
-        self.expenses = expenses
-
-    expenses = float
-    revenues = float
+AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
 
 
 def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
@@ -26,7 +20,7 @@ def new_money_entry(description: str, value: int, currency: str, category: str, 
     return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
 
 
-def exchange(fr: str, to: str, amount: float):
+def exchange(fr: str, to: str, amount: float) -> float:
     c = CurrencyRates()
     val = c.convert(fr, to, amount)
     return val
@@ -39,6 +33,15 @@ def new_money_entry_from_form(form):
     category = form['category']
     date = form['date']
     return new_money_entry(description, value, currency, category, date)
+
+
+class GraphNode(object):
+    def __init__(self, revenues=0.00, expenses=0.00):
+        self.revenues = revenues
+        self.expenses = expenses
+
+    expenses = float
+    revenues = float
 
 
 @user.route('/dashboard')
@@ -94,8 +97,8 @@ def dashboard():
         chart_expenses.append(value.expenses)
 
     return render_template('user/dashboard.html', total=total, revenues=revenues, expenses=expenses,
-                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES),
-                           currency=currency, language=language, chart_labels=chart_labels,
+                           currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,
+                           language=language, chart_labels=chart_labels,
                            chart_revenues=chart_revenues, chart_expenses=chart_expenses)
 
 
@@ -109,7 +112,7 @@ def settings():
     end_date = rsettings.date_range.end_date.timestamp() * 1000
     return render_template('user/settings.html', current_language=language,
                            available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
-                           available_currencies=','.join(constants.AVAILABLE_CURRENCIES), start_date=start_date,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date,
                            end_date=end_date)
 
 
@@ -122,7 +125,8 @@ def settings_apply():
     end_date = request.form['end_date']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    date_range = DateRange(datetime.strptime(start_date, '%m/%d/%Y %H:%M:%S'), datetime.strptime(end_date, '%m/%d/%Y %H:%M:%S'))
+    date_range = DateRange(datetime.strptime(start_date, '%m/%d/%Y %H:%M:%S'),
+                           datetime.strptime(end_date, '%m/%d/%Y %H:%M:%S'))
     current_user.settings = Settings(currency=currency, language=dblang, date_range=date_range)
     current_user.save()
     response = {}
@@ -165,8 +169,10 @@ def render_details(title: str, currency: str, entries: list):
         r = round(value / total, 2)
         data.append(r)
 
+    colors = list(constants.AVAILIBLE_CHART_COLORS)
+    shuffle(colors)
     return render_template('user/details.html', title=title, labels=labels, data=data,
-                           colors=constants.AVAILIBLE_CHART_COLORS)
+                           colors=colors)
 
 
 # revenue
