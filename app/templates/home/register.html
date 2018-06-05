@@ -13,16 +13,16 @@ Register | {{ config['PUBLIC_CONFIG'].site.title }}
     {{ util.flashed_messages(dismissible=True) }}
     <form action="" method="post" class="form" role="form">
         {{ form.hidden_tag() }}
-        {{ wtf.form_field(form.email, class='form-control', placeholder='Your email will be used to contact you.') }}
+        {{ form_field(form.email, class='form-control', placeholder='Your email will be used to contact you.') }}
         <br>
-        {{ wtf.form_field(form.password, class='form-control', placeholder='Enter a password.') }}
+        {{ form_field(form.password, class='form-control', placeholder='Enter a password.') }}
         <br>
         <p class="tos-info">By clicking &ldquo;{{ form.submit.label }}&rdquo; below, you agree to our
             <a href={{ url_for('home.term_of_use') }} target="_blank">terms of service</a> and
             <a href={{ url_for('home.private_policy') }} target="_blank">privacy statement</a>. We’ll occasionally send
             you account related emails.
         </p>
-        {{ wtf.form_field(form.submit, class="btn btn-success") }}
+        {{ form_field(form.submit, class="btn btn-success") }}
     </form>
 </div>
 {%- endblock %}

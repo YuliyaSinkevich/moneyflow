@@ -68,7 +68,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <form action="/user/income/details" method="get" class="col-md-2">
                     <button type="submit" class="btn btn-info">Details</button>
                 </form>
-                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_income">
+                <button class="btn btn-success btn-send col-md-2" id="add_income">
                     Add
                 </button>
             </div>
@@ -151,13 +151,12 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 
-{% with modal_id='add_income', confirm_func='add_income()', add_category_func='add_income_category()', remove_category_func='remove_income_category()', title='Add income', currency=currency, available_currencies=available_currencies, categories=current_user.incomes_categories %}
-{% include 'user/forms/money_entry_dialog.html' %}
-{% endwith %}
-
-{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
-{% include 'user/forms/money_entry_dialog.html' %}
-{% endwith %}
+<div id="money_dialog" class="modal fade" tabindex=-1 role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
@@ -172,6 +171,30 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 
 <script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 <script>
+      $(function () {
+        // add step button opens modal containing step form loaded via ajax
+        $('#add_income').click(function() {
+          var url = "{{ url_for('user.add_income') }}";
+          $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+              event.preventDefault();
+              $.post(url, data=$('#money_entry_form').serialize(), function(data) {
+                if (data.status == 'ok') {
+                  $('#money_dialog').modal('hide');
+                  window.location.reload();
+                }
+                else {
+                  $('#money_dialog .modal-content').html(data);
+                }
+              });
+            })
+          });
+        });
+      });
+
     // income
     function add_income() {
         $.ajax({
@@ -359,5 +382,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             defaultDate:'{{entry_date}}'
         });
     });
+
 </script>
 {% endblock %}

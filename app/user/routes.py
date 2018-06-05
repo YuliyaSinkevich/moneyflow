@@ -6,6 +6,7 @@ from random import shuffle
 
 import app.constants as constants
 import app.utils as utils
+from .forms import MoneyEntryForm
 from app import exchange_client
 
 from app.user import user
@@ -16,7 +17,7 @@ AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
 DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
 
-def new_money_entry(description: str, value: int, currency: str, category: str, date: str):
+def new_money_entry(description: str, value: float, currency: str, category: str, date: str):
     dt = datetime.strptime(date, DATE_JS_FORMAT)
     return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
 
@@ -188,24 +189,37 @@ def details_income():
     return render_details('Income details', currency, current_user.incomes)
 
 
-@user.route('/income/add', methods=['POST'])
+@user.route('/income/add', methods=['GET', 'POST'])
 @login_required
 def add_income():
-    new_income = new_money_entry_from_form(request.form)
-    inserted = False
-    for index, value in enumerate(current_user.incomes):
-        if value.date > new_income.date:
-            current_user.incomes.insert(index, new_income)
-            inserted = True
-            break
+    extended_cat = []
+    for index, value in enumerate(current_user.incomes_categories):
+        extended_cat.append((index, value))
 
-    if not inserted:
-        current_user.incomes.append(new_income)
+    form = MoneyEntryForm()
+    form.category.choices = extended_cat
 
-    current_user.save()
+    if form.validate_on_submit():
+        new_income = new_money_entry_from_form(request.form)
+        inserted = False
+        for index, value in enumerate(current_user.incomes):
+            if value.date > new_income.date:
+                current_user.incomes.insert(index, new_income)
+                inserted = True
+                break
 
-    response = {"income_id": str(new_income.id)}
-    return jsonify(response), 200
+        if not inserted:
+            current_user.incomes.append(new_income)
+
+        current_user.save()
+
+        #response = {"id": str(new_income.id)}
+        return jsonify(status='ok'), 200
+
+    rsettings = current_user.settings
+    language = rsettings.language
+    return render_template('user/money/add.html', form=form, language=language,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
 @user.route('/income/remove', methods=['POST'])
