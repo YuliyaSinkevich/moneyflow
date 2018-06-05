@@ -125,7 +125,8 @@ def post_register(form: SignupForm):
         return redirect(url_for('home.login'))
 
     hash_pass = generate_password_hash(form.password.data, method='sha256')
-    User(email, hash_pass).save()
+    new_user = User(email, hash_pass)
+    new_user.save()
 
     token = confirm_link_generator.dumps(email, salt=SALT_LINK)
     msg = Message('Confirm Email', recipients=[email])

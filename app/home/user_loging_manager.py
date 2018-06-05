@@ -57,7 +57,7 @@ class User(UserMixin, db.Document):
         ACTIVE = 1
         BANNED = 2
 
-    meta = {'collection': 'users'}
+    meta = {'collection': 'users', 'auto_create_index': False}
     email = db.StringField(max_length=30, required=True)
     password = db.StringField(required=True)
     created_date = db.DateTimeField(default=datetime.now)
