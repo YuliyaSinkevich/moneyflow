@@ -1,23 +1,18 @@
 {% extends 'layouts/layout_home.html' %}
 {% block title %}
-Login | {{ config['PUBLIC_CONFIG'].site.title }}
+Register | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
-{% block content_title %}
-Login
-{% endblock %}
 
-{% block content_form %}
-<form action="/login" method="post">
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="text" class="form-control" id="email" name="email"
-               placeholder="Your registered email.">
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter a password.">
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1>Signin for our awesome service</h1>
+        <p>Note: Your data isn't going anywhere.</p>
     </div>
-    {{ form.hidden_tag() }}
-    <button type="submit" class="btn btn-success">Sign In</button>
-</form>
-{% endblock %}
+    {{util.flashed_messages(dismissible=True)}}
+    <div class="col-md-12">
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+{%- endblock %}

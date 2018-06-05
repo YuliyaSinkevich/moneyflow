@@ -3,8 +3,9 @@
 {% block title %}
 Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
-{% block css %}
-{{ super() }}
+
+{% block styles %}
+{{super()}}
 <!-- Bootstrap Form Helpers -->
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css')}}"/>
@@ -12,12 +13,9 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/css/bootstrap-datetimepicker.min.css')}}"/>
 {% endblock %}
-{% block script %}
-{{ super() }}
-<!-- Bootstrap core JavaScript -->
-<script src="{{url_for('static', filename='assets/js/jquery.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
 
+{% block scripts %}
+{{ super() }}
 <!-- http://bootstrapformhelpers.com -->
 <script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
 
@@ -26,7 +24,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 <script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
 
 <script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
-
 <script>
     // income
     function add_income() {
@@ -157,6 +154,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     }
 </script>
 {% endblock %}
+
 {% block content %}
 <div class="container">
     <div class="row">
@@ -294,14 +292,18 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 
-{% with modal_id='add_income', confirm_func='add_income()', add_category_func='add_income_category()', remove_category_func='remove_income_category()', locale=language.locale, title='Add income', currency=currency, available_currencies=available_currencies, categories=current_user.incomes_categories, entry_date=entry_date %}
+{% with modal_id='add_income', confirm_func='add_income()', add_category_func='add_income_category()', remove_category_func='remove_income_category()', title='Add income', currency=currency, available_currencies=available_currencies, categories=current_user.incomes_categories %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
 
-{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories, entry_date=entry_date %}
+{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
 
+{% endblock %}
+
+{% block body -%}
+{{ super() }}
 <script>
 		window.onload = function() {
 			var canvas = document.getElementById('myChart');
@@ -343,6 +345,22 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 error: function (error) {
                     console.error(error);
                 }
+            });
+        });
+
+        $(function () {
+            $('#add_expense_datetimepicker').datetimepicker({
+                locale: '{{language.locale}}',
+                format: 'MM/DD/YYYY HH:mm:ss',
+                defaultDate:'{{entry_date}}'
+            });
+        });
+
+        $(function () {
+            $('#add_income_datetimepicker').datetimepicker({
+                locale: '{{language.locale}}',
+                format: 'MM/DD/YYYY HH:mm:ss',
+                defaultDate:'{{entry_date}}'
             });
         });
 </script>

@@ -1,28 +1,23 @@
-<!doctype html>
-<html>
-<head>
-    <title>
-        {% block title %}
-        {{ config['PUBLIC_CONFIG'].site.title }}
-        {% endblock %}
-    </title>
-    <meta charset="utf-8">
-    <meta name="description" content="{{ config['PUBLIC_CONFIG'].site.title }}"/>
-    <meta name="keywords" content="{{ config['PUBLIC_CONFIG'].site.keywords }}"/>
-    <meta name="copyright" content="{{ config['PUBLIC_CONFIG'].company.domain }}"/>
+{% extends "bootstrap/base.html" %}
 
-    {% block css %}
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='assets/css/main.css')}}"/>
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css"
-          href="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css')}}"/>
-    {% endblock %}
+{% block title %}
+{{ config['PUBLIC_CONFIG'].site.title }}
+{% endblock %}
 
-    {% block script %}
-    {% endblock %}
-</head>
-<body>
+{%- block metas %}
+{{super()}}
+<meta charset="utf-8">
+<meta name="description" content="{{ config['PUBLIC_CONFIG'].site.title }}"/>
+<meta name="keywords" content="{{ config['PUBLIC_CONFIG'].site.keywords }}"/>
+<meta name="copyright" content="{{ config['PUBLIC_CONFIG'].company.domain }}"/>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
 {% block content %}
 {% endblock %}
-</body>
-</html>

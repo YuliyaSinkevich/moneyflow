@@ -2,4 +2,5 @@ flask==1.0.2
 flask_mongoengine==0.9.5
 flask_login==0.4.1
 flask_mail==0.9.1
+flask_bootstrap==3.3.7.1
 validate_email==1.3

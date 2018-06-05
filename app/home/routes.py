@@ -1,12 +1,11 @@
 from flask import render_template, request, redirect, url_for, flash, current_app as app
 from flask_login import login_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import Email, Length, InputRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+
+from .forms import SignupForm, SigninForm
 
 import app.utils as utils
 
@@ -42,11 +41,6 @@ def load_user(user_id):
     return User.objects(pk=user_id).first()
 
 
-class RegForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=30)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=3, max=20)])
-
-
 @home.route('/')
 def start():
     return render_template('index.html')
@@ -68,8 +62,8 @@ def confirm_email(token):
         return '<h1>The token is expired!</h1>'
 
 
-def post_login(form):
-    if not form.validate():
+def post_login(form: SigninForm):
+    if not form.validate_on_submit():
         flash_errors(form)
         return render_template('home/login.html', form=form)
 
@@ -95,7 +89,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('user.dashboard'))
 
-    form = RegForm()
+    form = SigninForm()
     if request.method == 'POST':
         return post_login(form)
 
@@ -116,8 +110,8 @@ def term_of_use():
                            title=config['site']['title'])
 
 
-def post_register(form):
-    if not form.validate():
+def post_register(form: SignupForm):
+    if not form.validate_on_submit():
         flash_errors(form)
         return render_template('home/register.html', form=form)
 
@@ -144,7 +138,7 @@ def post_register(form):
 
 @home.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegForm()
+    form = SignupForm()
     if request.method == 'POST':
         return post_register(form)
 

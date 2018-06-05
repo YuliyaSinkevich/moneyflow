@@ -4,16 +4,15 @@
 {{title}} | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
-{% block script %}
-{{ super() }}
-<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
-{% endblock %}
-
 {% block content %}
 <div id="canvas-holder" style="width:95%">
     <canvas id="chart-area"></canvas>
 </div>
+{% endblock %}
 
+{% block scripts %}
+{{ super() }}
+<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 <script>
 		var config = {
 			data: {

@@ -3,17 +3,14 @@
 {% block title %}
 Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
-{% block css %}
+{% block styles %}
 {{super()}}
 <!-- Bootstrap Form Helpers -->
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css')}}"/>
 {% endblock %}
-{% block script %}
-{{super()}}
-<!-- Bootstrap core JavaScript -->
-<script src="{{url_for('static', filename='assets/js/jquery.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
+{% block scripts %}
+{{ super() }}
 
 <!-- http://bootstrapformhelpers.com -->
 <script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
@@ -112,7 +109,9 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
         </div>
     </form>
 </div>
+{% endblock %}
 
+{% block body -%}
 <script>
 $(function () {
     $('#start_date_datetimepicker').datetimepicker({
@@ -129,4 +128,4 @@ $(function () {
     });
 });
 </script>
-{% endblock %}
+{%- endblock body %}
