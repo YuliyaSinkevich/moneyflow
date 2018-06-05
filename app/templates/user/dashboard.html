@@ -14,147 +14,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
       href="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/css/bootstrap-datetimepicker.min.css')}}"/>
 {% endblock %}
 
-{% block scripts %}
-{{ super() }}
-<!-- http://bootstrapformhelpers.com -->
-<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
-
-<!--- http://eonasdan.github.io -->
-<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
-
-<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
-<script>
-    // income
-    function add_income() {
-        $.ajax({
-            url: "/user/income/add",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_income_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function edit_income(income_id) {
-    }
-    function remove_income(income_id) {
-        $.ajax({
-            url: "/user/income/remove",
-            type: "POST",
-            dataType: 'json',
-            data: {"income_id":income_id},
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function add_income_category() {
-        $.ajax({
-            url: "/user/income/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_income_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_income_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_income_category() {
-        $.ajax({
-            url: "/user/income/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_income_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_income_remove_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // expense
-    function add_expense() {
-        $.ajax({
-            url: "/user/expense/add",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function edit_expense(expense_id) {
-    }
-    function remove_expense(expense_id) {
-        $.ajax({
-            url: "/user/expense/remove",
-            type: "POST",
-            dataType: 'json',
-            data: {"expense_id":expense_id},
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function add_expense_category() {
-        $.ajax({
-            url: "/user/expense/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_expense_category() {
-        $.ajax({
-            url: "/user/expense/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_remove_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-</script>
-{% endblock %}
-
 {% block content %}
 <div class="container">
     <div class="row">
@@ -302,66 +161,203 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 
 {% endblock %}
 
-{% block body -%}
+{% block scripts %}
 {{ super() }}
+<!-- http://bootstrapformhelpers.com -->
+<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
+
+<!--- http://eonasdan.github.io -->
+<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
+
+<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 <script>
-		window.onload = function() {
-			var canvas = document.getElementById('myChart');
-            var data = {
-                labels: {{chart_labels|safe}},
-                type: "line",
-                datasets: [
-                    {
-                        label: 'Income',
-                        fill: false,
-                        backgroundColor: 'rgb(75, 192, 192)',
-                        borderColor: 'rgb(75, 192, 192)',
-                        data: {{chart_incomes}},
-                    },
-                    {
-                        label: 'Expense',
-                        fill: false,
-                        backgroundColor: 'rgb(255, 99, 132)',
-                        borderColor: 'rgb(255, 99, 132)',
-                        data: {{chart_expenses}},
-                    }
-                ]
-            };
-			var myBarChart = Chart.Line(canvas,{
-                data:data,
-            });
-		};
+    // income
+    function add_income() {
+        $.ajax({
+            url: "/user/income/add",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_income_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function edit_income(income_id) {
+    }
+    function remove_income(income_id) {
+        $.ajax({
+            url: "/user/income/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"income_id":income_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function add_income_category() {
+        $.ajax({
+            url: "/user/income/add_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_income_add_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_income_add_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function remove_income_category() {
+        $.ajax({
+            url: "/user/income/remove_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_income_remove_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_income_remove_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
 
-        $('#apply_currency').on('change.bfhselectbox', function() {
-            $.ajax({
-                url: "/user/runtime_settings/apply_currency",
-                type: "POST",
-                dataType: 'json',
-                data: $('#apply_currency_form').serialize(),
-                success: function (response) {
-                    console.log(response);
-                    window.location.reload();
+    // expense
+    function add_expense() {
+        $.ajax({
+            url: "/user/expense/add",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_expense_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function edit_expense(expense_id) {
+    }
+    function remove_expense(expense_id) {
+        $.ajax({
+            url: "/user/expense/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"expense_id":expense_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function add_expense_category() {
+        $.ajax({
+            url: "/user/expense/add_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_expense_add_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_expense_add_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+    function remove_expense_category() {
+        $.ajax({
+            url: "/user/expense/remove_category",
+            type: "POST",
+            dataType: 'json',
+            data: $('#add_expense_remove_category_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $("#add_expense_remove_category").modal('hide');
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    //other
+    window.onload = function() {
+        var canvas = document.getElementById('myChart');
+        var data = {
+            labels: {{chart_labels|safe}},
+            type: "line",
+            datasets: [
+                {
+                    label: 'Income',
+                    fill: false,
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    data: {{chart_incomes}},
                 },
-                error: function (error) {
-                    console.error(error);
+                {
+                    label: 'Expense',
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{chart_expenses}},
                 }
-            });
+            ]
+        };
+        var myBarChart = Chart.Line(canvas,{
+            data:data,
         });
+    };
 
-        $(function () {
-            $('#add_expense_datetimepicker').datetimepicker({
-                locale: '{{language.locale}}',
-                format: 'MM/DD/YYYY HH:mm:ss',
-                defaultDate:'{{entry_date}}'
-            });
+    $('#apply_currency').on('change.bfhselectbox', function() {
+        $.ajax({
+            url: "/user/runtime_settings/apply_currency",
+            type: "POST",
+            dataType: 'json',
+            data: $('#apply_currency_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
         });
+    });
 
-        $(function () {
-            $('#add_income_datetimepicker').datetimepicker({
-                locale: '{{language.locale}}',
-                format: 'MM/DD/YYYY HH:mm:ss',
-                defaultDate:'{{entry_date}}'
-            });
+    $(function () {
+        $('#add_expense_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate:'{{entry_date}}'
         });
+    });
+
+    $(function () {
+        $('#add_income_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate:'{{entry_date}}'
+        });
+    });
 </script>
 {% endblock %}

@@ -9,36 +9,6 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css')}}"/>
 {% endblock %}
-{% block scripts %}
-{{ super() }}
-
-<!-- http://bootstrapformhelpers.com -->
-<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
-
-<!--- http://eonasdan.github.io -->
-<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
-<script>
-    function apply_settings() {
-        $.ajax({
-            url: "/user/settings/apply",
-            type: "POST",
-            dataType: 'json',
-            data: $('#settings_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-
-
-</script>
-{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -111,8 +81,30 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 </div>
 {% endblock %}
 
-{% block body -%}
+{% block scripts %}
+{{ super() }}
+<!-- http://bootstrapformhelpers.com -->
+<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
+
+<!--- http://eonasdan.github.io -->
+<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
+    function apply_settings() {
+        $.ajax({
+            url: "/user/settings/apply",
+            type: "POST",
+            dataType: 'json',
+            data: $('#settings_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
 $(function () {
     $('#start_date_datetimepicker').datetimepicker({
         locale: '{{locale}}',
@@ -128,4 +120,4 @@ $(function () {
     });
 });
 </script>
-{%- endblock body %}
+{% endblock %}
