@@ -7,7 +7,7 @@ import app.constants as constants
 import app.utils as utils
 
 
-# revenues
+# incomes
 # expenses
 
 
@@ -57,8 +57,8 @@ class User(UserMixin, db.Document):
     created_date = db.DateTimeField(default=datetime.now)
     status = db.IntField(default=Status.NO_ACTIVE)
 
-    revenues = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
-    revenues_categories = db.ListField(db.StringField(), default=constants.REVENUES_CATEGORIES)
+    incomes = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
+    incomes_categories = db.ListField(db.StringField(), default=constants.INCOMES_CATEGORIES)
 
     expenses = db.ListField(db.EmbeddedDocumentField(MoneyEntry), default=list)
     expenses_categories = db.ListField(db.StringField(), default=constants.EXPENSES_CATEGORIES)

@@ -28,13 +28,13 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 <script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 
 <script>
-    // revenue
-    function add_revenue() {
+    // income
+    function add_income() {
         $.ajax({
-            url: "/user/revenue/add",
+            url: "/user/income/add",
             type: "POST",
             dataType: 'json',
-            data: $('#add_revenue_form').serialize(),
+            data: $('#add_income_form').serialize(),
             success: function (response) {
                 console.log(response);
                 window.location.reload();
@@ -44,12 +44,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-    function remove_revenue(revenue_id) {
+    function edit_income(income_id) {
+    }
+    function remove_income(income_id) {
         $.ajax({
-            url: "/user/revenue/remove",
+            url: "/user/income/remove",
             type: "POST",
             dataType: 'json',
-            data: {"revenue_id":revenue_id},
+            data: {"income_id":income_id},
             success: function (response) {
                 console.log(response);
                 window.location.reload();
@@ -59,30 +61,30 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-    function add_revenue_category() {
+    function add_income_category() {
         $.ajax({
-            url: "/user/revenue/add_category",
+            url: "/user/income/add_category",
             type: "POST",
             dataType: 'json',
-            data: $('#add_revenue_add_category_form').serialize(),
+            data: $('#add_income_add_category_form').serialize(),
             success: function (response) {
                 console.log(response);
-                $("#add_revenue_add_category").modal('hide');
+                $("#add_income_add_category").modal('hide');
             },
             error: function (error) {
                 console.error(error);
             }
         });
     }
-    function remove_revenue_category() {
+    function remove_income_category() {
         $.ajax({
-            url: "/user/revenue/remove_category",
+            url: "/user/income/remove_category",
             type: "POST",
             dataType: 'json',
-            data: $('#add_revenue_remove_category_form').serialize(),
+            data: $('#add_income_remove_category_form').serialize(),
             success: function (response) {
                 console.log(response);
-                $("#add_revenue_remove_category").modal('hide');
+                $("#add_income_remove_category").modal('hide');
             },
             error: function (error) {
                 console.error(error);
@@ -105,6 +107,8 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 console.error(error);
             }
         });
+    }
+    function edit_expense(expense_id) {
     }
     function remove_expense(expense_id) {
         $.ajax({
@@ -151,8 +155,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-
-
 </script>
 {% endblock %}
 {% block content %}
@@ -173,7 +175,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 <div class="container">
     <div class="row">
         <div class="col-md-6 well">
-            <h4 class="card-title">Revenues:</h4>
+            <h4 class="card-title">Incomes:</h4>
             <table class="table">
                 <thead>
                 <tr>
@@ -185,15 +187,19 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </tr>
                 </thead>
                 <tbody>
-                {% for rev in revenues %}
+                {% for rev in incomes %}
                 <tr>
                     <td>{{ loop.index }}</td>
                     <td>{{ rev.value }}</td>
                     <td>{{ rev.date }}</td>
                     <td>{{ rev.currency }}</td>
                     <td>
+                        <button type="submit" class="btn btn-success btn-xs"
+                                onclick="edit_income('{{ rev.id }}')">
+                            Edit
+                        </button>
                         <button type="submit" class="btn btn-danger btn-xs"
-                                onclick="remove_revenue('{{ rev.id }}')">
+                                onclick="remove_income('{{ rev.id }}')">
                             Remove
                         </button>
                     </td>
@@ -202,10 +208,10 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </tbody>
             </table>
             <div class="row">
-                <form action="/user/revenue/details" method="get" class="col-md-2">
+                <form action="/user/income/details" method="get" class="col-md-2">
                     <button type="submit" class="btn btn-info">Details</button>
                 </form>
-                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_revenue">
+                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_income">
                     Add
                 </button>
             </div>
@@ -230,6 +236,10 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                     <td>{{ exp.date }}</td>
                     <td>{{ exp.currency }}</td>
                     <td>
+                        <button type="submit" class="btn btn-success btn-xs"
+                                onclick="edit_expense('{{ exp.id }}')">
+                            Edit
+                        </button>
                         <button type="submit" class="btn btn-danger btn-xs"
                                 onclick="remove_expense('{{ exp.id }}')">
                             Remove
@@ -284,7 +294,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 
-{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', remove_category_func='remove_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories, entry_date=entry_date %}
+{% with modal_id='add_income', confirm_func='add_income()', add_category_func='add_income_category()', remove_category_func='remove_income_category()', locale=language.locale, title='Add income', currency=currency, available_currencies=available_currencies, categories=current_user.incomes_categories, entry_date=entry_date %}
 {% include 'user/forms/money_entry_dialog.html' %}
 {% endwith %}
 
@@ -300,11 +310,11 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 type: "line",
                 datasets: [
                     {
-                        label: 'Revenue',
+                        label: 'Income',
                         fill: false,
                         backgroundColor: 'rgb(75, 192, 192)',
                         borderColor: 'rgb(75, 192, 192)',
-                        data: {{chart_revenues}},
+                        data: {{chart_incomes}},
                     },
                     {
                         label: 'Expense',
@@ -336,6 +346,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             });
         });
 
-</script>
 
+</script>
 {% endblock %}

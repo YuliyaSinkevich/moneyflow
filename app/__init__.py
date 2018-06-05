@@ -11,7 +11,8 @@ app.config.from_pyfile('config.py')
 db = MongoEngine(app)
 mail = Mail(app)
 
-exchange_client = OpenExchangeRatesClient(app.config['OPENEXCHANGERATES_DB_PATH'], app.config['OPENEXCHANGERATES_APP_ID'])
+exchange_client = OpenExchangeRatesClient(app.config['OPEN_EXCHANGE_RATES_DB_PATH'],
+                                          app.config['OPEN_EXCHANGE_RATES_APP_ID'])
 
 app.config['SECRET_KEY'] = os.urandom(24)
 

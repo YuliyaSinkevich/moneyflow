@@ -1,10 +1,13 @@
-REVENUES_CATEGORIES = ['salary', 'other']
-EXPENSES_CATEGORIES = ['food', 'sport', 'other']
+INCOMES_CATEGORIES = ['Award', 'Gifts', 'Interest Money', 'Others', 'Salary', 'Selling']
+EXPENSES_CATEGORIES = [
+    'Bills & Utilities', 'Education', 'Entertainment', 'Family', 'Fees & Charges', 'Food & Beverage', 'Friends & Lover',
+    'Gifts & Donations', 'Health & Fitness', 'Insurances', 'Investment', 'Others', 'Shopping', 'Transportation',
+    'Travel']
 
 DEFAULT_CURRENCY = 'USD'
-AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'BYN', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'GBP', 'HKD', 'HRK', 'HUF',
-                        'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RON',
-                        'RUB', 'SEK', 'SGD', 'THB', 'TRY', DEFAULT_CURRENCY, 'ZAR']
+AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'BYN', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'GBP', 'HKD', 'HRK',
+                        'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN',
+                        'RON', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', DEFAULT_CURRENCY, 'ZAR']
 
 
 class Language(object):

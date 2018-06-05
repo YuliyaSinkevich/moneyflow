@@ -40,18 +40,18 @@ def new_money_entry_from_form(form):
 
 
 class GraphNode(object):
-    def __init__(self, revenues=0.00, expenses=0.00):
-        self.revenues = revenues
+    def __init__(self, incomes=0.00, expenses=0.00):
+        self.incomes = incomes
         self.expenses = expenses
 
     expenses = float
-    revenues = float
+    incomes = float
 
 
 @user.route('/dashboard')
 @login_required
 def dashboard():
-    revenues = []
+    incomes = []
     expenses = []
     total = 0.00
     rsettings = current_user.settings
@@ -64,7 +64,7 @@ def dashboard():
     start_date = rsettings.date_range.start_date
     end_date = rsettings.date_range.end_date
 
-    for rev in current_user.revenues:
+    for rev in current_user.incomes:
         entry_date = rev.date
         entry_date_min, entry_date_max = utils.year_month_date(entry_date)
         if rev.currency == currency:
@@ -74,9 +74,9 @@ def dashboard():
 
         if (start_date <= entry_date) and (entry_date <= end_date):
             total += rev_val
-            revenues.append(rev)
+            incomes.append(rev)
 
-        graph_dict[entry_date_max].revenues += rev_val
+        graph_dict[entry_date_max].incomes += rev_val
 
     for exp in current_user.expenses:
         entry_date = exp.date
@@ -93,18 +93,18 @@ def dashboard():
         graph_dict[entry_date_max].expenses += exp_val
 
     chart_labels = []
-    chart_revenues = []
+    chart_incomes = []
     chart_expenses = []
     for key, value in sorted(graph_dict.items()):
         chart_labels.append(key.strftime('%B %Y'))
-        chart_revenues.append(value.revenues)
+        chart_incomes.append(value.incomes)
         chart_expenses.append(value.expenses)
 
     entry_date_str = datetime.today().now().strftime(DATE_JS_FORMAT)
-    return render_template('user/dashboard.html', total=total, revenues=revenues, expenses=expenses,
+    return render_template('user/dashboard.html', total=total, incomes=incomes, expenses=expenses,
                            currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,
                            language=language, chart_labels=chart_labels,
-                           chart_revenues=chart_revenues, chart_expenses=chart_expenses, entry_date=entry_date_str)
+                           chart_incomes=chart_incomes, chart_expenses=chart_expenses, entry_date=entry_date_str)
 
 
 @user.route('/settings')
@@ -177,68 +177,68 @@ def render_details(title: str, currency: str, entries: list):
     colors = list(constants.AVAILIBLE_CHART_COLORS)
     shuffle(colors)
     return render_template('user/details.html', title=title, labels=labels, data=data,
-                           colors=colors)
+                           colors=colors[:len(data)])
 
 
-# revenue
-@user.route('/revenue/details', methods=['GET'])
+# income
+@user.route('/income/details', methods=['GET'])
 @login_required
-def details_revenue():
+def details_income():
     currency = current_user.settings.currency
-    return render_details('Revenue details', currency, current_user.revenues)
+    return render_details('Income details', currency, current_user.incomes)
 
 
-@user.route('/revenue/add', methods=['POST'])
+@user.route('/income/add', methods=['POST'])
 @login_required
-def add_revenue():
-    new_revenue = new_money_entry_from_form(request.form)
+def add_income():
+    new_income = new_money_entry_from_form(request.form)
     inserted = False
-    for index, value in enumerate(current_user.revenues):
-        if value.date > new_revenue.date:
-            current_user.revenues.insert(index, new_revenue)
+    for index, value in enumerate(current_user.incomes):
+        if value.date > new_income.date:
+            current_user.incomes.insert(index, new_income)
             inserted = True
             break
 
     if not inserted:
-        current_user.revenues.append(new_revenue)
+        current_user.incomes.append(new_income)
 
     current_user.save()
 
-    response = {"revenue_id": str(new_revenue.id)}
+    response = {"income_id": str(new_income.id)}
     return jsonify(response), 200
 
 
-@user.route('/revenue/remove', methods=['POST'])
+@user.route('/income/remove', methods=['POST'])
 @login_required
-def remove_revenue():
-    revenue_id = request.form['revenue_id']
+def remove_income():
+    income_id = request.form['income_id']
 
-    for revenue in current_user.revenues:
-        if str(revenue.id) == revenue_id:
-            current_user.revenues.remove(revenue)
+    for income in current_user.incomes:
+        if str(income.id) == income_id:
+            current_user.incomes.remove(income)
             current_user.save()
             break
 
-    response = {"revenue_id": revenue_id}
+    response = {"income_id": income_id}
     return jsonify(response), 200
 
 
-@user.route('/revenue/add_category', methods=['POST'])
+@user.route('/income/add_category', methods=['POST'])
 @login_required
-def add_category_revenue():
+def add_category_income():
     category = request.form['category']
-    current_user.revenues_categories.append(category)
+    current_user.incomes_categories.append(category)
     current_user.save()
 
     response = {}
     return jsonify(response), 200
 
 
-@user.route('/revenue/remove_category', methods=['POST'])
+@user.route('/income/remove_category', methods=['POST'])
 @login_required
-def remove_category_revenue():
+def remove_category_income():
     category = request.form['category']
-    current_user.revenues_categories.remove(category)
+    current_user.incomes_categories.remove(category)
     current_user.save()
 
     response = {}
