@@ -12,6 +12,12 @@ import app.utils as utils
 
 
 class MoneyEntry(db.EmbeddedDocument):
+    class Recurring(IntEnum):
+        SINGLE = 0,
+        EVERY_DAY = 1,
+        EVERY_MONTH = 2,
+        EVERY_YEAR = 3
+
     id = db.ObjectIdField(required=True, default=ObjectId,
                           unique=True, primary_key=True)
     description = db.StringField(required=True)
@@ -47,9 +53,9 @@ class Settings(db.EmbeddedDocument):
 
 class User(UserMixin, db.Document):
     class Status(IntEnum):
-        NO_ACTIVE = 1
-        ACTIVE = 2
-        BANNED = 3
+        NO_ACTIVE = 0
+        ACTIVE = 1
+        BANNED = 2
 
     meta = {'collection': 'users'}
     email = db.StringField(max_length=30, required=True)
