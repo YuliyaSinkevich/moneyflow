@@ -6,7 +6,7 @@ from random import shuffle
 
 import app.constants as constants
 import app.utils as utils
-from .forms import MoneyEntryForm
+from .forms import MoneyEntryForm, MoneyEditEntryForm
 from app import exchange_client
 
 from app.user import user
@@ -17,10 +17,6 @@ AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
 DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
 
-def new_money_entry(description: str, value: float, currency: str, category: str, date: datetime) -> MoneyEntry:
-    return MoneyEntry(description=description, value=value, currency=currency, category=category, date=date)
-
-
 def exchange(base: str, to: str, amount: float) -> float:
     json = exchange_client.get_rates(base)
     if not json:
@@ -28,27 +24,6 @@ def exchange(base: str, to: str, amount: float) -> float:
 
     rates = json[to]
     return amount * rates
-
-
-def new_money_entry_from_form(form: MoneyEntryForm) -> MoneyEntry:
-    description = form.description.data
-    value = form.value.data
-    currency = form.currency.data
-    category_pos = form.category.data
-    categories = form.category.choices
-    category = categories[category_pos]
-    date = form.date.data
-    return new_money_entry(description, value, currency, category[1], date)
-
-
-def update_money_entry_from_form(entry: MoneyEntry, form: MoneyEntryForm) -> MoneyEntry:
-    entry.description = form.description.data
-    entry.value = form.value.data
-    entry.currency = form.currency.data
-    category_pos = form.category.data
-    categories = form.category.choices
-    entry.category = categories[category_pos][1]
-    entry.date = form.date.data
 
 
 class GraphNode(object):
@@ -200,16 +175,11 @@ def details_income():
     return render_details('Income details', currency, current_user.incomes)
 
 
-def add_money_entry(categories: list, language: Language, save_callback):
-    extended_cat = []
-    for index, value in enumerate(categories):
-        extended_cat.append((index, value))
+def add_money_entry(method: str, categories: list, language: Language, save_callback):
+    form = MoneyEntryForm(categories=categories)
 
-    form = MoneyEntryForm()
-    form.category.choices = extended_cat
-
-    if form.validate_on_submit():
-        new_entry = new_money_entry_from_form(form)
+    if method == 'POST' and form.validate_on_submit():
+        new_entry = form.get_entry()
         save_callback(new_entry)
         return jsonify(status='ok'), 200
 
@@ -217,27 +187,9 @@ def add_money_entry(categories: list, language: Language, save_callback):
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
-def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
-    extended_cat = []
-    category_index = 0
-    for index, value in enumerate(categories):
-        if entry.category == value:
-            category_index = index
-        extended_cat.append((index, value))
-
-    form = MoneyEntryForm()
-    form.category.choices = extended_cat
-
-    if method == 'GET':
-        # init form
-        form.date.data = entry.date
-        form.category.data = category_index
-        form.value.data = entry.value
-        form.currency.data = entry.currency
-        form.description.data = entry.description
-
+def edit_money_entry(method: str, form: MoneyEditEntryForm, language: Language):
     if method == 'POST' and form.validate_on_submit():
-        update_money_entry_from_form(entry, form)
+        entry = form.get_entry()
         entry.save()
         return jsonify(status='ok'), 200
 
@@ -254,7 +206,7 @@ def add_income():
 
     rsettings = current_user.settings
     language = rsettings.language
-    return add_money_entry(current_user.incomes_categories, language, insert_income)
+    return add_money_entry(request.method, current_user.incomes_categories, language, insert_income)
 
 
 @user.route('/income/edit/<id>', methods=['GET', 'POST'])
@@ -264,7 +216,8 @@ def edit_income(id):
         if str(income.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            return edit_money_entry(request.method, income, current_user.incomes_categories, language)
+            form = MoneyEditEntryForm(current_user.incomes_categories, entry=income)
+            return edit_money_entry(request.method, form, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
@@ -324,7 +277,7 @@ def add_expense():
 
     rsettings = current_user.settings
     language = rsettings.language
-    return add_money_entry(current_user.expenses_categories, language, insert_expense)
+    return add_money_entry(request.method, current_user.expenses_categories, language, insert_expense)
 
 
 @user.route('/expense/edit/<id>', methods=['GET', 'POST'])
@@ -334,7 +287,8 @@ def edit_expense(id):
         if str(expense.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            return edit_money_entry(request.method, expense, current_user.expenses_categories, language)
+            form = MoneyEditEntryForm(current_user.expenses_categories, entry=expense)
+            return edit_money_entry(request.method, form, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404

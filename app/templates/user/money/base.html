@@ -53,12 +53,7 @@
             </div>
         </div>
         <br>
-        <div class="row">
-            <label class="col-md-4">Description:</label>
-            <div class="col-md-8">
-                <input type="text" name="description" value="{{form.description.data}}" class="form-control">
-            </div>
-        </div>
+        {{ render_bootstrap_field(form.description) }}
     </div>
     <div class="modal-footer">
         {% block footer %}
@@ -76,6 +71,5 @@
             defaultDate:'{{form.date._value()}}'
         });
     });
-
 </script>
 <script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
