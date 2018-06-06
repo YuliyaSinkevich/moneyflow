@@ -13,7 +13,7 @@ from app import login_manager
 from app import mail
 from app.home.user_loging_manager import User
 
-from pyfastogt import utils
+#from pyfastogt import utils
 
 CONFIRM_LINK_TTL = 3600
 SALT_LINK = 'email-confirm'
