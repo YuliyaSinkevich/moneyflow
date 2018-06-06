@@ -68,7 +68,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <form action="/user/income/details" method="get" class="col-md-2">
                     <button type="submit" class="btn btn-info">Details</button>
                 </form>
-                <button class="btn btn-success btn-send col-md-2" id="add_income">
+                <button class="btn btn-success btn-send col-md-2" onclick="add_income()">
                     Add
                 </button>
             </div>
@@ -110,7 +110,7 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 <form action="/user/expense/details" class="col-md-2" method="get">
                     <button type="submit" class="btn btn-info">Details</button>
                 </form>
-                <button class="btn btn-success btn-send col-md-2" data-toggle="modal" data-target="#add_expense">
+                <button class="btn btn-success btn-send col-md-2" onclick="add_expense()">
                     Add
                 </button>
             </div>
@@ -171,48 +171,69 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 
 <script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 <script>
-      $(function () {
-        // add step button opens modal containing step form loaded via ajax
-        $('#add_income').click(function() {
-          var url = "{{ url_for('user.add_income') }}";
-          $.get(url, function(data) {
-            $('#money_dialog .modal-content').html(data);
-            $('#money_dialog').modal();
-
-            $('#submit').click(function(event) {
-              event.preventDefault();
-              $.post(url, data=$('#money_entry_form').serialize(), function(data) {
-                if (data.status == 'ok') {
-                  $('#money_dialog').modal('hide');
-                  window.location.reload();
-                }
-                else {
-                  $('#money_dialog .modal-content').html(data);
-                }
-              });
-            })
-          });
-        });
-      });
-
-    // income
-    function add_income() {
+    function add_money_entry(url) {
         $.ajax({
-            url: "/user/income/add",
+            url: url,
             type: "POST",
             dataType: 'json',
-            data: $('#add_income_form').serialize(),
+            data: $('#money_entry_form').serialize(),
             success: function (response) {
                 console.log(response);
+                $('#money_dialog').modal('hide');
                 window.location.reload();
             },
             error: function (error) {
                 console.error(error);
+                $('#money_dialog .modal-content').html(data);
             }
         });
     }
-    function edit_income(income_id) {
+
+    function edit_money_entry(url) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: $('#money_entry_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $('#money_dialog').modal('hide');
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+                $('#money_dialog .modal-content').html(data);
+            }
+        });
     }
+
+    // income
+    function add_income() {
+        var url = "{{ url_for('user.add_income') }}";
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                add_money_entry(url);
+            })
+        });
+    }
+
+    function edit_income(income_id) {
+        var url = "/user/income/edit/" + income_id ;
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                edit_money_entry(url);
+            })
+        });
+    }
+
     function remove_income(income_id) {
         $.ajax({
             url: "/user/income/remove",
@@ -228,54 +249,31 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-    function add_income_category() {
-        $.ajax({
-            url: "/user/income/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_income_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_income_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_income_category() {
-        $.ajax({
-            url: "/user/income/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_income_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_income_remove_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
 
     // expense
     function add_expense() {
-        $.ajax({
-            url: "/user/expense/add",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
+        var url = "{{ url_for('user.add_expense') }}";
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                add_money_entry(url);
+            })
         });
     }
     function edit_expense(expense_id) {
+        var url = "/user/expense/edit/" + expense_id;
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                edit_money_entry(url);
+            })
+        });
     }
     function remove_expense(expense_id) {
         $.ajax({
@@ -286,36 +284,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             success: function (response) {
                 console.log(response);
                 window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function add_expense_category() {
-        $.ajax({
-            url: "/user/expense/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_expense_category() {
-        $.ajax({
-            url: "/user/expense/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_remove_category").modal('hide');
             },
             error: function (error) {
                 console.error(error);
@@ -367,21 +335,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
         });
     });
 
-    $(function () {
-        $('#add_expense_datetimepicker').datetimepicker({
-            locale: '{{language.locale}}',
-            format: 'MM/DD/YYYY HH:mm:ss',
-            defaultDate:'{{entry_date}}'
-        });
-    });
-
-    $(function () {
-        $('#add_income_datetimepicker').datetimepicker({
-            locale: '{{language.locale}}',
-            format: 'MM/DD/YYYY HH:mm:ss',
-            defaultDate:'{{entry_date}}'
-        });
-    });
 
 </script>
 {% endblock %}

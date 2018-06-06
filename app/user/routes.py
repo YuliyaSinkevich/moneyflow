@@ -17,9 +17,8 @@ AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
 DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
 
-def new_money_entry(description: str, value: float, currency: str, category: str, date: str):
-    dt = datetime.strptime(date, DATE_JS_FORMAT)
-    return MoneyEntry(description=description, value=value, currency=currency, category=category, date=dt)
+def new_money_entry(description: str, value: float, currency: str, category: str, date: datetime) -> MoneyEntry:
+    return MoneyEntry(description=description, value=value, currency=currency, category=category, date=date)
 
 
 def exchange(base: str, to: str, amount: float) -> float:
@@ -31,13 +30,25 @@ def exchange(base: str, to: str, amount: float) -> float:
     return amount * rates
 
 
-def new_money_entry_from_form(form):
-    description = form['description']
-    value = form['value']
-    currency = form['currency']
-    category = form['category']
-    date = form['date']
-    return new_money_entry(description, value, currency, category, date)
+def new_money_entry_from_form(form: MoneyEntryForm) -> MoneyEntry:
+    description = form.description.data
+    value = form.value.data
+    currency = form.currency.data
+    category_pos = form.category.data
+    categories = form.category.choices
+    category = categories[category_pos]
+    date = form.date.data
+    return new_money_entry(description, value, currency, category[1], date)
+
+
+def update_money_entry_from_form(entry: MoneyEntry, form: MoneyEntryForm) -> MoneyEntry:
+    entry.description = form.description.data
+    entry.value = form.value.data
+    entry.currency = form.currency.data
+    category_pos = form.category.data
+    categories = form.category.choices
+    entry.category = categories[category_pos][1]
+    entry.date = form.date.data
 
 
 class GraphNode(object):
@@ -189,37 +200,74 @@ def details_income():
     return render_details('Income details', currency, current_user.incomes)
 
 
-@user.route('/income/add', methods=['GET', 'POST'])
-@login_required
-def add_income():
+def add_money_entry(categories: list, language: Language, save_callback):
     extended_cat = []
-    for index, value in enumerate(current_user.incomes_categories):
+    for index, value in enumerate(categories):
         extended_cat.append((index, value))
 
     form = MoneyEntryForm()
     form.category.choices = extended_cat
 
     if form.validate_on_submit():
-        new_income = new_money_entry_from_form(request.form)
-        inserted = False
-        for index, value in enumerate(current_user.incomes):
-            if value.date > new_income.date:
-                current_user.incomes.insert(index, new_income)
-                inserted = True
-                break
-
-        if not inserted:
-            current_user.incomes.append(new_income)
-
-        current_user.save()
-
-        #response = {"id": str(new_income.id)}
+        new_entry = new_money_entry_from_form(form)
+        save_callback(new_entry)
         return jsonify(status='ok'), 200
+
+    return render_template('user/money/add.html', form=form, language=language,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
+
+
+def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
+    extended_cat = []
+    category_index = 0
+    for index, value in enumerate(categories):
+        if entry.category == value:
+            category_index = index
+        extended_cat.append((index, value))
+
+    form = MoneyEntryForm()
+    form.category.choices = extended_cat
+
+    if method == 'GET':
+        # init form
+        form.date.data = entry.date
+        form.category.data = category_index
+        form.value.data = entry.value
+        form.currency.data = entry.currency
+        form.description.data = entry.description
+
+    if method == 'POST' and form.validate_on_submit():
+        update_money_entry_from_form(entry, form)
+        entry.save()
+        return jsonify(status='ok'), 200
+
+    return render_template('user/money/edit.html', form=form, language=language,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
+
+
+@user.route('/income/add', methods=['GET', 'POST'])
+@login_required
+def add_income():
+    def insert_income(new_entry: MoneyEntry):
+        current_user.incomes.append(new_entry)
+        current_user.save()
 
     rsettings = current_user.settings
     language = rsettings.language
-    return render_template('user/money/add.html', form=form, language=language,
-                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
+    return add_money_entry(current_user.incomes_categories, language, insert_income)
+
+
+@user.route('/income/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_income(id):
+    for income in current_user.incomes:
+        if str(income.id) == id:
+            rsettings = current_user.settings
+            language = rsettings.language
+            return edit_money_entry(request.method, income, current_user.incomes_categories, language)
+
+    responce = {"status": "failed"}
+    return jsonify(responce), 404
 
 
 @user.route('/income/remove', methods=['POST'])
@@ -267,24 +315,29 @@ def details_expense():
     return render_details('Expense details', currency, current_user.expenses)
 
 
-@user.route('/expense/add', methods=['POST'])
+@user.route('/expense/add', methods=['GET', 'POST'])
 @login_required
 def add_expense():
-    new_expense = new_money_entry_from_form(request.form)
-    inserted = False
-    for index, value in enumerate(current_user.expenses):
-        if value.date > new_expense.date:
-            current_user.expenses.insert(index, new_expense)
-            inserted = True
-            break
+    def insert_expense(new_entry: MoneyEntry):
+        current_user.expenses.append(new_entry)
+        current_user.save()
 
-    if not inserted:
-        current_user.expenses.append(new_expense)
+    rsettings = current_user.settings
+    language = rsettings.language
+    return add_money_entry(current_user.expenses_categories, language, insert_expense)
 
-    current_user.save()
 
-    response = {"expense_id": str(new_expense.id)}
-    return jsonify(response), 200
+@user.route('/expense/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_expense(id):
+    for expense in current_user.expenses:
+        if str(expense.id) == id:
+            rsettings = current_user.settings
+            language = rsettings.language
+            return edit_money_entry(request.method, expense, current_user.expenses_categories, language)
+
+    responce = {"status": "failed"}
+    return jsonify(responce), 404
 
 
 @user.route('/expense/remove', methods=['POST'])
