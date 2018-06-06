@@ -6,7 +6,7 @@ from random import shuffle
 
 import app.constants as constants
 import app.utils as utils
-from .forms import MoneyEntryForm, MoneyEditEntryForm
+from .forms import MoneyEntryForm
 from app import exchange_client
 
 from app.user import user
@@ -176,10 +176,13 @@ def details_income():
 
 
 def add_money_entry(method: str, categories: list, language: Language, save_callback):
-    form = MoneyEntryForm(categories=categories)
+    extended_cat = []
+    for index, value in enumerate(categories):
+        extended_cat.append((index, value))
 
+    form = MoneyEntryForm(categories=extended_cat)
     if method == 'POST' and form.validate_on_submit():
-        new_entry = form.get_entry()
+        new_entry = form.make_entry()
         save_callback(new_entry)
         return jsonify(status='ok'), 200
 
@@ -187,9 +190,20 @@ def add_money_entry(method: str, categories: list, language: Language, save_call
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
-def edit_money_entry(method: str, form: MoneyEditEntryForm, language: Language):
+def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
+    extended_cat = []
+    category_index = 0
+    for index, value in enumerate(categories):
+        extended_cat.append((index, value))
+        if entry.category == value:
+            category_index = index
+
+    form = MoneyEntryForm(categories=extended_cat, obj=entry)
+    if method == 'GET':
+        form.category.data = category_index
+
     if method == 'POST' and form.validate_on_submit():
-        entry = form.get_entry()
+        entry = form.update_entry(entry)
         entry.save()
         return jsonify(status='ok'), 200
 
@@ -216,8 +230,7 @@ def edit_income(id):
         if str(income.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            form = MoneyEditEntryForm(current_user.incomes_categories, entry=income)
-            return edit_money_entry(request.method, form, language)
+            return edit_money_entry(request.method, income, current_user.incomes_categories, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
@@ -287,8 +300,7 @@ def edit_expense(id):
         if str(expense.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            form = MoneyEditEntryForm(current_user.expenses_categories, entry=expense)
-            return edit_money_entry(request.method, form, language)
+            return edit_money_entry(request.method, expense, current_user.expenses_categories, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
