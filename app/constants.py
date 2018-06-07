@@ -9,6 +9,8 @@ AVAILABLE_CURRENCIES = ['EUR', 'AUD', 'BGN', 'BRL', 'BYN', 'CAD', 'CHF', 'CNY', 
                         'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN',
                         'RON', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', DEFAULT_CURRENCY, 'ZAR']
 
+DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
+
 
 class Language(object):
     def __init__(self, language: str, locale: str):

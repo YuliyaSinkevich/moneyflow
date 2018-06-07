@@ -1,22 +1,24 @@
+import os
+
 from flask import render_template, request, redirect, url_for, flash, current_app as app
 from flask_login import login_user, current_user
+from flask_mail import Message
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+
+from app import login_manager
+from app import mail
+import app.utils as utils
+from app.home import home
+from app.home.user_loging_manager import User
 
 from .forms import SignupForm, SigninForm
 
-import app.utils as utils
-
-from app.home import home
-from app import login_manager
-from app import mail
-from app.home.user_loging_manager import User
-
+SECRET = os.urandom(24)
 CONFIRM_LINK_TTL = 3600
 SALT_LINK = 'email-confirm'
-SECRET = 'Thisisasecret!'
 
 confirm_link_generator = URLSafeTimedSerializer(SECRET)
 
@@ -35,6 +37,8 @@ def flash_errors(form):
         for error in errors:
             flash_error(u"Error in the %s field - %s" % (getattr(form, field).label.text, error))
 
+
+# routes
 
 @login_manager.user_loader
 def load_user(user_id):

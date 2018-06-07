@@ -1,8 +1,10 @@
-from flask_login import UserMixin
-from app import db
 from datetime import datetime
 from enum import IntEnum
 from bson.objectid import ObjectId
+
+from flask_login import UserMixin
+
+from app import db
 import app.constants as constants
 import app.utils as utils
 

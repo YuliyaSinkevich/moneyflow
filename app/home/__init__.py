@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template
 
+from app import app
+
 home = Blueprint('home', __name__)
 
 from app.home import routes
-from app import app
 
 
 @home.errorhandler(404)

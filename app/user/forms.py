@@ -1,16 +1,16 @@
+from datetime import datetime
+
 from flask_wtf import FlaskForm
+
 from wtforms.fields import StringField, FloatField, DateTimeField, SubmitField, SelectField
 from wtforms.validators import InputRequired, NumberRange
-from datetime import datetime
 
 import app.constants as constants
 from app.home.user_loging_manager import MoneyEntry
 
-DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
-
 
 class MoneyEntryForm(FlaskForm):
-    date = DateTimeField(u'Date:', validators=[InputRequired()], format=DATE_JS_FORMAT, default=datetime.now)
+    date = DateTimeField(u'Date:', validators=[InputRequired()], format=constants.DATE_JS_FORMAT, default=datetime.now)
     category = SelectField(u'Category:', coerce=int, validators=[InputRequired()])
     value = FloatField(u'Value:', validators=[InputRequired(), NumberRange(min=0.01, message=u'Invalid value')],
                        default=1.00)

@@ -1,14 +1,14 @@
+import os
+
 from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_mail import Mail
-import os
-from app.exchange import OpenExchangeRatesClient
-
 from flask_bootstrap import Bootstrap
-
 from flask_nav import Nav
 from flask_nav.elements import *
+
+from .exchange import OpenExchangeRatesClient
 
 app = Flask(__name__)
 
