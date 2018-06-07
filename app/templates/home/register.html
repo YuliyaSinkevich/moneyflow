@@ -1,23 +1,28 @@
 {% extends 'layouts/layout_home.html' %}
 {% block title %}
-Register | {{ PUBLIC_CONFIG.site.title }}
+Register | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
-{% block content_title %}
-Registration
-{% endblock %}
 
-{% block content_form %}
-<form action="/register" method="post">
-    <p>Email</p>
-    {{ form.email }}
-    <p>Password</p>
-    {{ form.password }}
-    {{ form.hidden_tag() }}
-    <br>
-    <br>
-    <input type="submit" class="btn btn-primary btn-lg"
-           value="Submit">
-</form>
-{% endblock %}
-
+{% block content %}
+<div class="container">
+    <div class="well">
+        <h1>Sign Up</h1>
+        <p>Note: Your data isn't going anywhere.</p>
+    </div>
+    {{ util.flashed_messages(dismissible=True) }}
+    <form action="" method="post" class="form" role="form">
+        {{ form.hidden_tag() }}
+        {{ form_field(form.email, class='form-control', placeholder='Your email will be used to contact you.') }}
+        <br>
+        {{ form_field(form.password, class='form-control', placeholder='Enter a password.') }}
+        <br>
+        <p class="tos-info">By clicking &ldquo;{{ form.submit.label }}&rdquo; below, you agree to our
+            <a href={{ url_for('home.term_of_use') }} target="_blank">terms of service</a> and
+            <a href={{ url_for('home.private_policy') }} target="_blank">privacy statement</a>. We’ll occasionally send
+            you account related emails.
+        </p>
+        {{ form_field(form.submit, class="btn btn-success") }}
+    </form>
+</div>
+{%- endblock %}

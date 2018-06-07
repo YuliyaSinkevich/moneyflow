@@ -1,0 +1,75 @@
+{% from 'bootstrap/wtf.html' import form_field %}
+{% macro render_bootstrap_field(field) %}
+<div class="row">
+    <label class="col-md-4">{{ field.label }}</label>
+    <div class="col-md-8">
+        {{ field(class='form-control')|safe }}
+    </div>
+</div>
+{% endmacro %}
+
+<form id="money_entry_form" name="money_entry_form" class="form" method="post">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">
+            {% block title %}
+            {% endblock %}
+        </h4>
+    </div>
+    <div class="modal-body">
+        {{ form.hidden_tag() }}
+        <div class="row">
+            <label class="col-md-4">Date:</label>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="input-group date" id="datetimepicker">
+                        <input type='text' name="date" class="form-control"/>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        {{ render_bootstrap_field(form.category) }}
+        <br>
+        <div class="row">
+            <label class="col-md-4">Value:</label>
+            <div class="col-md-8">
+                <input type="number" min="0.01" step="0.01" value="{{form.value.data}}" name="value"
+                       class="form-control">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <label class="col-md-4">Currency:</label>
+            <div class="col-md-8">
+                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{form.currency.data}}"
+                     data-available="{{available_currencies}}" data-flags="true">
+                </div>
+            </div>
+        </div>
+        <br>
+        {{ render_bootstrap_field(form.description) }}
+    </div>
+    <div class="modal-footer">
+        {% block footer %}
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        {{ form_field(form.submit, class="btn btn-success") }}
+        {% endblock %}
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $('#datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate:'{{form.date._value()}}'
+        });
+    });
+</script>
+<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>

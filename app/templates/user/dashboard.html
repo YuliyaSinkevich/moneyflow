@@ -1,10 +1,11 @@
 <!-- args: total, available_currencies, currency, language -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
-Dashboard | {{ PUBLIC_CONFIG.site.title }}
+Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
-{% block css %}
-{{ super() }}
+
+{% block styles %}
+{{super()}}
 <!-- Bootstrap Form Helpers -->
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrapformhelpers/css/bootstrap-formhelpers.min.css')}}"/>
@@ -12,153 +13,7 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
 <link rel="stylesheet" type="text/css"
       href="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/css/bootstrap-datetimepicker.min.css')}}"/>
 {% endblock %}
-{% block script %}
-{{ super() }}
-<!-- Bootstrap core JavaScript -->
-<script src="{{url_for('static', filename='assets/js/jquery.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
 
-<!-- http://bootstrapformhelpers.com -->
-<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
-
-<!--- http://eonasdan.github.io -->
-<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
-<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
-
-<script>
-    // revenue
-    function add_revenue() {
-        $.ajax({
-            url: "/user/revenue/add",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_revenue_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_revenue(revenue_id) {
-        $.ajax({
-            url: "/user/revenue/remove",
-            type: "POST",
-            dataType: 'json',
-            data: {"revenue_id":revenue_id},
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    function add_revenue_category() {
-        $.ajax({
-            url: "/user/revenue/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_revenue_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_revenue_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    function remove_revenue_category() {
-        $.ajax({
-            url: "/user/revenue/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_revenue_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_revenue_remove_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    // expense
-    function add_expense() {
-        $.ajax({
-            url: "/user/expense/add",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-    function remove_expense(expense_id) {
-        $.ajax({
-            url: "/user/expense/remove",
-            type: "POST",
-            dataType: 'json',
-            data: {"expense_id":expense_id},
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    function add_expense_category() {
-        $.ajax({
-            url: "/user/expense/add_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_add_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_add_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-    function remove_expense_category() {
-        $.ajax({
-            url: "/user/expense/remove_category",
-            type: "POST",
-            dataType: 'json',
-            data: $('#add_expense_remove_category_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                $("#add_expense_remove_category").modal('hide');
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
-
-
-
-
-</script>
-{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -177,25 +32,31 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
 <div class="container">
     <div class="row">
         <div class="col-md-6 well">
-            <h4 class="card-title">Revenues:</h4>
+            <h4 class="card-title">Incomes:</h4>
             <table class="table">
                 <thead>
                 <tr>
                     <th class="number">#</th>
                     <th class="value">Value</th>
+                    <th class="value">Date</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for revenue in current_user.revenues %}
+                {% for rev in incomes %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ revenue.value }}</td>
-                    <td>{{ revenue.currency }}</td>
+                    <td>{{ rev.value }}</td>
+                    <td>{{ rev.date }}</td>
+                    <td>{{ rev.currency }}</td>
                     <td>
+                        <button type="submit" class="btn btn-success btn-xs"
+                                onclick="edit_income('{{ rev.id }}')">
+                            Edit
+                        </button>
                         <button type="submit" class="btn btn-danger btn-xs"
-                                onclick="remove_revenue('{{ revenue.id }}')">
+                                onclick="remove_income('{{ rev.id }}')">
                             Remove
                         </button>
                     </td>
@@ -203,9 +64,14 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="revenue_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_revenue">
-                Add
-            </button>
+            <div class="row">
+                <form action="/user/income/details" method="get" class="col-md-2">
+                    <button type="submit" class="btn btn-info">Details</button>
+                </form>
+                <button class="btn btn-success btn-send col-md-2" onclick="add_income()">
+                    Add
+                </button>
+            </div>
         </div>
         <div class="col-md-6 well">
             <h4 class="card-title">Expenses:</h4>
@@ -214,19 +80,25 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
                 <tr>
                     <th class="number">#</th>
                     <th class="value">Value</th>
+                    <th class="value">Date</th>
                     <th class="currency">Currency</th>
                     <th class="actions">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for expense in current_user.expenses %}
+                {% for exp in expenses %}
                 <tr>
                     <td>{{ loop.index }}</td>
-                    <td>{{ expense.value }}</td>
-                    <td>{{ expense.currency }}</td>
+                    <td>{{ exp.value }}</td>
+                    <td>{{ exp.date }}</td>
+                    <td>{{ exp.currency }}</td>
                     <td>
+                        <button type="submit" class="btn btn-success btn-xs"
+                                onclick="edit_expense('{{ exp.id }}')">
+                            Edit
+                        </button>
                         <button type="submit" class="btn btn-danger btn-xs"
-                                onclick="remove_expense('{{ expense.id }}')">
+                                onclick="remove_expense('{{ exp.id }}')">
                             Remove
                         </button>
                     </td>
@@ -234,15 +106,26 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
                 {% endfor %}
                 </tbody>
             </table>
-            <button id="expense_button" class="btn btn-success btn-send" data-toggle="modal" data-target="#add_expense">
-                Add
-            </button>
+            <div class="row">
+                <form action="/user/expense/details" class="col-md-2" method="get">
+                    <button type="submit" class="btn btn-info">Details</button>
+                </form>
+                <button class="btn btn-success btn-send col-md-2" onclick="add_expense()">
+                    Add
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
 <br>
 <br>
+<br>
+<div class="container well">
+    <div class="row">
+        <canvas id="myChart" width="100%" height="20%"></canvas>
+    </div>
+</div>
 <br>
 <br>
 <br>
@@ -256,9 +139,9 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
                     <input type="number" value="{{total}}" name="value" class="form-control" readonly>
                 </div>
                 <div class="col-md-6">
-                    <form>
-                        <div class="bfh-selectbox bfh-currencies" data-name="balance_currency"
-                             data-currency="{{currency}}"
+                    <form id="apply_currency_form">
+                        <div class="bfh-selectbox bfh-currencies" data-name="currency"
+                             data-currency="{{currency}}" id="apply_currency"
                              data-available="{{available_currencies}}" data-flags="true">
                         </div>
                     </form>
@@ -268,12 +151,190 @@ Dashboard | {{ PUBLIC_CONFIG.site.title }}
     </div>
 </div>
 
-{% with modal_id='add_revenue', confirm_func='add_revenue()', add_category_func='add_revenue_category()', remove_category_func='remove_revenue_category()', locale=language.locale, title='Add revenue', currency=currency, available_currencies=available_currencies, categories=current_user.revenues_categories %}
-{% include 'user/forms/money_entry_dialog.html' %}
-{% endwith %}
+<div id="money_dialog" class="modal fade" tabindex=-1 role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
 
-{% with modal_id='add_expense', confirm_func='add_expense()', add_category_func='add_expense_category()', remove_category_func='remove_expense_category()', locale=language.locale, title='Add expense', currency=currency, available_currencies=available_currencies, categories=current_user.expenses_categories %}
-{% include 'user/forms/money_entry_dialog.html' %}
-{% endwith %}
+{% endblock %}
 
+{% block scripts %}
+{{ super() }}
+<!-- http://bootstrapformhelpers.com -->
+<script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>
+
+<!--- http://eonasdan.github.io -->
+<script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
+<script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
+
+<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
+<script>
+    function add_money_entry(url) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: $('#money_entry_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $('#money_dialog').modal('hide');
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+                $('#money_dialog .modal-content').html(data);
+            }
+        });
+    }
+
+    function edit_money_entry(url) {
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: $('#money_entry_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                $('#money_dialog').modal('hide');
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+                $('#money_dialog .modal-content').html(data);
+            }
+        });
+    }
+
+    // income
+    function add_income() {
+        var url = "{{ url_for('user.add_income') }}";
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                add_money_entry(url);
+            })
+        });
+    }
+
+    function edit_income(income_id) {
+        var url = "/user/income/edit/" + income_id ;
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                edit_money_entry(url);
+            })
+        });
+    }
+
+    function remove_income(income_id) {
+        $.ajax({
+            url: "/user/income/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"income_id":income_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    // expense
+    function add_expense() {
+        var url = "{{ url_for('user.add_expense') }}";
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                add_money_entry(url);
+            })
+        });
+    }
+    function edit_expense(expense_id) {
+        var url = "/user/expense/edit/" + expense_id;
+        $.get(url, function(data) {
+            $('#money_dialog .modal-content').html(data);
+            $('#money_dialog').modal();
+
+            $('#submit').click(function(event) {
+                event.preventDefault();
+                edit_money_entry(url);
+            })
+        });
+    }
+    function remove_expense(expense_id) {
+        $.ajax({
+            url: "/user/expense/remove",
+            type: "POST",
+            dataType: 'json',
+            data: {"expense_id":expense_id},
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    }
+
+    //other
+    window.onload = function() {
+        var canvas = document.getElementById('myChart');
+        var data = {
+            labels: {{chart_labels|safe}},
+            type: "line",
+            datasets: [
+                {
+                    label: 'Income',
+                    fill: false,
+                    backgroundColor: 'rgb(75, 192, 192)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    data: {{chart_incomes}},
+                },
+                {
+                    label: 'Expense',
+                    fill: false,
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: {{chart_expenses}},
+                }
+            ]
+        };
+        var myBarChart = Chart.Line(canvas,{
+            data:data,
+        });
+    };
+
+    $('#apply_currency').on('change.bfhselectbox', function() {
+        $.ajax({
+            url: "/user/runtime_settings/apply_currency",
+            type: "POST",
+            dataType: 'json',
+            data: $('#apply_currency_form').serialize(),
+            success: function (response) {
+                console.log(response);
+                window.location.reload();
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
+
+
+</script>
 {% endblock %}

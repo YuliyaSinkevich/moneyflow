@@ -1,40 +1,30 @@
-<!doctype html>
-<html>
-<head>
-    <title>
-        {% block title %}
-            {{ PUBLIC_CONFIG.site.title }}
-        {% endblock %}
-    </title>
+{% extends "bootstrap/base.html" %}
 
-    {% block css %}
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css"
-              href="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/media-queries.css') }}"/>
-
-    {% endblock %}
-
-    {% block script %}
-        <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
-    {% endblock %}
-</head>
-<body>
-{% block body %}
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
-    <div id="footer">
-        {% block footer %}
-        {% endblock %}
-    </div>
+{% block title %}
+{{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
-</body>
-</html>
+{%- block metas %}
+{{super()}}
+<meta charset="utf-8">
+<meta name="description" content="{{ config['PUBLIC_CONFIG'].site.title }}"/>
+<meta name="keywords" content="{{ config['PUBLIC_CONFIG'].site.keywords }}"/>
+<meta name="copyright" content="{{ config['PUBLIC_CONFIG'].company.domain }}"/>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/media-queries.css') }}"/>
+<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}

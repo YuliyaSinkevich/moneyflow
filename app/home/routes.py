@@ -1,19 +1,18 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, current_app as app
 from flask_login import login_user, current_user
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import Email, Length, InputRequired
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
+from .forms import SignupForm, SigninForm
+
+import app.utils as utils
+
 from app.home import home
 from app import login_manager
 from app import mail
 from app.home.user_loging_manager import User
-
-#from pyfastogt import utils
 
 CONFIRM_LINK_TTL = 3600
 SALT_LINK = 'email-confirm'
@@ -42,11 +41,6 @@ def load_user(user_id):
     return User.objects(pk=user_id).first()
 
 
-class RegForm(FlaskForm):
-    email = StringField('email', validators=[InputRequired(), Email(message='Invalid email'), Length(max=30)])
-    password = PasswordField('password', validators=[InputRequired(), Length(min=3, max=20)])
-
-
 @home.route('/')
 def start():
     return render_template('index.html')
@@ -68,8 +62,8 @@ def confirm_email(token):
         return '<h1>The token is expired!</h1>'
 
 
-def post_login(form):
-    if not form.validate():
+def post_login(form: SigninForm):
+    if not form.validate_on_submit():
         flash_errors(form)
         return render_template('home/login.html', form=form)
 
@@ -95,7 +89,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('user.dashboard'))
 
-    form = RegForm()
+    form = SigninForm()
     if request.method == 'POST':
         return post_login(form)
 
@@ -104,16 +98,20 @@ def login():
 
 @home.route('/private_policy')
 def private_policy():
-    return render_template('home/private_policy.html')
+    config = app.config['PUBLIC_CONFIG']
+    return render_template('home/private_policy.html', contact_email=config['support']['contact_email'],
+                           title=config['site']['title'])
 
 
 @home.route('/term_of_use')
 def term_of_use():
-    return render_template('home/term_of_use.html')
+    config = app.config['PUBLIC_CONFIG']
+    return render_template('home/term_of_use.html', contact_email=config['support']['contact_email'],
+                           title=config['site']['title'])
 
 
-def post_register(form):
-    if not form.validate():
+def post_register(form: SignupForm):
+    if not form.validate_on_submit():
         flash_errors(form)
         return render_template('home/register.html', form=form)
 
@@ -127,7 +125,8 @@ def post_register(form):
         return redirect(url_for('home.login'))
 
     hash_pass = generate_password_hash(form.password.data, method='sha256')
-    User(email, hash_pass).save()
+    new_user = User(email, hash_pass)
+    new_user.save()
 
     token = confirm_link_generator.dumps(email, salt=SALT_LINK)
     msg = Message('Confirm Email', recipients=[email])
@@ -140,7 +139,7 @@ def post_register(form):
 
 @home.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegForm()
+    form = SignupForm()
     if request.method == 'POST':
         return post_register(form)
 

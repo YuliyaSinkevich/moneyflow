@@ -1,22 +1,22 @@
 {% extends 'layouts/layout_home.html' %}
 {% block title %}
-Login | {{ PUBLIC_CONFIG.site.title }}
+Login | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
-{% block content_title %}
-Login
-{% endblock %}
 
-{% block content_form %}
-<form action="/login" method="post">
-    <p>Email</p>
-    {{ form.email }}
-    <p>Password</p>
-    {{ form.password }}
-    {{ form.hidden_tag() }}
-    <br>
-    <br>
-    <input type="submit" class="btn btn-primary btn-lg"
-           value="Login">
-</form>
-{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="well">
+        <h1>Sign In</h1>
+        <p>Note: Your data isn't going anywhere.</p>
+    </div>
+    {{ util.flashed_messages(dismissible=True) }}
+    <form action="" method="post" class="form" role="form">
+        {{ form.hidden_tag() }}
+        {{ form_field(form.email, class='form-control', placeholder='Your registered email.') }}
+        <br>
+        {{ form_field(form.password, class='form-control', placeholder='Enter a password.') }}
+        {{ form_field(form.submit, class="btn btn-success") }}
+    </form>
+</div>
+{%- endblock %}

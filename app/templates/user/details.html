@@ -1,0 +1,53 @@
+<!-- args: total, available_currencies, currency, language -->
+{% extends 'layouts/layout_user.html' %}
+{% block title %}
+{{title}} | {{ config['PUBLIC_CONFIG'].site.title }}
+{% endblock %}
+
+{% block content %}
+<div id="canvas-holder" style="width:95%">
+    <canvas id="chart-area"></canvas>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
+<script>
+		var config = {
+			data: {
+				datasets: [{
+					data: {{data}},
+					backgroundColor: {{colors|safe}},
+					label: '{{title}}' // for legend
+				}],
+				labels: {{labels|safe}}
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position: 'right',
+				},
+				title: {
+					display: true,
+					text: '{{title}}'
+				},
+				scale: {
+					ticks: {
+						beginAtZero: true
+					},
+					reverse: false
+				},
+				animation: {
+					animateRotate: false,
+					animateScale: true
+				}
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('chart-area');
+			window.myPolarArea = Chart.PolarArea(ctx, config);
+		};
+</script>
+{% endblock %}
