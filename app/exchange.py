@@ -1,7 +1,9 @@
-import requests
+from datetime import datetime
+
 import lmdb
 import json
-from datetime import datetime
+
+import requests
 
 
 class OpenExchangeRatesClient(object):

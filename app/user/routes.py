@@ -1,20 +1,20 @@
+from datetime import datetime
+from random import shuffle
+from collections import defaultdict
+
 from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
-from datetime import datetime
-from random import shuffle
-
 import app.constants as constants
 import app.utils as utils
-from .forms import MoneyEntryForm
 from app import exchange_client
-
 from app.user import user
 from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange
-from collections import defaultdict
+
+from .forms import MoneyEntryForm
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
-DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
+PRECISION = 2
 
 
 def exchange(base: str, to: str, amount: float) -> float:
@@ -26,6 +26,42 @@ def exchange(base: str, to: str, amount: float) -> float:
     return amount * rates
 
 
+def add_money_entry(method: str, categories: list, language: Language, save_callback):
+    extended_cat = []
+    for index, value in enumerate(categories):
+        extended_cat.append((index, value))
+
+    form = MoneyEntryForm(categories=extended_cat)
+    if method == 'POST' and form.validate_on_submit():
+        new_entry = form.make_entry()
+        save_callback(new_entry)
+        return jsonify(status='ok'), 200
+
+    return render_template('user/money/add.html', form=form, language=language,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
+
+
+def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
+    extended_cat = []
+    category_index = 0
+    for index, value in enumerate(categories):
+        extended_cat.append((index, value))
+        if entry.category == value:
+            category_index = index
+
+    form = MoneyEntryForm(categories=extended_cat, obj=entry)
+    if method == 'GET':
+        form.category.data = category_index
+
+    if method == 'POST' and form.validate_on_submit():
+        entry = form.update_entry(entry)
+        entry.save()
+        return jsonify(status='ok'), 200
+
+    return render_template('user/money/edit.html', form=form, language=language,
+                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
+
+
 class GraphNode(object):
     def __init__(self, incomes=0.00, expenses=0.00):
         self.incomes = incomes
@@ -34,6 +70,34 @@ class GraphNode(object):
     expenses = float
     incomes = float
 
+
+def render_details(title: str, currency: str, entries: list):
+    data_dict = defaultdict(float)
+    total = 0.00
+
+    for rev in entries:
+        if rev.currency == currency:
+            val = rev.value
+        else:
+            val = exchange(rev.currency, currency, rev.value)
+
+        data_dict[rev.category] += val
+        total += val
+
+    labels = []
+    data = []
+    for key, value in data_dict.items():
+        labels.append(key)
+        r = round(value / total, PRECISION)
+        data.append(r)
+
+    colors = list(constants.AVAILIBLE_CHART_COLORS)
+    shuffle(colors)
+    return render_template('user/details.html', title=title, labels=labels, data=data,
+                           colors=colors[:len(data)])
+
+
+# routes
 
 @user.route('/dashboard')
 @login_required
@@ -84,11 +148,14 @@ def dashboard():
     chart_expenses = []
     for key, value in sorted(graph_dict.items()):
         chart_labels.append(key.strftime('%B %Y'))
-        chart_incomes.append(value.incomes)
-        chart_expenses.append(value.expenses)
+        rounded_incomes = round(value.incomes, PRECISION)
+        chart_incomes.append(rounded_incomes)
+        rounded_expenses = round(value.expenses, PRECISION)
+        chart_expenses.append(rounded_expenses)
 
-    entry_date_str = datetime.today().now().strftime(DATE_JS_FORMAT)
-    return render_template('user/dashboard.html', total=total, incomes=incomes, expenses=expenses,
+    entry_date_str = datetime.today().now().strftime(constants.DATE_JS_FORMAT)
+    rounded_total = round(total, PRECISION)
+    return render_template('user/dashboard.html', total=rounded_total, incomes=incomes, expenses=expenses,
                            currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,
                            language=language, chart_labels=chart_labels,
                            chart_incomes=chart_incomes, chart_expenses=chart_expenses, entry_date=entry_date_str)
@@ -100,8 +167,8 @@ def settings():
     rsettings = current_user.settings
     language = rsettings.language.to_language()
     currency = rsettings.currency
-    start_date_str = rsettings.date_range.start_date.strftime(DATE_JS_FORMAT)
-    end_date_str = rsettings.date_range.end_date.strftime(DATE_JS_FORMAT)
+    start_date_str = rsettings.date_range.start_date.strftime(constants.DATE_JS_FORMAT)
+    end_date_str = rsettings.date_range.end_date.strftime(constants.DATE_JS_FORMAT)
     return render_template('user/settings.html', current_language=language,
                            available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date_str,
@@ -117,8 +184,8 @@ def settings_apply():
     end_date = request.form['end_date']
     lang = constants.get_language_by_name(language)
     dblang = Language(lang.language(), lang.locale())
-    date_range = DateRange(datetime.strptime(start_date, DATE_JS_FORMAT),
-                           datetime.strptime(end_date, DATE_JS_FORMAT))
+    date_range = DateRange(datetime.strptime(start_date, constants.DATE_JS_FORMAT),
+                           datetime.strptime(end_date, constants.DATE_JS_FORMAT))
     current_user.settings = Settings(currency=currency, language=dblang, date_range=date_range)
     current_user.save()
     response = {}
@@ -141,74 +208,12 @@ def logout():
     return redirect(url_for('home.start'))
 
 
-def render_details(title: str, currency: str, entries: list):
-    data_dict = defaultdict(float)
-    total = 0.00
-
-    for rev in entries:
-        if rev.currency == currency:
-            val = rev.value
-        else:
-            val = exchange(rev.currency, currency, rev.value)
-
-        data_dict[rev.category] += val
-        total += val
-
-    labels = []
-    data = []
-    for key, value in data_dict.items():
-        labels.append(key)
-        r = round(value / total, 2)
-        data.append(r)
-
-    colors = list(constants.AVAILIBLE_CHART_COLORS)
-    shuffle(colors)
-    return render_template('user/details.html', title=title, labels=labels, data=data,
-                           colors=colors[:len(data)])
-
-
 # income
 @user.route('/income/details', methods=['GET'])
 @login_required
 def details_income():
     currency = current_user.settings.currency
     return render_details('Income details', currency, current_user.incomes)
-
-
-def add_money_entry(method: str, categories: list, language: Language, save_callback):
-    extended_cat = []
-    for index, value in enumerate(categories):
-        extended_cat.append((index, value))
-
-    form = MoneyEntryForm(categories=extended_cat)
-    if method == 'POST' and form.validate_on_submit():
-        new_entry = form.make_entry()
-        save_callback(new_entry)
-        return jsonify(status='ok'), 200
-
-    return render_template('user/money/add.html', form=form, language=language,
-                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
-
-
-def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
-    extended_cat = []
-    category_index = 0
-    for index, value in enumerate(categories):
-        extended_cat.append((index, value))
-        if entry.category == value:
-            category_index = index
-
-    form = MoneyEntryForm(categories=extended_cat, obj=entry)
-    if method == 'GET':
-        form.category.data = category_index
-
-    if method == 'POST' and form.validate_on_submit():
-        entry = form.update_entry(entry)
-        entry.save()
-        return jsonify(status='ok'), 200
-
-    return render_template('user/money/edit.html', form=form, language=language,
-                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
 @user.route('/income/add', methods=['GET', 'POST'])
