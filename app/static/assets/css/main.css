@@ -17,8 +17,8 @@ body {
 }
 
 .navbar-default, .navbar-collapse {
-/ / border-color: transparent !important;
     border-color: rgb(170, 170, 170) !important;
+    box-shadow: inset 0 0px 0 rgba(255,255,255,.1) !important;
 }
 
 .navbar-brand {
