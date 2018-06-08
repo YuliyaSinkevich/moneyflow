@@ -13,7 +13,7 @@ from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRan
 
 from .forms import MoneyEntryForm
 
-AVAILABLE_CURRENCIES_FOR_COMBO = ','.join(constants.AVAILABLE_CURRENCIES)
+AVAILABLE_CURRENCIES_FOR_COMBO = ','.join("%s" % currency for currency in constants.AVAILABLE_CURRENCIES)
 PRECISION = 2
 
 
