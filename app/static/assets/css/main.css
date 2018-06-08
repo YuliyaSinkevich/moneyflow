@@ -1,4 +1,126 @@
 html {
-  position: relative;
-  min-height: 100%;
+/ / position: relative;
+/ / min-height: 100 %;
+}
+
+body {
+    color: #fff !important;
+    letter-spacing: 0.9px;
+    line-height: 3rem !important;
+}
+
+.navbar {
+    padding: 20px 0;
+    font-size: 18px !important;
+    letter-spacing: 2px;
+    background-color: rgba(220, 220, 220, 0) !important;
+}
+
+.navbar-default, .navbar-collapse {
+    border-color: rgb(170, 170, 170) !important;
+    box-shadow: inset 0 0px 0 rgba(255,255,255,.1) !important;
+}
+
+.navbar-brand {
+    font-size: 30px !important;
+    font-weight: 900;
+    color: rgb(223, 0, 27) !important;
+}
+
+.navbar-nav li a {
+    color: white !important;
+}
+
+.navbar-toggle {
+    border: none !important;
+    padding: 9px 0 !important;
+}
+
+.navbar-toggle:focus, .navbar-toggle:hover {
+    background-color: transparent !important;
+}
+
+.select-language {
+    font-size: 14px;
+    background-color: transparent !important;
+    border-radius: 3px;
+    padding: 0 15px 0 19px;
+    margin: 9px 0 0 18px;
+}
+
+.select-language:hover {
+    color: #000 !important;
+    background-color: white !important;
+    cursor: pointer;
+}
+
+.select-language option {
+    color: #000 !important;
+}
+
+select:focus,
+option:hover,
+option:focus {
+    outline: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.icon-bar {
+    background-color: white !important;
+    height: 3px !important;
+    width: 25px !important;
+    border-radius: 0px !important;
+}
+
+#about-main {
+    background: url(../images/bg_section_main.jpg) no-repeat top center scroll;
+    background-size: cover;
+}
+
+#how-to-use {
+    background-color: rgb(163,180,190);
+}
+
+#statistic {
+    background-color: rgb(90,96,112);
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+#about-main .row h1 {
+    font-size: 35px !important;
+    margin-top: 0 !important;
+    line-height: 3.5rem;
+    margin-bottom: 10px !important;
+}
+
+.about-description {
+    font-size: 16px !important;
+    color: rgb(215, 215, 215);
+}
+
+.conditions {
+    font-size: 12px !important;
+    line-height: 1.5rem;
+    padding: 0 10px;
+}
+
+#about-main .btn {
+    padding: 10px 0 !important;
+    margin: 20px 0 !important;
+    background-color: rgb(223, 0, 27);
+    color: white;
+    font-weight: bold !important;
+}
+
+.btn:hover {
+    color: white !important;
 }
