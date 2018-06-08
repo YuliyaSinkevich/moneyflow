@@ -78,18 +78,16 @@ select {
 }
 
 #about-main {
-    background: url(../images/slider3qq.jpg) no-repeat top center scroll;
+    background: url(../images/bg_section_main.jpg) no-repeat top center scroll;
     background-size: cover;
 }
 
 #how-to-use {
-    background: url(../images/slider.jpg) no-repeat top center scroll;
-    background-size: cover;
+    background-color: rgb(163,180,190);
 }
 
 #statistic {
-    background: url(../images/slider1q.jpg) no-repeat top center scroll;
-    background-size: cover;
+    background-color: rgb(90,96,112);
 }
 
 .vertical-align {

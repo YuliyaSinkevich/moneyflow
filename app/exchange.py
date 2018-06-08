@@ -1,6 +1,6 @@
 from datetime import datetime
 
-#import lmdb
+import lmdb
 import json
 
 import requests
@@ -18,11 +18,11 @@ class OpenExchangeRatesClient(object):
     DATE_FORMAT = '%Y-%m-%d'
 
     def __init__(self, db_path: str, api_key: str):
-        #env = lmdb.open(db_path, max_dbs=10)
-        #db = env.open_db(self.DB_NAME)
+        env = lmdb.open(db_path, max_dbs=10)
+        db = env.open_db(self.DB_NAME)
 
-        #self.db_env_ = env
-        #self.db_ = db
+        self.db_env_ = env
+        self.db_ = db
         self.client_ = requests.Session()
         self.client_.params.update({'app_id': api_key})
 

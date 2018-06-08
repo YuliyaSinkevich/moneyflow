@@ -8,7 +8,6 @@
 {%- block metas %}
 {{super()}}
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{{ config['PUBLIC_CONFIG'].site.title }}"/>
 <meta name="keywords" content="{{ config['PUBLIC_CONFIG'].site.keywords }}"/>
 <meta name="copyright" content="{{ config['PUBLIC_CONFIG'].company.domain }}"/>
@@ -16,9 +15,6 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}"/>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/media-queries.css') }}"/>
 {% endblock %}
 
 {% block navbar %}
@@ -28,8 +24,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
-<!--<script src="{{ url_for('static', filename='assets/bootstrap-3.3.7-dist/js/bootstrap.min.js') }}"></script>-->
-<script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
   {{super()}}
+  {{google.uanalytics(config['GOOGLE_ANALYTICS_ID'])}}
 {% endblock %}
