@@ -1,4 +1,4 @@
-<!-- args: total, available_currencies, currency, language -->
+<!-- args: total, available_currencies, currency -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
 Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
@@ -30,6 +30,30 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
 </div>
 <br>
 <div class="container well">
+    <div class="row">
+        <label class="col-md-6">Display range:</label>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group date" id="start_date_datetimepicker">
+                    <input type='text' name="start_date" class="form-control" disabled/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <div class="input-group date" id="end_date_datetimepicker">
+                    <input type='text' name="end_date" class="form-control" disabled/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-md-6">
             <h4 class="card-title">Incomes:</h4>
@@ -334,6 +358,23 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     });
+
+
+    $(function () {
+        $('#start_date_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate: '{{start_date}}'
+        });
+    });
+    $(function () {
+        $('#end_date_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate:'{{end_date}}'
+        });
+    });
+
 
 
 </script>

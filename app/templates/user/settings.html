@@ -1,4 +1,4 @@
-<!-- args: current_language, available_languages, current_currency, available_currencies -->
+<!-- args: language, available_languages, currency, available_currencies -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
 Settings | {{ config['PUBLIC_CONFIG'].site.title }}
@@ -24,9 +24,9 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
             <label class="col-md-6">Language:</label>
             <div class="col-md-6">
                 <select class="form-control" name="language">
-                    {% for language in available_languages %}
-                    {% with lang = language.language() %}
-                    {% if lang == current_language.language() %}
+                    {% for alanguage in available_languages %}
+                    {% with lang = alanguage.language() %}
+                    {% if lang == language.language %}
                     <option value="{{lang}}" selected="selected">{{lang}}</option>
                     {% else %}
                     <option value="{{lang}}">{{lang}}</option>
@@ -40,7 +40,7 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
         <div class="row">
             <label class="col-md-6">Currency:</label>
             <div class="col-md-6">
-                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{current_currency}}"
+                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{currency}}"
                      data-available="{{available_currencies}}" data-flags="true">
                 </div>
             </div>
@@ -105,19 +105,19 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
             }
         });
     }
-$(function () {
-    $('#start_date_datetimepicker').datetimepicker({
-        locale: '{{locale}}',
-        format: 'MM/DD/YYYY HH:mm:ss',
-        defaultDate: '{{start_date}}'
+    $(function () {
+        $('#start_date_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate: '{{start_date}}'
+        });
     });
-});
-$(function () {
-    $('#end_date_datetimepicker').datetimepicker({
-        locale: '{{locale}}',
-        format: 'MM/DD/YYYY HH:mm:ss',
-        defaultDate:'{{end_date}}'
+    $(function () {
+        $('#end_date_datetimepicker').datetimepicker({
+            locale: '{{language.locale}}',
+            format: 'MM/DD/YYYY HH:mm:ss',
+            defaultDate:'{{end_date}}'
+        });
     });
-});
 </script>
 {% endblock %}

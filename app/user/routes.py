@@ -112,8 +112,12 @@ def dashboard():
         currency = rsettings.currency
     language = rsettings.language
     graph_dict = defaultdict(GraphNode)
-    start_date = rsettings.date_range.start_date
-    end_date = rsettings.date_range.end_date
+    if session.get('date_range'):
+        start_date = rsettings.date_range.start_date
+        end_date = rsettings.date_range.end_date
+    else:
+        start_date = rsettings.date_range.start_date
+        end_date = rsettings.date_range.end_date
 
     for rev in current_user.incomes:
         entry_date = rev.date
@@ -153,24 +157,26 @@ def dashboard():
         rounded_expenses = round(value.expenses, PRECISION)
         chart_expenses.append(rounded_expenses)
 
-    entry_date_str = datetime.today().now().strftime(constants.DATE_JS_FORMAT)
     rounded_total = round(total, PRECISION)
+    start_date_str = start_date.strftime(constants.DATE_JS_FORMAT)
+    end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
+
     return render_template('user/dashboard.html', total=rounded_total, incomes=incomes, expenses=expenses,
-                           currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,
-                           language=language, chart_labels=chart_labels,
-                           chart_incomes=chart_incomes, chart_expenses=chart_expenses, entry_date=entry_date_str)
+                           start_date=start_date_str, end_date=end_date_str, language=language,  # for date range
+                           currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,  # for total balance
+                           chart_labels=chart_labels, chart_incomes=chart_incomes, chart_expenses=chart_expenses)
 
 
 @user.route('/settings')
 @login_required
 def settings():
     rsettings = current_user.settings
-    language = rsettings.language.to_language()
+    language = rsettings.language
     currency = rsettings.currency
     start_date_str = rsettings.date_range.start_date.strftime(constants.DATE_JS_FORMAT)
     end_date_str = rsettings.date_range.end_date.strftime(constants.DATE_JS_FORMAT)
-    return render_template('user/settings.html', current_language=language,
-                           available_languages=constants.AVAILABLE_LANGUAGES, current_currency=currency,
+    return render_template('user/settings.html', language=language,
+                           available_languages=constants.AVAILABLE_LANGUAGES, currency=currency,
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date_str,
                            end_date=end_date_str)
 
