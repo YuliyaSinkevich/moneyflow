@@ -17,13 +17,10 @@
 {{super()}}
 {% endblock %}
 
-{% block navbar %}
-{% endblock %}
-
 {% block content %}
 {% endblock %}
 
 {% block scripts %}
-  {{super()}}
-  {{google.uanalytics(config['GOOGLE_ANALYTICS_ID'])}}
+{{super()}}
+{{google.uanalytics(config['GOOGLE_ANALYTICS_ID'])}}
 {% endblock %}
