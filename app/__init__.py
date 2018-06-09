@@ -5,6 +5,8 @@ from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
+from flask_apscheduler import APScheduler
+from apscheduler.jobstores.mongodb import MongoDBJobStore
 
 from .exchange import OpenExchangeRatesClient
 
@@ -34,3 +36,15 @@ app.register_blueprint(user_blueprint, url_prefix='/user')
 login_manager.login_view = "home.login"
 
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
+
+# scheduler
+dbhost = app.config['MONGODB_SETTINGS']['host']
+dbname = app.config['MONGODB_SETTINGS']['db']
+app.config['SCHEDULER_JOBSTORES'] = {
+    'default': MongoDBJobStore(host=dbhost, database=dbname, collection='jobs')
+}
+
+scheduler = APScheduler()
+scheduler.init_app(app)
+scheduler.start()
+# scheduler.add_job(id='11', func=myfunc, trigger='interval', seconds=10)

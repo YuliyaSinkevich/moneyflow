@@ -3,5 +3,6 @@ flask_mongoengine==0.9.5
 flask_login==0.4.1
 flask_mail==0.9.1
 flask_bootstrap==3.3.7.1
+flask-apscheduler==1.8.0
 validate_email==1.3
 lmdb=0.94
