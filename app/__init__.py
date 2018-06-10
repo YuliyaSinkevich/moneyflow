@@ -1,14 +1,21 @@
 import os
+import atexit
 
 from flask import Flask
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
-from flask_apscheduler import APScheduler
-from apscheduler.jobstores.mongodb import MongoDBJobStore
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from .exchange import OpenExchangeRatesClient
+
+
+@atexit.register
+def on_exit():
+    print('on_exit')
+    scheduler.shutdown()
+
 
 app = Flask(__name__)
 
@@ -40,11 +47,14 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 # scheduler
 dbhost = app.config['MONGODB_SETTINGS']['host']
 dbname = app.config['MONGODB_SETTINGS']['db']
-app.config['SCHEDULER_JOBSTORES'] = {
-    'default': MongoDBJobStore(host=dbhost, database=dbname, collection='jobs')
+
+jobstores = {
+    'default': {'type': 'mongodb',
+                'database': dbname,
+                'collection': 'jobs',
+                'host': dbhost}
 }
 
-scheduler = APScheduler()
-scheduler.init_app(app)
+scheduler = BackgroundScheduler()
+scheduler.configure(jobstores=jobstores)
 scheduler.start()
-# scheduler.add_job(id='11', func=myfunc, trigger='interval', seconds=10)
