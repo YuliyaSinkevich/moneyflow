@@ -29,3 +29,7 @@ def is_valid_email(email: str, check_mx: bool) -> bool:
     json_object = json.loads(data.decode("utf-8"))
     is_disposable = json_object['disposable']
     return not is_disposable
+
+
+def stable_date(date: datetime):
+    return date.replace(microsecond=0)

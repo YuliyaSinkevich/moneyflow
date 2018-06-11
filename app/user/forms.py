@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms.fields import StringField, FloatField, DateTimeField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired, NumberRange
 
+import app.utils as utils
 import app.constants as constants
 from app.home.user_loging_manager import MoneyEntry
 
@@ -44,7 +45,7 @@ class MoneyEntryForm(FlaskForm):
         entry.category = categories[category_pos][1]
 
         date = self.date.data
-        entry.date = date.replace(microsecond=0)
+        entry.date = utils.stable_date(date)
 
         recurring_pos = self.recurring.data
         recurrings = self.recurring.choices

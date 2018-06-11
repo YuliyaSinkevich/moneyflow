@@ -16,7 +16,11 @@ from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRan
 from .forms import MoneyEntryForm
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join("%s" % currency for currency in constants.AVAILABLE_CURRENCIES)
-PRECISION = 2
+
+
+def round_value(value: float):
+    precision = 2
+    return round(value, precision)
 
 
 def _remove_from_scheduler(mid: str):
@@ -32,11 +36,11 @@ def _add_to_scheduler(uid: ObjectId, mid: str, date: datetime):
 
 def relativedelta_from_recurring(rec: MoneyEntry.Recurring):
     if rec == MoneyEntry.Recurring.EVERY_DAY:
-        return relativedelta(minutes=1)
+        return relativedelta(days=1)
     elif rec == MoneyEntry.Recurring.EVERY_MONTH:
-        return relativedelta(minutes=1)
+        return relativedelta(months=1)
     elif rec == MoneyEntry.Recurring.EVERY_YEAR:
-        return relativedelta(minutes=1)
+        return relativedelta(years=1)
     else:
         return None
 
@@ -53,7 +57,7 @@ def recurring(uid: ObjectId, mid: str):
 
             cloned = entry.clone()
             date = datetime.now()
-            cloned.date = date.replace(microsecond=0)
+            cloned.date = utils.stable_date(date)
 
             add_entry(us, cloned)
             return
@@ -172,7 +176,7 @@ def render_details(title: str, currency: str, entries: list):
     data = []
     for key, value in data_dict.items():
         labels.append(key)
-        r = round(value / total, PRECISION)
+        r = round_value(value / total)
         data.append(r)
 
     colors = list(constants.AVAILIBLE_CHART_COLORS)
@@ -182,7 +186,6 @@ def render_details(title: str, currency: str, entries: list):
 
 
 # routes
-
 @user.route('/dashboard')
 @login_required
 def dashboard():
@@ -229,12 +232,12 @@ def dashboard():
     chart_expenses = []
     for key, value in sorted(graph_dict.items()):
         chart_labels.append(key.strftime('%B %Y'))
-        rounded_incomes = round(value.incomes, PRECISION)
+        rounded_incomes = round_value(value.incomes)
         chart_incomes.append(rounded_incomes)
-        rounded_expenses = round(value.expenses, PRECISION)
+        rounded_expenses = round_value(value.expenses)
         chart_expenses.append(rounded_expenses)
 
-    rounded_total = round(total, PRECISION)
+    rounded_total = round_value(total)
     start_date_str = start_date.strftime(constants.DATE_JS_FORMAT)
     end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
 
@@ -307,11 +310,11 @@ def add_income():
     return add_money_entry(request.method, MoneyEntry.Type.INCOME, language)
 
 
-@user.route('/income/edit/<id>', methods=['GET', 'POST'])
+@user.route('/income/edit/<mid>', methods=['GET', 'POST'])
 @login_required
-def edit_income(id):
+def edit_income(mid):
     for entry in current_user.entries:
-        if str(entry.id) == id:
+        if str(entry.id) == mid:
             rsettings = current_user.settings
             language = rsettings.language
             return edit_money_entry(request.method, entry, current_user.incomes_categories, language)
@@ -367,11 +370,11 @@ def add_expense():
     return add_money_entry(request.method, MoneyEntry.Type.EXPENSE, language)
 
 
-@user.route('/expense/edit/<id>', methods=['GET', 'POST'])
+@user.route('/expense/edit/<mid>', methods=['GET', 'POST'])
 @login_required
-def edit_expense(id):
+def edit_expense(mid):
     for entry in current_user.entries:
-        if str(entry.id) == id:
+        if str(entry.id) == mid:
             rsettings = current_user.settings
             language = rsettings.language
             return edit_money_entry(request.method, entry, current_user.expenses_categories, language)
