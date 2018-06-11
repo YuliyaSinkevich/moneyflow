@@ -28,6 +28,21 @@ mail = Mail(app)
 exchange_client = OpenExchangeRatesClient(app.config['OPEN_EXCHANGE_RATES_DB_PATH'],
                                           app.config['OPEN_EXCHANGE_RATES_APP_ID'])
 
+# scheduler
+dbhost = app.config['MONGODB_SETTINGS']['host']
+dbname = app.config['MONGODB_SETTINGS']['db']
+
+jobstores = {
+    'default': {'type': 'mongodb',
+                'database': dbname,
+                'collection': 'jobs',
+                'host': dbhost}
+}
+
+scheduler = BackgroundScheduler()
+scheduler.configure(jobstores=jobstores)
+scheduler.start()
+
 app.config['SECRET_KEY'] = os.urandom(24)
 
 login_manager = LoginManager(app)
@@ -43,18 +58,3 @@ app.register_blueprint(user_blueprint, url_prefix='/user')
 login_manager.login_view = "home.login"
 
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
-
-# scheduler
-dbhost = app.config['MONGODB_SETTINGS']['host']
-dbname = app.config['MONGODB_SETTINGS']['db']
-
-jobstores = {
-    'default': {'type': 'mongodb',
-                'database': dbname,
-                'collection': 'jobs',
-                'host': dbhost}
-}
-
-scheduler = BackgroundScheduler()
-scheduler.configure(jobstores=jobstores)
-scheduler.start()

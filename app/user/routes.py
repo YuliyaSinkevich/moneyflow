@@ -1,20 +1,99 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from random import shuffle
 from collections import defaultdict
+from bson.objectid import ObjectId
 
 from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
 import app.constants as constants
 import app.utils as utils
-from app import exchange_client
+from app import exchange_client, scheduler
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange
+from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange, User
 
 from .forms import MoneyEntryForm
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join("%s" % currency for currency in constants.AVAILABLE_CURRENCIES)
 PRECISION = 2
+
+
+def _remove_from_scheduler(mid: str):
+    try:
+        scheduler.remove_job(job_id=mid)
+    except Exception:
+        return
+
+
+def _add_to_scheduler(uid: ObjectId, mid: str, date: datetime):
+    scheduler.add_job(recurring, 'date', run_date=date, id=mid, args=[uid, mid])
+
+
+def relativedelta_from_recurring(rec: MoneyEntry.Recurring):
+    if rec == MoneyEntry.Recurring.EVERY_DAY:
+        return relativedelta(minutes=1)
+    elif rec == MoneyEntry.Recurring.EVERY_MONTH:
+        return relativedelta(minutes=1)
+    elif rec == MoneyEntry.Recurring.EVERY_YEAR:
+        return relativedelta(minutes=1)
+    else:
+        return None
+
+
+def recurring(uid: ObjectId, mid: str):
+    us = User.objects(id=uid).first()
+    if not us:
+        return
+
+    for entry in us.entries:
+        if str(entry.id) == mid:
+            if not entry.is_recurring():
+                return
+
+            cloned = entry.clone()
+            date = datetime.now()
+            cloned.date = date.replace(microsecond=0)
+
+            add_entry(us, cloned)
+            return
+
+
+def add_entry(us: User, entry: MoneyEntry):
+    us.entries.append(entry)
+    us.save()
+
+    rel = relativedelta_from_recurring(entry.recurring)
+    if not rel:
+        return
+
+    date = entry.date + rel
+    mid = str(entry.id)
+    _add_to_scheduler(us.id, mid, date)
+
+
+def edit_entry(us: User, entry: MoneyEntry):
+    entry.save()
+
+    mid = str(entry.id)
+    _remove_from_scheduler(mid)
+
+    rel = relativedelta_from_recurring(entry.recurring)
+    if not rel:
+        return
+
+    date = entry.date + rel
+    _add_to_scheduler(us.id, mid, date)
+
+
+def remove_entry(us: User, mid: str):
+    for entry in current_user.entries:
+        if str(entry.id) == mid:
+            us.entries.remove(entry)
+            us.save()
+            break
+
+    _remove_from_scheduler(mid)
 
 
 def exchange(base: str, to: str, amount: float) -> float:
@@ -26,15 +105,20 @@ def exchange(base: str, to: str, amount: float) -> float:
     return amount * rates
 
 
-def add_money_entry(method: str, categories: list, language: Language, save_callback):
+def add_money_entry(method: str, entry_type: MoneyEntry.Type, language: Language):
+    if entry_type == MoneyEntry.Type.INCOME:
+        categories = current_user.incomes_categories
+    elif entry_type == MoneyEntry.Type.EXPENSE:
+        categories = current_user.expenses_categories
+
     extended_cat = []
     for index, value in enumerate(categories):
         extended_cat.append((index, value))
 
-    form = MoneyEntryForm(categories=extended_cat)
+    form = MoneyEntryForm(categories=extended_cat, type=entry_type)
     if method == 'POST' and form.validate_on_submit():
         new_entry = form.make_entry()
-        save_callback(new_entry)
+        add_entry(current_user, new_entry)
         return jsonify(status='ok'), 200
 
     return render_template('user/money/add.html', form=form, language=language,
@@ -55,7 +139,7 @@ def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language:
 
     if method == 'POST' and form.validate_on_submit():
         entry = form.update_entry(entry)
-        entry.save()
+        edit_entry(current_user, entry)
         return jsonify(status='ok'), 200
 
     return render_template('user/money/edit.html', form=form, language=language,
@@ -119,33 +203,26 @@ def dashboard():
         start_date = rsettings.date_range.start_date
         end_date = rsettings.date_range.end_date
 
-    for rev in current_user.incomes:
-        entry_date = rev.date
+    for entry in current_user.entries:
+        entry_date = entry.date
         entry_date_min, entry_date_max = utils.year_month_date(entry_date)
-        if rev.currency == currency:
-            rev_val = rev.value
+        if entry.currency == currency:
+            entry_val = entry.value
         else:
-            rev_val = exchange(rev.currency, currency, rev.value)
+            entry_val = exchange(entry.currency, currency, entry.value)
 
-        if (start_date <= entry_date) and (entry_date <= end_date):
-            total += rev_val
-            incomes.append(rev)
+        if entry.type == MoneyEntry.Type.INCOME:
+            if (start_date <= entry_date) and (entry_date <= end_date):
+                total += entry_val
+                incomes.append(entry)
 
-        graph_dict[entry_date_max].incomes += rev_val
+            graph_dict[entry_date_max].incomes += entry_val
+        elif entry.type == MoneyEntry.Type.EXPENSE:
+            if (start_date <= entry_date) and (entry_date <= end_date):
+                total -= entry_val
+                expenses.append(entry)
 
-    for exp in current_user.expenses:
-        entry_date = exp.date
-        entry_date_min, entry_date_max = utils.year_month_date(entry_date)
-        if exp.currency == currency:
-            exp_val = exp.value
-        else:
-            exp_val = exchange(exp.currency, currency, exp.value)
-
-        if (start_date <= entry_date) and (entry_date <= end_date):
-            total -= exp_val
-            expenses.append(exp)
-
-        graph_dict[entry_date_max].expenses += exp_val
+            graph_dict[entry_date_max].expenses += entry_val
 
     chart_labels = []
     chart_incomes = []
@@ -225,23 +302,19 @@ def details_income():
 @user.route('/income/add', methods=['GET', 'POST'])
 @login_required
 def add_income():
-    def insert_income(new_entry: MoneyEntry):
-        current_user.incomes.append(new_entry)
-        current_user.save()
-
     rsettings = current_user.settings
     language = rsettings.language
-    return add_money_entry(request.method, current_user.incomes_categories, language, insert_income)
+    return add_money_entry(request.method, MoneyEntry.Type.INCOME, language)
 
 
 @user.route('/income/edit/<id>', methods=['GET', 'POST'])
 @login_required
 def edit_income(id):
-    for income in current_user.incomes:
-        if str(income.id) == id:
+    for entry in current_user.entries:
+        if str(entry.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            return edit_money_entry(request.method, income, current_user.incomes_categories, language)
+            return edit_money_entry(request.method, entry, current_user.incomes_categories, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
@@ -251,13 +324,7 @@ def edit_income(id):
 @login_required
 def remove_income():
     income_id = request.form['income_id']
-
-    for income in current_user.incomes:
-        if str(income.id) == income_id:
-            current_user.incomes.remove(income)
-            current_user.save()
-            break
-
+    remove_entry(current_user, income_id)
     response = {"income_id": income_id}
     return jsonify(response), 200
 
@@ -295,23 +362,19 @@ def details_expense():
 @user.route('/expense/add', methods=['GET', 'POST'])
 @login_required
 def add_expense():
-    def insert_expense(new_entry: MoneyEntry):
-        current_user.expenses.append(new_entry)
-        current_user.save()
-
     rsettings = current_user.settings
     language = rsettings.language
-    return add_money_entry(request.method, current_user.expenses_categories, language, insert_expense)
+    return add_money_entry(request.method, MoneyEntry.Type.EXPENSE, language)
 
 
 @user.route('/expense/edit/<id>', methods=['GET', 'POST'])
 @login_required
 def edit_expense(id):
-    for expense in current_user.expenses:
-        if str(expense.id) == id:
+    for entry in current_user.entries:
+        if str(entry.id) == id:
             rsettings = current_user.settings
             language = rsettings.language
-            return edit_money_entry(request.method, expense, current_user.expenses_categories, language)
+            return edit_money_entry(request.method, entry, current_user.expenses_categories, language)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
@@ -321,13 +384,7 @@ def edit_expense(id):
 @login_required
 def remove_expense():
     expense_id = request.form['expense_id']
-
-    for expense in current_user.expenses:
-        if str(expense.id) == expense_id:
-            current_user.expenses.remove(expense)
-            current_user.save()
-            break
-
+    remove_entry(current_user, expense_id)
     response = {"expense_id": expense_id}
     return jsonify(response), 200
 
