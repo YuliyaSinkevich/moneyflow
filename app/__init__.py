@@ -1,4 +1,3 @@
-import os
 import atexit
 
 from flask import Flask
@@ -42,8 +41,6 @@ jobstores = {
 scheduler = BackgroundScheduler()
 scheduler.configure(jobstores=jobstores)
 scheduler.start()
-
-app.config['SECRET_KEY'] = os.urandom(24)
 
 login_manager = LoginManager(app)
 
