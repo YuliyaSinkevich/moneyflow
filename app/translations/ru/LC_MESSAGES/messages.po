@@ -21,128 +21,128 @@ msgstr ""
 
 #: home/routes.py:71
 msgid "User not found."
-msgstr ""
+msgstr "Пользователь не найден"
 
 #: home/routes.py:75
 msgid "User not active."
-msgstr ""
+msgstr "Пользователь не активирован"
 
 #: home/routes.py:79
 msgid "Invalid password."
-msgstr ""
+msgstr "Неправильный пароль"
 
 #: home/routes.py:118
 msgid "Invalid email."
-msgstr ""
+msgstr "Невалидный емейл"
 
 #: home/routes.py:130
 msgid "Confirm Email"
-msgstr ""
+msgstr "Подтвердите емейл"
 
 #: home/routes.py:134
 msgid "Please check email:{0}."
-msgstr ""
+msgstr "Пожалуйста проверьте емейл:{0}."
 
 #: templates/index.html:27
 msgid "How to use"
-msgstr ""
+msgstr "Как пользоваться"
 
 #: templates/index.html:28
 msgid "Statistic"
-msgstr ""
+msgstr "Статистика"
 
 #: templates/index.html:30
 msgid "English"
-msgstr ""
+msgstr "Английский"
 
 #: templates/index.html:31
-msgid "Русский"
-msgstr ""
+msgid "Russian"
+msgstr "Русский"
 
 #: templates/index.html:52
 msgid "Register"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 #: templates/index.html:54
 msgid "Sign in"
-msgstr ""
+msgstr "Войти"
 
 #: templates/index.html:55
 msgid "By clicking \"Register\", you agree to our "
-msgstr ""
+msgstr "При нажатии на \"Зарегистрироваться\", вы соглашаетесь с нашими"
 
 #: templates/index.html:56
 msgid "Term of use"
-msgstr ""
+msgstr "Правила использования"
 
 #: templates/index.html:56
 msgid "and"
-msgstr ""
+msgstr "и"
 
 #: templates/index.html:57
 msgid "Private policy"
-msgstr ""
+msgstr "Политика конфеденциальности"
 
 #: templates/user/dashboard.html:21
 msgid "Welcome"
-msgstr ""
+msgstr "Добро пожаловать"
 
 #: templates/user/dashboard.html:34 templates/user/settings.html:48
 msgid "Display range"
-msgstr ""
+msgstr "Отоборажаемый отрезок"
 
 #: templates/user/dashboard.html:59
 msgid "Incomes"
-msgstr ""
+msgstr "Доходы"
 
 #: templates/user/dashboard.html:64 templates/user/dashboard.html:106
 #: templates/user/money/base.html:40
 msgid "Value"
-msgstr ""
+msgstr "Значение"
 
 #: templates/user/dashboard.html:65 templates/user/dashboard.html:107
 #: templates/user/money/base.html:24
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: templates/user/dashboard.html:66 templates/user/dashboard.html:108
 #: templates/user/money/base.html:48 templates/user/settings.html:39
 msgid "Currency"
-msgstr ""
+msgstr "Валюта"
 
 #: templates/user/dashboard.html:67 templates/user/dashboard.html:109
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: templates/user/dashboard.html:80 templates/user/dashboard.html:122
 msgid "Edit"
-msgstr ""
+msgstr "Изменить"
 
 #: templates/user/dashboard.html:84 templates/user/dashboard.html:126
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: templates/user/dashboard.html:93 templates/user/dashboard.html:135
 msgid "Details"
-msgstr ""
+msgstr "Детали"
 
 #: templates/user/dashboard.html:96 templates/user/dashboard.html:138
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: templates/user/dashboard.html:101
 msgid "Expenses"
-msgstr ""
+msgstr "Расходы"
 
 #: templates/user/settings.html:16
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: templates/user/settings.html:24
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: templates/user/money/base.html:62
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
