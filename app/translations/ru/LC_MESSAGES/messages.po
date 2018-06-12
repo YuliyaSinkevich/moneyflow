@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-12 10:49-0400\n"
-"PO-Revision-Date: 2018-06-12 10:49-0400\n"
+"POT-Creation-Date: 2018-06-12 11:15-0400\n"
+"PO-Revision-Date: 2018-06-12 11:15-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -19,133 +19,212 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
+#: home/forms.py:9 home/forms.py:16
+msgid "Email:"
+msgstr ""
+
+#: home/forms.py:10 home/forms.py:17
+msgid "Invalid email"
+msgstr ""
+
+#: home/forms.py:11 home/forms.py:18
+msgid "Password:"
+msgstr ""
+
+#: home/forms.py:12
+msgid "Sign Up"
+msgstr ""
+
+#: home/forms.py:19
+msgid "Sign In"
+msgstr ""
+
 #: home/routes.py:71
 msgid "User not found."
-msgstr "Пользователь не найден"
+msgstr ""
 
 #: home/routes.py:75
 msgid "User not active."
-msgstr "Пользователь не активирован"
+msgstr ""
 
 #: home/routes.py:79
 msgid "Invalid password."
-msgstr "Неправильный пароль"
+msgstr ""
 
 #: home/routes.py:118
 msgid "Invalid email."
-msgstr "Невалидный емейл"
+msgstr ""
 
 #: home/routes.py:130
 msgid "Confirm Email"
-msgstr "Подтвердите емейл"
+msgstr ""
 
 #: home/routes.py:134
 msgid "Please check email:{0}."
-msgstr "Пожалуйста проверьте емейл:{0}."
+msgstr ""
 
 #: templates/index.html:27
 msgid "How to use"
-msgstr "Как пользоваться"
+msgstr ""
 
 #: templates/index.html:28
 msgid "Statistic"
-msgstr "Статистика"
+msgstr ""
 
 #: templates/index.html:30
 msgid "English"
-msgstr "Английский"
+msgstr ""
 
 #: templates/index.html:31
-msgid "Русский"
+msgid "Russian"
 msgstr ""
 
 #: templates/index.html:52
 msgid "Register"
-msgstr "Зарегистрироваться"
+msgstr ""
 
 #: templates/index.html:54
 msgid "Sign in"
-msgstr "Войти"
+msgstr ""
 
 #: templates/index.html:55
 msgid "By clicking \"Register\", you agree to our "
-msgstr "При нажатии на \"Зарегистрироваться\", вы соглашаетесь с нашими"
+msgstr ""
 
 #: templates/index.html:56
-msgid "Term of use"
-msgstr "Правила использования"
+msgid " Term of use"
+msgstr ""
 
 #: templates/index.html:56
 msgid "and"
-msgstr "и"
+msgstr ""
 
 #: templates/index.html:57
-msgid "Private policy"
-msgstr "Политика конфеденциальности"
+msgid " Private policy"
+msgstr ""
 
 #: templates/user/dashboard.html:21
 msgid "Welcome"
-msgstr "Добро пожаловать"
+msgstr ""
 
-#: templates/user/dashboard.html:34 templates/user/settings.html:48
-msgid "Display range"
-msgstr "Отоборажаемый отрезок"
+#: templates/user/dashboard.html:34
+msgid "Display range:"
+msgstr ""
 
 #: templates/user/dashboard.html:59
-msgid "Incomes"
-msgstr "Доходы"
+msgid "Incomes:"
+msgstr ""
 
 #: templates/user/dashboard.html:64 templates/user/dashboard.html:106
-#: templates/user/money/base.html:40
 msgid "Value"
-msgstr "Значение"
+msgstr ""
 
 #: templates/user/dashboard.html:65 templates/user/dashboard.html:107
-#: templates/user/money/base.html:24
 msgid "Date"
-msgstr "Дата"
+msgstr ""
 
 #: templates/user/dashboard.html:66 templates/user/dashboard.html:108
-#: templates/user/money/base.html:48 templates/user/settings.html:39
+#: templates/user/settings.html:39
 msgid "Currency"
-msgstr "Валюта"
+msgstr ""
 
 #: templates/user/dashboard.html:67 templates/user/dashboard.html:109
 msgid "Actions"
-msgstr "Действия"
+msgstr ""
 
 #: templates/user/dashboard.html:80 templates/user/dashboard.html:122
 msgid "Edit"
-msgstr "Изменить"
+msgstr ""
 
 #: templates/user/dashboard.html:84 templates/user/dashboard.html:126
 msgid "Remove"
-msgstr "Удалить"
+msgstr ""
 
 #: templates/user/dashboard.html:93 templates/user/dashboard.html:135
 msgid "Details"
-msgstr "Детали"
+msgstr ""
 
 #: templates/user/dashboard.html:96 templates/user/dashboard.html:138
 msgid "Add"
-msgstr "Добавить"
+msgstr ""
 
 #: templates/user/dashboard.html:101
-msgid "Expenses"
-msgstr "Расходы"
+msgid "Expenses:"
+msgstr ""
 
 #: templates/user/settings.html:16
 msgid "Settings"
-msgstr "Настройки"
+msgstr ""
 
 #: templates/user/settings.html:24
 msgid "Language"
-msgstr "Язык"
+msgstr ""
+
+#: templates/user/settings.html:48
+msgid "Display range"
+msgstr ""
+
+#: templates/user/money/base.html:24 user/forms.py:16
+msgid "Date:"
+msgstr ""
+
+#: templates/user/money/base.html:40 user/forms.py:19
+msgid "Value:"
+msgstr ""
+
+#: templates/user/money/base.html:48 user/forms.py:22
+msgid "Currency:"
+msgstr ""
 
 #: templates/user/money/base.html:62
 msgid "Cancel"
-msgstr "Отмена"
+msgstr ""
 
-#~ msgid "Russian"
-#~ msgstr "Русский"
+#: user/forms.py:15
+msgid "Type:"
+msgstr ""
+
+#: user/forms.py:18
+msgid "Category:"
+msgstr ""
+
+#: user/forms.py:20
+msgid "Invalid value"
+msgstr ""
+
+#: user/forms.py:23
+msgid "Description:"
+msgstr ""
+
+#: user/forms.py:24
+msgid "Recurring:"
+msgstr ""
+
+#: user/forms.py:25
+msgid "Single"
+msgstr ""
+
+#: user/forms.py:26
+msgid "Every day"
+msgstr ""
+
+#: user/forms.py:27
+msgid "Every month"
+msgstr ""
+
+#: user/forms.py:28
+msgid "Every year"
+msgstr ""
+
+#: user/forms.py:30
+msgid "Confirm"
+msgstr ""
+
+#: user/routes.py:314
+msgid "Income details"
+msgstr ""
+
+#: user/routes.py:383
+msgid "Expense details"
+msgstr ""
 
