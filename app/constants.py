@@ -1,3 +1,4 @@
+PRECISION = 2
 INCOMES_CATEGORIES = ['Award', 'Gifts', 'Interest Money', 'Others', 'Salary', 'Selling']
 EXPENSES_CATEGORIES = [
     'Bills & Utilities', 'Education', 'Entertainment', 'Family', 'Fees & Charges', 'Food & Beverage', 'Friends & Lover',
@@ -220,3 +221,7 @@ AVAILIBLE_CHART_COLORS = ['#000000', '#c0c0c0', '#808080', '#ffffff', '#800000',
                           '#f4a460', '#2e8b57', '#fff5ee', '#a0522d', '#87ceeb', '#6a5acd', '#708090', '#708090',
                           '#fffafa', '#00ff7f', '#4682b4', '#d2b48c', '#d8bfd8', '#ff6347', '#40e0d0', '#ee82ee',
                           '#f5deb3', '#f5f5f5', '#9acd32', '#663399']
+
+
+def round_value(value: float):
+    return round(value, PRECISION)

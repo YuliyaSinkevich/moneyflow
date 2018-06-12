@@ -10,7 +10,7 @@ Login | {{ config['PUBLIC_CONFIG'].site.title }}
         <h1>Sign In</h1>
         <p>Note: Your data isn't going anywhere.</p>
     </div>
-    {{ util.flashed_messages(dismissible=True) }}
+    {{ util.flashed_messages(dismissible=True, container=False) }}
     <form action="" method="post" class="form" role="form">
         {{ form.hidden_tag() }}
         {{ form_field(form.email, class='form-control', placeholder='Your registered email.') }}

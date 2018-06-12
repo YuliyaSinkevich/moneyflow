@@ -31,13 +31,6 @@ def flash_error(text: str):
     flash(text, 'danger')
 
 
-def flash_errors(form):
-    """Flashes form errors"""
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash_error(u"Error in the %s field - %s" % (getattr(form, field).label.text, error))
-
-
 # routes
 
 @login_manager.user_loader
@@ -68,7 +61,6 @@ def confirm_email(token):
 
 def post_login(form: SigninForm):
     if not form.validate_on_submit():
-        flash_errors(form)
         return render_template('home/login.html', form=form)
 
     check_user = User.objects(email=form.email.data).first()
@@ -116,7 +108,6 @@ def term_of_use():
 
 def post_register(form: SignupForm):
     if not form.validate_on_submit():
-        flash_errors(form)
         return render_template('home/register.html', form=form)
 
     email = form.email.data
@@ -129,7 +120,7 @@ def post_register(form: SignupForm):
         return redirect(url_for('home.login'))
 
     hash_pass = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(email, hash_pass)
+    new_user = User(email=email, password=hash_pass)
     new_user.save()
 
     token = confirm_link_generator.dumps(email, salt=SALT_LINK)
