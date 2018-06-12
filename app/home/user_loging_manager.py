@@ -49,20 +49,11 @@ class MoneyEntry(db.EmbeddedDocument):
         return entry
 
 
-class DateRange(db.EmbeddedDocument):
-    start_date = db.DateTimeField(required=True)
-    end_date = db.DateTimeField(required=True)
-
-
-def new_date_range():
-    start_date, end_date = utils.year_month_date(datetime.today())
-    return DateRange(start_date, end_date)
-
-
 class Settings(db.EmbeddedDocument):
     currency = db.StringField(default=constants.DEFAULT_CURRENCY)
     locale = db.StringField(default=constants.DEFAULT_LOCALE)
-    date_range = db.EmbeddedDocumentField(DateRange, default=new_date_range())
+    start_date = db.DateTimeField(required=True, default = utils.year_month_date(datetime.today())[0])
+    end_date = db.DateTimeField(required=True, default = utils.year_month_date(datetime.today())[1])
 
 
 class User(UserMixin, db.Document):

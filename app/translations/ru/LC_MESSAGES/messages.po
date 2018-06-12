@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-12 11:40-0400\n"
-"PO-Revision-Date: 2018-06-12 11:40-0400\n"
+"POT-Creation-Date: 2018-06-12 14:29-0400\n"
+"PO-Revision-Date: 2018-06-12 14:29-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -91,11 +91,23 @@ msgstr ""
 msgid "Note: Your data isn't going anywhere."
 msgstr ""
 
+#: templates/home/login.html:19
+msgid "Your registered email."
+msgstr ""
+
+#: templates/home/login.html:25 templates/home/register.html:26
+msgid "Enter a password."
+msgstr ""
+
+#: templates/home/register.html:19
+msgid "Your email will be used to contact you."
+msgstr ""
+
 #: templates/user/dashboard.html:21
 msgid "Welcome"
 msgstr ""
 
-#: templates/user/dashboard.html:34 templates/user/settings.html:48
+#: templates/user/dashboard.html:34
 msgid "Display range:"
 msgstr ""
 
@@ -139,29 +151,8 @@ msgstr ""
 msgid "Expenses:"
 msgstr ""
 
-#: templates/user/settings.html:16
+#: templates/user/settings.html:26
 msgid "Settings"
-msgstr ""
-
-#: templates/user/settings.html:24
-msgid "Language:"
-msgstr ""
-
-#: templates/user/money/base.html:48 templates/user/settings.html:39
-#: user/forms.py:22
-msgid "Currency:"
-msgstr ""
-
-#: templates/user/settings.html:73
-msgid "Apply"
-msgstr ""
-
-#: templates/user/money/base.html:24 user/forms.py:16
-msgid "Date:"
-msgstr ""
-
-#: templates/user/money/base.html:40 user/forms.py:19
-msgid "Value:"
 msgstr ""
 
 #: templates/user/money/base.html:62
@@ -172,12 +163,24 @@ msgstr ""
 msgid "Type:"
 msgstr ""
 
+#: user/forms.py:16
+msgid "Date:"
+msgstr ""
+
 #: user/forms.py:18
 msgid "Category:"
 msgstr ""
 
+#: user/forms.py:19
+msgid "Value:"
+msgstr ""
+
 #: user/forms.py:20
 msgid "Invalid value"
+msgstr ""
+
+#: user/forms.py:22 user/forms.py:62
+msgid "Currency:"
 msgstr ""
 
 #: user/forms.py:23
@@ -208,11 +211,27 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: user/routes.py:314
+#: user/forms.py:60
+msgid "Locale:"
+msgstr ""
+
+#: user/forms.py:63
+msgid "Start date:"
+msgstr ""
+
+#: user/forms.py:64
+msgid "End date:"
+msgstr ""
+
+#: user/forms.py:65
+msgid "Apply"
+msgstr ""
+
+#: user/routes.py:291
 msgid "Income details"
 msgstr ""
 
-#: user/routes.py:383
+#: user/routes.py:360
 msgid "Expense details"
 msgstr ""
 

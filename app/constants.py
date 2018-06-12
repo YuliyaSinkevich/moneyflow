@@ -182,7 +182,8 @@ AVAILABLE_CURRENCIES = {
 DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
 DEFAULT_LOCALE = 'en'
-AVAILABLE_LOCALES = 'en', 'ru'
+AVAILABLE_LOCALES = DEFAULT_LOCALE, 'ru'
+AVAILABLE_LOCALES_PAIRS = [(DEFAULT_LOCALE, 'english'), ('ru', 'russian')]
 
 AVAILIBLE_CHART_COLORS = ['#000000', '#c0c0c0', '#808080', '#ffffff', '#800000', '#ff0000', '#800080', '#ff00ff',
                           '#008000', '#00ff00', '#808000', '#ffff00', '#000080', '#0000ff', '#008080', '#00ffff',

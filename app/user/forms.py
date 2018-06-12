@@ -8,7 +8,7 @@ from wtforms.validators import InputRequired, NumberRange
 
 import app.utils as utils
 import app.constants as constants
-from app.home.user_loging_manager import MoneyEntry
+from app.home.user_loging_manager import MoneyEntry, Settings
 
 
 class MoneyEntryForm(FlaskForm):
@@ -54,3 +54,24 @@ class MoneyEntryForm(FlaskForm):
         recurrings = self.recurring.choices
         entry.recurring = recurrings[recurring_pos][0]
         return entry
+
+
+class SettingsForm(FlaskForm):
+    locale = SelectField(gettext(u'Locale:'), coerce=str, validators=[InputRequired()],
+                         choices=constants.AVAILABLE_LOCALES_PAIRS)
+    currency = StringField(gettext(u'Currency:'), validators=[InputRequired()], default=constants.DEFAULT_CURRENCY)
+    start_date = DateTimeField(gettext(u'Start date:'), validators=[InputRequired()], format=constants.DATE_JS_FORMAT)
+    end_date = DateTimeField(gettext(u'End date:'), validators=[InputRequired()], format=constants.DATE_JS_FORMAT)
+    submit = SubmitField(gettext(u'Apply'))
+
+    def make_settings(self):
+        settings = Settings()
+        return self.update_settings(settings)
+
+    def update_settings(self, settings: Settings):
+        settings.locale = self.locale.data
+        settings.currency = self.currency.data
+
+        settings.start_date = utils.stable_date(self.start_date.data)
+        settings.end_date = utils.stable_date(self.end_date.data)
+        return settings

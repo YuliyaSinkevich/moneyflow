@@ -14,9 +14,9 @@ import app.constants as constants
 import app.utils as utils
 from app import exchange, scheduler
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry, Settings, DateRange, User
+from app.home.user_loging_manager import MoneyEntry, User
 
-from .forms import MoneyEntryForm
+from .forms import MoneyEntryForm, SettingsForm
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join("%s" % currency for currency in constants.AVAILABLE_CURRENCIES)
 
@@ -176,15 +176,6 @@ def render_details(title: str, data_dict: defaultdict(float), total: float):
                            colors=colors[:len(data)])
 
 
-def get_settings():
-    rsettings = current_user.settings
-    locale = rsettings.locale
-    currency = rsettings.currency
-    start_date = rsettings.date_range.start_date
-    end_date = rsettings.date_range.end_date
-    return currency, locale, start_date, end_date
-
-
 def get_runtime_settings():
     rsettings = current_user.settings
     if session.get('currency'):
@@ -194,11 +185,11 @@ def get_runtime_settings():
 
     locale = rsettings.locale
     if session.get('date_range'):
-        start_date = rsettings.date_range.start_date
-        end_date = rsettings.date_range.end_date
+        start_date = rsettings.start_date
+        end_date = rsettings.end_date
     else:
-        start_date = rsettings.date_range.start_date
-        end_date = rsettings.date_range.end_date
+        start_date = rsettings.start_date
+        end_date = rsettings.end_date
 
     return currency, locale, start_date, end_date
 
@@ -252,31 +243,17 @@ def dashboard():
                            chart_labels=chart_labels, chart_incomes=chart_incomes, chart_expenses=chart_expenses)
 
 
-@user.route('/settings')
+@user.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    currency, locale, start_date, end_date = get_settings()
-    start_date_str = start_date.strftime(constants.DATE_JS_FORMAT)
-    end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
-    return render_template('user/settings.html', locale=locale,
-                           available_locales=constants.AVAILABLE_LOCALES, currency=currency,
-                           available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date_str,
-                           end_date=end_date_str)
+    form = SettingsForm(obj=current_user.settings)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            form.update_settings(current_user.settings)
+            current_user.save()
+            return render_template('user/settings.html', form=form, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
-
-@user.route('/settings/apply', methods=['POST'])
-@login_required
-def settings_apply():
-    currency = request.form['currency']
-    locale = request.form['locale']
-    start_date = request.form['start_date']
-    end_date = request.form['end_date']
-    date_range = DateRange(datetime.strptime(start_date, constants.DATE_JS_FORMAT),
-                           datetime.strptime(end_date, constants.DATE_JS_FORMAT))
-    current_user.settings = Settings(currency=currency, locale=locale, date_range=date_range)
-    current_user.save()
-    response = {}
-    return jsonify(response), 200
+    return render_template('user/settings.html', form=form, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
 @user.route('/runtime_settings/apply_currency', methods=['POST'])

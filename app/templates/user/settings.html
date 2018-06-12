@@ -1,5 +1,15 @@
-<!-- args: locale, available_locale, currency, available_currencies -->
 {% extends 'layouts/layout_user.html' %}
+{% import "bootstrap/utils.html" as util %}
+{% from 'bootstrap/wtf.html' import form_field %}
+{% macro render_bootstrap_field(field) %}
+<div class="row">
+    <label class="col-md-4">{{ field.label }}</label>
+    <div class="col-md-8">
+        {{ field(class='form-control')|safe }}
+    </div>
+</div>
+{% endmacro %}
+
 {% block title %}
 Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
@@ -18,35 +28,24 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 <br>
+{{ util.flashed_messages(dismissible=True, container=False) }}
 <div class="container well">
-    <form id="settings_form">
-        <div class="row">
-            <label class="col-md-6">{% trans %}Language:{% endtrans %}</label>
-            <div class="col-md-6">
-                <select class="form-control" name="locale">
-                    {% for alocale in available_locales %}
-                    {% if alocale == locale %}
-                    <option value="{{alocale}}" selected="selected">{{alocale}}</option>
-                    {% else %}
-                    <option value="{{alocale}}">{{alocale}}</option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+    <form action="" method="post" class="form" role="form">
+        {{ form.hidden_tag() }}
+        {{ render_bootstrap_field(form.locale) }}
         <br>
         <div class="row">
-            <label class="col-md-6">{% trans %}Currency:{% endtrans %}</label>
-            <div class="col-md-6">
-                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{currency}}"
+            <label class="col-md-4">{{form.currency.label}}</label>
+            <div class="col-md-8">
+                <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{form.currency.data}}"
                      data-available="{{available_currencies}}" data-flags="true">
                 </div>
             </div>
         </div>
         <br>
         <div class="row">
-            <label class="col-md-6">{% trans %}Display range:{% endtrans %}</label>
-            <div class="col-md-3">
+            <label class="col-md-4">{{form.start_date.label}}</label>
+            <div class="col-md-8">
                 <div class="form-group">
                     <div class="input-group date" id="start_date_datetimepicker">
                         <input type='text' name="start_date" class="form-control"/>
@@ -56,7 +55,10 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+        </div>
+        <div class="row">
+            <label class="col-md-4">{{form.end_date.label}}</label>
+            <div class="col-md-8">
                 <div class="form-group">
                     <div class="input-group date" id="end_date_datetimepicker">
                         <input type='text' name="end_date" class="form-control"/>
@@ -67,13 +69,7 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary btn-lg" onclick="apply_settings()">
-                    {% trans %}Apply{% endtrans %}
-                </button>
-            </div>
-        </div>
+        {{ form_field(form.submit, class="btn btn-success") }}
     </form>
 </div>
 {% endblock %}
@@ -87,33 +83,18 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 <script src="{{url_for('static', filename='assets/js/moment-with-locales.min.js')}}"></script>
 <script src="{{url_for('static', filename='assets/bootstrap-datetimepicker-4.17.47/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script>
-    function apply_settings() {
-        $.ajax({
-            url: "/user/settings/apply",
-            type: "POST",
-            dataType: 'json',
-            data: $('#settings_form').serialize(),
-            success: function (response) {
-                console.log(response);
-                window.location.reload();
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
     $(function () {
         $('#start_date_datetimepicker').datetimepicker({
-            locale: '{{locale}}',
+            locale: '{{form.locale.data}}',
             format: 'MM/DD/YYYY HH:mm:ss',
-            defaultDate: '{{start_date}}'
+            defaultDate: '{{form.start_date._value()}}'
         });
     });
     $(function () {
         $('#end_date_datetimepicker').datetimepicker({
-            locale: '{{locale}}',
+            locale: '{{form.locale.data}}',
             format: 'MM/DD/YYYY HH:mm:ss',
-            defaultDate:'{{end_date}}'
+            defaultDate:'{{form.end_date._value()}}'
         });
     });
 </script>
