@@ -6,6 +6,7 @@ from bson.objectid import ObjectId
 
 from apscheduler.schedulers.base import JobLookupError
 
+from flask_babel import gettext
 from flask import render_template, redirect, url_for, jsonify, request, session
 from flask_login import logout_user, login_required, current_user
 
@@ -310,7 +311,7 @@ def details_income():
                 data_dict[entry.category] += val
                 total += val
 
-    return render_details('Income details', data_dict, total)
+    return render_details(gettext(u'Income details'), data_dict, total)
 
 
 @user.route('/income/add', methods=['GET', 'POST'])
@@ -379,7 +380,7 @@ def details_expense():
                 data_dict[entry.category] += val
                 total += val
 
-    return render_details('Expense details', data_dict, total)
+    return render_details(gettext(u'Expense details'), data_dict, total)
 
 
 @user.route('/expense/add', methods=['GET', 'POST'])

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
+from flask_babel import gettext
 
 from wtforms.fields import StringField, FloatField, DateTimeField, SubmitField, SelectField, IntegerField
 from wtforms.validators import InputRequired, NumberRange
@@ -11,20 +12,22 @@ from app.home.user_loging_manager import MoneyEntry
 
 
 class MoneyEntryForm(FlaskForm):
-    type = IntegerField(u'Type:', default=MoneyEntry.Type.INCOME)
-    date = DateTimeField(u'Date:', validators=[InputRequired()], format=constants.DATE_JS_FORMAT, default=datetime.now)
-    category = SelectField(u'Category:', coerce=int, validators=[InputRequired()])
-    value = FloatField(u'Value:', validators=[InputRequired(), NumberRange(min=0.01, message=u'Invalid value')],
+    type = IntegerField(gettext(u'Type:'), default=MoneyEntry.Type.INCOME)
+    date = DateTimeField(gettext(u'Date:'), validators=[InputRequired()], format=constants.DATE_JS_FORMAT,
+                         default=datetime.now)
+    category = SelectField(gettext(u'Category:'), coerce=int, validators=[InputRequired()])
+    value = FloatField(gettext(u'Value:'),
+                       validators=[InputRequired(), NumberRange(min=0.01, message=gettext(u'Invalid value'))],
                        default=1.00)
-    currency = StringField(u'Currency:', validators=[InputRequired()], default=constants.DEFAULT_CURRENCY)
-    description = StringField(u'Description:')
-    recurring = SelectField(u'Recurring:', coerce=int, validators=[InputRequired()],
-                            choices=[(int(MoneyEntry.Recurring.SINGLE), 'Single'),
-                                     (int(MoneyEntry.Recurring.EVERY_DAY), 'Every day'),
-                                     (int(MoneyEntry.Recurring.EVERY_MONTH), 'Every month'),
-                                     (int(MoneyEntry.Recurring.EVERY_YEAR), 'Every year')],
+    currency = StringField(gettext(u'Currency:'), validators=[InputRequired()], default=constants.DEFAULT_CURRENCY)
+    description = StringField(gettext(u'Description:'))
+    recurring = SelectField(gettext(u'Recurring:'), coerce=int, validators=[InputRequired()],
+                            choices=[(int(MoneyEntry.Recurring.SINGLE), gettext(u'Single')),
+                                     (int(MoneyEntry.Recurring.EVERY_DAY), gettext(u'Every day')),
+                                     (int(MoneyEntry.Recurring.EVERY_MONTH), gettext(u'Every month')),
+                                     (int(MoneyEntry.Recurring.EVERY_YEAR), gettext(u'Every year'))],
                             default=MoneyEntry.Recurring.SINGLE)
-    submit = SubmitField(u'Confirm')
+    submit = SubmitField(gettext(u'Confirm'))
 
     def __init__(self, categories: list, **kwargs):
         super(MoneyEntryForm, self).__init__(**kwargs)

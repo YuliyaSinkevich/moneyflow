@@ -55,7 +55,7 @@ msgid "English"
 msgstr ""
 
 #: templates/index.html:31
-msgid "Russian"
+msgid "Русский"
 msgstr ""
 
 #: templates/index.html:52
@@ -144,4 +144,7 @@ msgstr ""
 #: templates/user/money/base.html:62
 msgid "Cancel"
 msgstr ""
+
+#~ msgid "Russian"
+#~ msgstr ""
 

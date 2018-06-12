@@ -21,7 +21,7 @@
     <div class="modal-body">
         {{ form.hidden_tag() }}
         <div class="row">
-            <label class="col-md-4">{% trans %}Date{% endtrans %}:</label>
+            <label class="col-md-4">{% trans %}Date:{% endtrans %}</label>
             <div class="col-md-8">
                 <div class="form-group">
                     <div class="input-group date" id="datetimepicker">
@@ -37,7 +37,7 @@
         {{ render_bootstrap_field(form.category) }}
         <br>
         <div class="row">
-            <label class="col-md-4">{% trans %}Value{% endtrans %}:</label>
+            <label class="col-md-4">{% trans %}Value:{% endtrans %}</label>
             <div class="col-md-8">
                 <input type="number" min="0.01" step="0.01" value="{{form.value.data}}" name="value"
                        class="form-control">
@@ -45,7 +45,7 @@
         </div>
         <br>
         <div class="row">
-            <label class="col-md-4">{% trans %}Currency{% endtrans %}:</label>
+            <label class="col-md-4">{% trans %}Currency:{% endtrans %}</label>
             <div class="col-md-8">
                 <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{form.currency.data}}"
                      data-available="{{available_currencies}}" data-flags="true">
