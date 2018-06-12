@@ -13,7 +13,7 @@ import app.constants as constants
 import app.utils as utils
 from app import exchange, scheduler
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry, Settings, Language, DateRange, User
+from app.home.user_loging_manager import MoneyEntry, Settings, DateRange, User
 
 from .forms import MoneyEntryForm
 
@@ -118,7 +118,7 @@ def exchange_currency(base: str, to: str, amount: float) -> float:
     return amount * rates
 
 
-def add_money_entry(method: str, entry_type: MoneyEntry.Type, language: Language):
+def add_money_entry(method: str, entry_type: MoneyEntry.Type, locale: str):
     if entry_type == MoneyEntry.Type.INCOME:
         categories = current_user.incomes_categories
     elif entry_type == MoneyEntry.Type.EXPENSE:
@@ -136,11 +136,11 @@ def add_money_entry(method: str, entry_type: MoneyEntry.Type, language: Language
         add_entry(current_user, new_entry)
         return jsonify(status='ok'), 200
 
-    return render_template('user/money/add.html', form=form, language=language,
+    return render_template('user/money/add.html', form=form, locale=locale,
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
-def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language: Language):
+def edit_money_entry(method: str, entry: MoneyEntry, categories: list, locale: str):
     extended_cat = []
     category_index = 0
     for index, value in enumerate(categories):
@@ -157,7 +157,7 @@ def edit_money_entry(method: str, entry: MoneyEntry, categories: list, language:
         edit_entry(current_user, entry)
         return jsonify(status='ok'), 200
 
-    return render_template('user/money/edit.html', form=form, language=language,
+    return render_template('user/money/edit.html', form=form, locale=locale,
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
@@ -177,11 +177,11 @@ def render_details(title: str, data_dict: defaultdict(float), total: float):
 
 def get_settings():
     rsettings = current_user.settings
-    language = rsettings.language
+    locale = rsettings.locale
     currency = rsettings.currency
     start_date = rsettings.date_range.start_date
     end_date = rsettings.date_range.end_date
-    return currency, language, start_date, end_date
+    return currency, locale, start_date, end_date
 
 
 def get_runtime_settings():
@@ -190,7 +190,8 @@ def get_runtime_settings():
         currency = session['currency']
     else:
         currency = rsettings.currency
-    language = rsettings.language
+
+    locale = rsettings.locale
     if session.get('date_range'):
         start_date = rsettings.date_range.start_date
         end_date = rsettings.date_range.end_date
@@ -198,7 +199,7 @@ def get_runtime_settings():
         start_date = rsettings.date_range.start_date
         end_date = rsettings.date_range.end_date
 
-    return currency, language, start_date, end_date
+    return currency, locale, start_date, end_date
 
 
 # routes
@@ -210,7 +211,7 @@ def dashboard():
     total = 0.00
     graph_dict = defaultdict(GraphNode)
 
-    currency, language, start_date, end_date = get_runtime_settings()
+    currency, locale, start_date, end_date = get_runtime_settings()
 
     for entry in current_user.entries:
         entry_date = entry.date
@@ -245,7 +246,7 @@ def dashboard():
     end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
 
     return render_template('user/dashboard.html', total=rounded_total, incomes=incomes, expenses=expenses,
-                           start_date=start_date_str, end_date=end_date_str, language=language,  # for date range
+                           start_date=start_date_str, end_date=end_date_str, locale=locale,  # for date range
                            currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,  # for total balance
                            chart_labels=chart_labels, chart_incomes=chart_incomes, chart_expenses=chart_expenses)
 
@@ -253,11 +254,11 @@ def dashboard():
 @user.route('/settings')
 @login_required
 def settings():
-    currency, language, start_date, end_date = get_settings()
+    currency, locale, start_date, end_date = get_settings()
     start_date_str = start_date.strftime(constants.DATE_JS_FORMAT)
     end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
-    return render_template('user/settings.html', language=language,
-                           available_languages=constants.AVAILABLE_LANGUAGES, currency=currency,
+    return render_template('user/settings.html', locale=locale,
+                           available_locales=constants.AVAILABLE_LOCALES, currency=currency,
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO, start_date=start_date_str,
                            end_date=end_date_str)
 
@@ -266,14 +267,12 @@ def settings():
 @login_required
 def settings_apply():
     currency = request.form['currency']
-    language = request.form['language']
+    locale = request.form['locale']
     start_date = request.form['start_date']
     end_date = request.form['end_date']
-    lang = constants.get_language_by_name(language)
-    dblang = Language(lang.language(), lang.locale())
     date_range = DateRange(datetime.strptime(start_date, constants.DATE_JS_FORMAT),
                            datetime.strptime(end_date, constants.DATE_JS_FORMAT))
-    current_user.settings = Settings(currency=currency, language=dblang, date_range=date_range)
+    current_user.settings = Settings(currency=currency, locale=locale, date_range=date_range)
     current_user.save()
     response = {}
     return jsonify(response), 200
@@ -302,7 +301,7 @@ def details_income():
     data_dict = defaultdict(float)
     total = 0.00
 
-    currency, language, start_date, end_date = get_runtime_settings()
+    currency, locale, start_date, end_date = get_runtime_settings()
     for entry in current_user.entries:
         entry_date = entry.date
         if entry.type == MoneyEntry.Type.INCOME:
@@ -317,8 +316,8 @@ def details_income():
 @user.route('/income/add', methods=['GET', 'POST'])
 @login_required
 def add_income():
-    currency, language, start_date, end_date = get_runtime_settings()
-    return add_money_entry(request.method, MoneyEntry.Type.INCOME, language)
+    currency, locale, start_date, end_date = get_runtime_settings()
+    return add_money_entry(request.method, MoneyEntry.Type.INCOME, locale)
 
 
 @user.route('/income/edit/<mid>', methods=['GET', 'POST'])
@@ -326,8 +325,8 @@ def add_income():
 def edit_income(mid):
     for entry in current_user.entries:
         if str(entry.id) == mid:
-            currency, language, start_date, end_date = get_runtime_settings()
-            return edit_money_entry(request.method, entry, current_user.incomes_categories, language)
+            currency, locale, start_date, end_date = get_runtime_settings()
+            return edit_money_entry(request.method, entry, current_user.incomes_categories, locale)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404
@@ -371,7 +370,7 @@ def details_expense():
     data_dict = defaultdict(float)
     total = 0.00
 
-    currency, language, start_date, end_date = get_runtime_settings()
+    currency, locale, start_date, end_date = get_runtime_settings()
     for entry in current_user.entries:
         entry_date = entry.date
         if entry.type == MoneyEntry.Type.EXPENSE:
@@ -386,8 +385,8 @@ def details_expense():
 @user.route('/expense/add', methods=['GET', 'POST'])
 @login_required
 def add_expense():
-    currency, language, start_date, end_date = get_runtime_settings()
-    return add_money_entry(request.method, MoneyEntry.Type.EXPENSE, language)
+    currency, locale, start_date, end_date = get_runtime_settings()
+    return add_money_entry(request.method, MoneyEntry.Type.EXPENSE, locale)
 
 
 @user.route('/expense/edit/<mid>', methods=['GET', 'POST'])
@@ -395,8 +394,8 @@ def add_expense():
 def edit_expense(mid):
     for entry in current_user.entries:
         if str(entry.id) == mid:
-            currency, language, start_date, end_date = get_runtime_settings()
-            return edit_money_entry(request.method, entry, current_user.expenses_categories, language)
+            currency, locale, start_date, end_date = get_runtime_settings()
+            return edit_money_entry(request.method, entry, current_user.expenses_categories, locale)
 
     responce = {"status": "failed"}
     return jsonify(responce), 404

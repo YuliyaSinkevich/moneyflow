@@ -1,4 +1,4 @@
-<!-- args: language, available_languages, currency, available_currencies -->
+<!-- args: locale, available_locale, currency, available_currencies -->
 {% extends 'layouts/layout_user.html' %}
 {% block title %}
 Settings | {{ config['PUBLIC_CONFIG'].site.title }}
@@ -13,7 +13,7 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 <div class="container">
     <div class="row">
         <div class="col-md-11">
-            <p>Settings {{ current_user.email }}</p>
+            <p>{% trans %}Settings{% endtrans%}</p>
         </div>
     </div>
 </div>
@@ -21,24 +21,22 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
 <div class="container well">
     <form id="settings_form">
         <div class="row">
-            <label class="col-md-6">Language:</label>
+            <label class="col-md-6">{% trans %}Language{% endtrans%}:</label>
             <div class="col-md-6">
-                <select class="form-control" name="language">
-                    {% for alanguage in available_languages %}
-                    {% with lang = alanguage.language() %}
-                    {% if lang == language.language %}
-                    <option value="{{lang}}" selected="selected">{{lang}}</option>
+                <select class="form-control" name="locale">
+                    {% for alocale in available_locales %}
+                    {% if alocale == locale %}
+                    <option value="{{alocale}}" selected="selected">{{alocale}}</option>
                     {% else %}
-                    <option value="{{lang}}">{{lang}}</option>
+                    <option value="{{alocale}}">{{alocale}}</option>
                     {% endif %}
-                    {% endwith %}
                     {% endfor %}
                 </select>
             </div>
         </div>
         <br>
         <div class="row">
-            <label class="col-md-6">Currency:</label>
+            <label class="col-md-6">{% trans %}Currency{% endtrans%}:</label>
             <div class="col-md-6">
                 <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{currency}}"
                      data-available="{{available_currencies}}" data-flags="true">
@@ -47,7 +45,7 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
         </div>
         <br>
         <div class="row">
-            <label class="col-md-6">Display range:</label>
+            <label class="col-md-6">{% trans %}Display range{% endtrans%}:</label>
             <div class="col-md-3">
                 <div class="form-group">
                     <div class="input-group date" id="start_date_datetimepicker">
@@ -107,17 +105,19 @@ Settings | {{ config['PUBLIC_CONFIG'].site.title }}
     }
     $(function () {
         $('#start_date_datetimepicker').datetimepicker({
-            locale: '{{language.locale}}',
+            locale: '{{locale}}',
             format: 'MM/DD/YYYY HH:mm:ss',
             defaultDate: '{{start_date}}'
         });
     });
     $(function () {
         $('#end_date_datetimepicker').datetimepicker({
-            locale: '{{language.locale}}',
+            locale: '{{locale}}',
             format: 'MM/DD/YYYY HH:mm:ss',
             defaultDate:'{{end_date}}'
         });
     });
+
+
 </script>
 {% endblock %}

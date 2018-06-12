@@ -49,14 +49,6 @@ class MoneyEntry(db.EmbeddedDocument):
         return entry
 
 
-class Language(db.EmbeddedDocument):
-    language = db.StringField(default=constants.DEFAULT_LANGUAGE.language())
-    locale = db.StringField(default=constants.DEFAULT_LANGUAGE.locale())
-
-    def to_language(self) -> constants.Language:
-        return constants.Language(self.language, self.locale)
-
-
 class DateRange(db.EmbeddedDocument):
     start_date = db.DateTimeField(required=True)
     end_date = db.DateTimeField(required=True)
@@ -69,7 +61,7 @@ def new_date_range():
 
 class Settings(db.EmbeddedDocument):
     currency = db.StringField(default=constants.DEFAULT_CURRENCY)
-    language = db.EmbeddedDocumentField(Language, default=Language)
+    locale = db.StringField(default=constants.DEFAULT_LOCALE)
     date_range = db.EmbeddedDocumentField(DateRange, default=new_date_range())
 
 

@@ -181,26 +181,8 @@ AVAILABLE_CURRENCIES = {
 
 DATE_JS_FORMAT = '%m/%d/%Y %H:%M:%S'
 
-
-class Language(object):
-    def __init__(self, language: str, locale: str):
-        self.language_ = language
-        self.locale_ = locale
-
-    def language(self):
-        return self.language_
-
-    def locale(self):
-        return self.locale_
-
-
-DEFAULT_LANGUAGE = Language('english', 'en')
-AVAILABLE_LANGUAGES = [DEFAULT_LANGUAGE, Language('russian', 'ru')]
-
-
-def get_language_by_name(language) -> Language:
-    return next((x for x in AVAILABLE_LANGUAGES if x.language() == language), None)
-
+DEFAULT_LOCALE = 'en'
+AVAILABLE_LOCALES = 'en', 'ru'
 
 AVAILIBLE_CHART_COLORS = ['#000000', '#c0c0c0', '#808080', '#ffffff', '#800000', '#ff0000', '#800080', '#ff00ff',
                           '#008000', '#00ff00', '#808000', '#ffff00', '#000080', '#0000ff', '#008080', '#00ffff',

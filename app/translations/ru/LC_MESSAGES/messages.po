@@ -1,0 +1,148 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2018 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2018-06-12 10:49-0400\n"
+"PO-Revision-Date: 2018-06-12 10:49-0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: home/routes.py:71
+msgid "User not found."
+msgstr ""
+
+#: home/routes.py:75
+msgid "User not active."
+msgstr ""
+
+#: home/routes.py:79
+msgid "Invalid password."
+msgstr ""
+
+#: home/routes.py:118
+msgid "Invalid email."
+msgstr ""
+
+#: home/routes.py:130
+msgid "Confirm Email"
+msgstr ""
+
+#: home/routes.py:134
+msgid "Please check email:{0}."
+msgstr ""
+
+#: templates/index.html:27
+msgid "How to use"
+msgstr ""
+
+#: templates/index.html:28
+msgid "Statistic"
+msgstr ""
+
+#: templates/index.html:30
+msgid "English"
+msgstr ""
+
+#: templates/index.html:31
+msgid "Русский"
+msgstr ""
+
+#: templates/index.html:52
+msgid "Register"
+msgstr ""
+
+#: templates/index.html:54
+msgid "Sign in"
+msgstr ""
+
+#: templates/index.html:55
+msgid "By clicking \"Register\", you agree to our "
+msgstr ""
+
+#: templates/index.html:56
+msgid "Term of use"
+msgstr ""
+
+#: templates/index.html:56
+msgid "and"
+msgstr ""
+
+#: templates/index.html:57
+msgid "Private policy"
+msgstr ""
+
+#: templates/user/dashboard.html:21
+msgid "Welcome"
+msgstr ""
+
+#: templates/user/dashboard.html:34 templates/user/settings.html:48
+msgid "Display range"
+msgstr ""
+
+#: templates/user/dashboard.html:59
+msgid "Incomes"
+msgstr ""
+
+#: templates/user/dashboard.html:64 templates/user/dashboard.html:106
+#: templates/user/money/base.html:40
+msgid "Value"
+msgstr ""
+
+#: templates/user/dashboard.html:65 templates/user/dashboard.html:107
+#: templates/user/money/base.html:24
+msgid "Date"
+msgstr ""
+
+#: templates/user/dashboard.html:66 templates/user/dashboard.html:108
+#: templates/user/money/base.html:48 templates/user/settings.html:39
+msgid "Currency"
+msgstr ""
+
+#: templates/user/dashboard.html:67 templates/user/dashboard.html:109
+msgid "Actions"
+msgstr ""
+
+#: templates/user/dashboard.html:80 templates/user/dashboard.html:122
+msgid "Edit"
+msgstr ""
+
+#: templates/user/dashboard.html:84 templates/user/dashboard.html:126
+msgid "Remove"
+msgstr ""
+
+#: templates/user/dashboard.html:93 templates/user/dashboard.html:135
+msgid "Details"
+msgstr ""
+
+#: templates/user/dashboard.html:96 templates/user/dashboard.html:138
+msgid "Add"
+msgstr ""
+
+#: templates/user/dashboard.html:101
+msgid "Expenses"
+msgstr ""
+
+#: templates/user/settings.html:16
+msgid "Settings"
+msgstr ""
+
+#: templates/user/settings.html:24
+msgid "Language"
+msgstr ""
+
+#: templates/user/money/base.html:62
+msgid "Cancel"
+msgstr ""
+

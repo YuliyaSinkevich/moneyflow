@@ -21,7 +21,7 @@
     <div class="modal-body">
         {{ form.hidden_tag() }}
         <div class="row">
-            <label class="col-md-4">Date:</label>
+            <label class="col-md-4">{% trans %}Date{% endtrans %}:</label>
             <div class="col-md-8">
                 <div class="form-group">
                     <div class="input-group date" id="datetimepicker">
@@ -37,7 +37,7 @@
         {{ render_bootstrap_field(form.category) }}
         <br>
         <div class="row">
-            <label class="col-md-4">Value:</label>
+            <label class="col-md-4">{% trans %}Value{% endtrans %}:</label>
             <div class="col-md-8">
                 <input type="number" min="0.01" step="0.01" value="{{form.value.data}}" name="value"
                        class="form-control">
@@ -45,7 +45,7 @@
         </div>
         <br>
         <div class="row">
-            <label class="col-md-4">Currency:</label>
+            <label class="col-md-4">{% trans %}Currency{% endtrans %}:</label>
             <div class="col-md-8">
                 <div class="bfh-selectbox bfh-currencies" data-name="currency" data-currency="{{form.currency.data}}"
                      data-available="{{available_currencies}}" data-flags="true">
@@ -59,7 +59,7 @@
     </div>
     <div class="modal-footer">
         {% block footer %}
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">{% trans %}Cancel{% endtrans %}</button>
         {{ form_field(form.submit, class="btn btn-success") }}
         {% endblock %}
     </div>
@@ -68,10 +68,11 @@
 <script>
     $(function () {
         $('#datetimepicker').datetimepicker({
-            locale: '{{language.locale}}',
+            locale: '{{locale}}',
             format: 'MM/DD/YYYY HH:mm:ss',
             defaultDate:'{{form.date._value()}}'
         });
     });
+
 </script>
 <script src="{{url_for('static', filename='assets/bootstrapformhelpers/js/bootstrap-formhelpers.min.js')}}"></script>

@@ -5,6 +5,8 @@ from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
+from flask_babel import Babel
+
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from .exchange import OpenExchangeRatesClient
@@ -16,6 +18,7 @@ app.config.from_pyfile('public_config.py', silent=False)
 app.config.from_pyfile('config.py', silent=True)
 
 bootstrap = Bootstrap(app)
+babel = Babel(app)
 db = MongoEngine(app)
 mail = Mail(app)
 
