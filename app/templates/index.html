@@ -52,10 +52,10 @@
                     class="glyphicon glyphicon-user"></span> {% trans %}Register{% endtrans %}</a>
                 <a class="btn btn-block" href={{ url_for('home.login') }}><span
                     class="glyphicon glyphicon-log-in"></span> {% trans %}Sign in{% endtrans %}</a>
-                <p class="conditions text-center">{% trans %}By clicking "Register", you agree to our {% endtrans %}<a
-                        href="{{ url_for('home.term_of_use') }}">{% trans %} Term of use{% endtrans %}</a> {% trans
-                    %}and{% endtrans %} <a href={{ url_for('home.private_policy') }}>{% trans %} Private policy{%
-                    endtrans %}</a>.</p>
+                <p class="conditions text-center">By clicking "Register", you agree to our
+                    <a href="{{ url_for('home.term_of_use') }}"> Term of use</a>
+                    and <a href={{ url_for('home.private_policy') }}> Private policy</a>.
+                </p>
             </div>
             <div class="col-xs-3 col-sm-0 col-md-1"></div>
         </div>
