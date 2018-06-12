@@ -10,7 +10,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from .exchange import OpenExchangeRatesClient
 
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
+
+# load config 
+app.config.from_pyfile('public_config.py', silent=False)
+app.config.from_pyfile('config.py', silent=True)
 
 bootstrap = Bootstrap(app)
 db = MongoEngine(app)
