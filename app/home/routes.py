@@ -1,5 +1,3 @@
-import os
-
 from flask import render_template, request, redirect, url_for, flash, current_app as app
 from flask_login import login_user, current_user
 from flask_mail import Message
@@ -19,11 +17,9 @@ from app.home.user_loging_manager import User
 
 from .forms import SignupForm, SigninForm
 
-SECRET = os.urandom(24)
 CONFIRM_LINK_TTL = 3600
-SALT_LINK = 'email-confirm'
 
-confirm_link_generator = URLSafeTimedSerializer(SECRET)
+confirm_link_generator = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
 def flash_success(text: str):
@@ -49,7 +45,7 @@ def start():
 @home.route('/confirm_email/<token>')
 def confirm_email(token):
     try:
-        email = confirm_link_generator.loads(token, salt=SALT_LINK, max_age=CONFIRM_LINK_TTL)
+        email = confirm_link_generator.loads(token, max_age=CONFIRM_LINK_TTL)
         confirm_user = User.objects(email=email).first()
         if confirm_user:
             confirm_user.status = User.Status.ACTIVE
