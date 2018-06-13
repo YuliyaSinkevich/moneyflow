@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash, current_app as app
+from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, current_user
 from flask_mail import Message
 from flask_babel import gettext
@@ -10,6 +10,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from app import login_manager
 from app import mail
 from app import babel
+from app import app
 import app.utils as utils
 from app.home import home
 import app.constants as constants
@@ -18,6 +19,7 @@ from app.home.user_loging_manager import User
 from .forms import SignupForm, SigninForm
 
 CONFIRM_LINK_TTL = 3600
+SALT_LINK = 'email-confirm'
 
 confirm_link_generator = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
@@ -45,7 +47,7 @@ def start():
 @home.route('/confirm_email/<token>')
 def confirm_email(token):
     try:
-        email = confirm_link_generator.loads(token, max_age=CONFIRM_LINK_TTL)
+        email = confirm_link_generator.loads(token, salt=SALT_LINK, max_age=CONFIRM_LINK_TTL)
         confirm_user = User.objects(email=email).first()
         if confirm_user:
             confirm_user.status = User.Status.ACTIVE
