@@ -109,37 +109,33 @@ def term_of_use():
                            title=config['site']['title'])
 
 
-def post_register(form: SignupForm):
-    if not form.validate_on_submit():
-        return render_template('home/register.html', form=form)
-
-    email = form.email.data
-    if not utils.is_valid_email(email, False):
-        flash_error(gettext(u'Invalid email.'))
-        return render_template('home/register.html', form=form)
-
-    existing_user = User.objects(email=email).first()
-    if existing_user:
-        return redirect(url_for('home.login'))
-
-    hash_pass = generate_password_hash(form.password.data, method='sha256')
-    new_user = User(email=email, password=hash_pass)
-    new_user.save()
-
-    token = confirm_link_generator.dumps(email, salt=SALT_LINK)
-    msg = Message(gettext(u'Confirm Email'), recipients=[email])
-    link = url_for('home.confirm_email', token=token, _external=True)
-    msg.body = 'Your link is {}'.format(link)
-    mail.send(msg)
-    flash_success(gettext(u'Please check email:{0}.'.format(email)))
-    return redirect(url_for('home.login'))
-
-
 @home.route('/register', methods=['GET', 'POST'])
 def register():
     form = SignupForm()
     if request.method == 'POST':
-        return post_register(form)
+        if not form.validate_on_submit():
+            return render_template('home/register.html', form=form)
+
+        email = form.email.data
+        if not utils.is_valid_email(email, False):
+            flash_error(gettext(u'Invalid email.'))
+            return render_template('home/register.html', form=form)
+
+        existing_user = User.objects(email=email).first()
+        if existing_user:
+            return redirect(url_for('home.login'))
+
+        hash_pass = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(email=email, password=hash_pass)
+        new_user.save()
+
+        token = confirm_link_generator.dumps(email, salt=SALT_LINK)
+        msg = Message(gettext(u'Confirm Email'), recipients=[email])
+        link = url_for('home.confirm_email', token=token, _external=True)
+        msg.body = 'Your link is {}'.format(link)
+        mail.send(msg)
+        flash_success(gettext(u'Please check email:{0}.'.format(email)))
+        return redirect(url_for('home.login'))
 
     return render_template('home/register.html', form=form)
 

@@ -52,8 +52,8 @@ class MoneyEntry(db.EmbeddedDocument):
 class Settings(db.EmbeddedDocument):
     currency = db.StringField(default=constants.DEFAULT_CURRENCY)
     locale = db.StringField(default=constants.DEFAULT_LOCALE)
-    start_date = db.DateTimeField(required=True, default = utils.year_month_date(datetime.today())[0])
-    end_date = db.DateTimeField(required=True, default = utils.year_month_date(datetime.today())[1])
+    start_date = db.DateTimeField(required=True, default = utils.year_month_min_date(datetime.today()))
+    end_date = db.DateTimeField(required=True, default = utils.year_month_max_date(datetime.today()))
 
 
 class User(UserMixin, db.Document):

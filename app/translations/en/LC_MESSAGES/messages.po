@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-12 22:20-0400\n"
-"PO-Revision-Date: 2018-06-12 22:20-0400\n"
+"POT-Creation-Date: 2018-06-12 22:54-0400\n"
+"PO-Revision-Date: 2018-06-12 22:54-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -50,16 +50,28 @@ msgstr ""
 msgid "Invalid password."
 msgstr ""
 
-#: home/routes.py:118
+#: home/routes.py:121
 msgid "Invalid email."
 msgstr ""
 
-#: home/routes.py:130
+#: home/routes.py:133
 msgid "Confirm Email"
 msgstr ""
 
-#: home/routes.py:134
+#: home/routes.py:137
 msgid "Please check email:{0}."
+msgstr ""
+
+#: templates/404.html:10
+msgid "Page Not Found"
+msgstr ""
+
+#: templates/404.html:11
+msgid "What you were looking for is just not there."
+msgstr ""
+
+#: templates/404.html:12
+msgid "go somewhere nice"
 msgstr ""
 
 #: templates/index.html:29

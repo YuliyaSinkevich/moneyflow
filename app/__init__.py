@@ -17,11 +17,11 @@ app = Flask(__name__)
 app.config.from_pyfile('public_config.py', silent=False)
 app.config.from_pyfile('config.py', silent=True)
 
+# modules
 bootstrap = Bootstrap(app)
 babel = Babel(app)
 db = MongoEngine(app)
 mail = Mail(app)
-
 exchange = OpenExchangeRatesClient(app.config['OPEN_EXCHANGE_RATES_DB_PATH'], app.config['OPEN_EXCHANGE_RATES_APP_ID'])
 
 # scheduler
@@ -41,7 +41,7 @@ scheduler.start()
 
 login_manager = LoginManager(app)
 
-# blueprint
+# blueprints
 from app.home import home as home_blueprint
 
 app.register_blueprint(home_blueprint)

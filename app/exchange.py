@@ -14,7 +14,7 @@ class OpenExchangeRatesClient(object):
     BASE_URL = 'https://openexchangerates.org/api'
     ENDPOINT_LATEST = BASE_URL + '/latest.json'
     ENDPOINT_HISTORICAL_TEMPLATE_1DATE = BASE_URL + '/historical/{0}.json'
-    DB_NAME = 'exchange'.encode()
+    DB_NAME = b'exchange'
     DATE_FORMAT = '%Y-%m-%d'
 
     def __init__(self, db_path: str, api_key: str):
@@ -57,6 +57,7 @@ class OpenExchangeRatesClient(object):
         self.__set_key(key_str.encode(), rate_str)
         return resp_json['rates']
 
+    # private methods
     def __get_key(self, key: bytes):
         with self.db_env_.begin() as txn:
             return txn.get(key, db=self.db_)
