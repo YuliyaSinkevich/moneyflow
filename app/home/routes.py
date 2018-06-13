@@ -7,10 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 
-from app import login_manager
-from app import mail
-from app import babel
-from app import app
+from app import app, login_manager, mail, babel
 import app.utils as utils
 from app.home import home
 import app.constants as constants
@@ -128,11 +125,14 @@ def register():
         new_user.save()
 
         token = confirm_link_generator.dumps(email, salt=SALT_LINK)
-        msg = Message(gettext(u'Confirm Email'), recipients=[email])
-        link = url_for('home.confirm_email', token=token, _external=True)
-        msg.body = 'Your link is {}'.format(link)
+
+        confirm_url = url_for('home.confirm_email', token=token, _external=True)
+        config = app.config['PUBLIC_CONFIG']
+        html = render_template('home/email/activate.html', confirm_url=confirm_url,
+                               contact_email=config['support']['contact_email'])
+        msg = Message(subject=gettext(u'Confirm Email'), recipients=[email], html=html)
         mail.send(msg)
-        flash_success(gettext(u'Please check email:{0}.'.format(email)))
+        flash_success(gettext(u'Please check email: {0}.'.format(email)))
         return redirect(url_for('home.login'))
 
     return render_template('home/register.html', form=form)
