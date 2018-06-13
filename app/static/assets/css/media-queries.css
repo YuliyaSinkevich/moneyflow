@@ -4,6 +4,10 @@
         border-color: transparent !important;
     }
 
+    .navbar-nav li a {
+        margin: 0px 30%;
+    }
+
     .row {
         text-align: center;
     }
@@ -11,15 +15,24 @@
     section {
         min-height: 700px;
     }
+
     #about-main .btn {
-    margin: 20px 0px 20px !important;
-}
+        margin: 20px 0px 20px !important;
+    }
+
+    .main-buttons {
+        padding: 0 25% !important;;
+    }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
     .navbar-collapse {
         border-color: transparent !important;
+    }
+
+    .navbar-nav li a {
+        margin: 0px 30%;
     }
 
     .row {
@@ -32,44 +45,73 @@
     }
 
     #about-main .row h1 {
-        font-size: 48px !important;
-        line-height: 5rem;
+    / / font-size: 48 px !important;
+    / / line-height: 5 rem;
         margin-bottom: 15px !important;
     }
 
     .about-description {
-        font-size: 18px !important;
-        line-height: 3rem;
+    / / font-size: 18 px !important;
+    / / line-height: 3 rem;
+    }
+
+    .main-buttons {
+        padding: 0 30% !important;
+    }
+
+    .conditions {
+        margin: 0px;
     }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
+    .navbar {
+        background-color: rgba(111, 202, 89, 0.8) !important;
+    }
+
+    .navbar-nav li a {
+        margin: 0px 23px;
+    }
 
     .row {
         text-align: left;
     }
 
+    .main-buttons {
+        padding: 0 15px !important;;
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
     #about-main .row h1 {
-        //font-size: 55px !important;
-        //line-height: 5.8rem;
+    / / font-size: 55 px !important;
+    / / line-height: 5.8 rem;
         margin-bottom: 20px !important;
         font-size: 38px !important;
         line-height: 3.5rem;
     }
 
     .about-description {
-        //font-size: 24px !important;
-        //line-height: 3.7rem;
+    / / font-size: 24 px !important;
+    / / line-height: 3.7 rem;
         font-size: 22px !important;
         line-height: 3rem;
+    }
+
+    .main-buttons {
+        padding: 0 1% !important;
+    }
+
+    .conditions {
+        margin: 20px -30px;
     }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+    .main-buttons {
+        padding: 0 3% !important;
+    }
 }

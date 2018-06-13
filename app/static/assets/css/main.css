@@ -17,7 +17,7 @@ body {
     padding: 10px 0 8px;
     font-size: 18px !important;
     letter-spacing: 2px;
-    background-color: rgba(111, 202, 89, 0.8) !important;
+    background-color: rgba(111, 202, 89, 0.9) !important;
 }
 
 .navbar-default, .navbar-collapse {
@@ -33,16 +33,21 @@ body {
     color: rgb(255, 255, 255) !important;
 }
 
+.navbar-nav {
+    text-align: center;
+}
+
 .navbar-nav li a {
     color: white !important;
     margin: 0px 23px;
     padding-left: 0px;
     padding-right: 0px;
+    padding-bottom: 12px;
 }
 
-.navbar-nav a:hover {
+.navbar-nav li a:hover {
     border-bottom: 3px solid white;
-    padding-bottom: 12px;
+    padding-bottom: 9px;
 }
 
 .navbar-toggle {
@@ -54,38 +59,39 @@ body {
     background-color: transparent !important;
 }
 
-.select-language {
-    font-size: 14px;
-    background-color: transparent !important;
-    border-radius: 3px;
-    padding: 0 15px 0 19px;
-    margin: 9px 0 0 27px;
+.dropdown {
+    width: 80px;
+    margin-left: 30px;
+    letter-spacing: normal;
 }
 
-.select-language:hover {
-    color: #000 !important;
-    background-color: white !important;
-    cursor: pointer;
+.dropdown .btn-default {
+    margin-top: 8px;
+    border: 1px solid white;
+    background-color: transparent;
+    padding: 6px 20px;
+    color: white;
 }
 
-.select-language option {
-    color: #000 !important;
+.dropdown-menu {
+    min-width: 120px;
+    border: none;
 }
 
-select {
-    border-color: rgb(255, 255, 255);
+.dropdown-menu li {
+    padding: 0px 4px;
 }
 
-select:focus,
-option:hover,
-option:focus {
+.dropdown .btn-default:hover {
+    background-color: white;
+    color: black;
+}
+
+.dropdown .btn-default:active:focus, .open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default {
+    background-color: white;
+    border-color: white;
     outline: none;
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+    box-shadow: none;
 }
 
 .icon-bar {
@@ -114,21 +120,15 @@ select {
 }
 
 #about-main .row h1 {
-    font-size: 35px !important;
+/ / font-size: 35 px !important;
     margin-top: 0 !important;
-    line-height: 3.5rem;
+/ / line-height: 3.5 rem;
     margin-bottom: 10px !important;
 }
 
 .about-description {
-    font-size: 16px !important;
+/ / font-size: 16 px !important;
 / / color: rgb(215, 215, 215);
-}
-
-.conditions {
-    font-size: 12px !important;
-    line-height: 1.5rem;
-    padding: 0 10px;
 }
 
 .conditions a {
@@ -153,10 +153,28 @@ select {
     font-size: 13px;
 }
 
-.main-buttons {
-    padding: 0 40px !important;
+#about-main .btn:hover {
+    background-color: rgb(255, 152, 48);
 }
 
-.btn:hover {
-/ / color: white !important;
+.conditions {
+    font-size: 12px !important;
+    line-height: 1.7rem;
+    margin: 0 -30px;
 }
+
+.conditions a {
+    color: rgb(255, 255, 255);
+    border-bottom: 1px dotted rgb(255, 255, 255);
+}
+
+.conditions a:hover {
+    border-bottom: 1px solid rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+
+
+
+
+
