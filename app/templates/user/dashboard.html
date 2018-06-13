@@ -323,14 +323,14 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             type: "line",
             datasets: [
                 {
-                    label: 'Income',
+                    label: '{% trans %}Income{% endtrans %}',
                     fill: false,
                     backgroundColor: 'rgb(75, 192, 192)',
                     borderColor: 'rgb(75, 192, 192)',
                     data: {{chart_incomes}},
                 },
                 {
-                    label: 'Expense',
+                    label: '{% trans %}Expense{% endtrans %}',
                     fill: false,
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
