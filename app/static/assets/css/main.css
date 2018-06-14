@@ -4,7 +4,6 @@ html {
 }
 
 body {
-    font-family: "Roboto";
     font-style: normal;
     font-weight: 100;
     color: #fff !important;
@@ -13,10 +12,9 @@ body {
 }
 
 .navbar {
-    font-family: "Arial";
     padding: 10px 0 8px;
     font-size: 18px !important;
-    letter-spacing: 2px;
+    letter-spacing: 1.2px;
     background-color: rgba(111, 202, 89, 0.9) !important;
 }
 
@@ -131,17 +129,7 @@ body {
 / / color: rgb(215, 215, 215);
 }
 
-.conditions a {
-    color: rgb(255, 133, 10);
-    text-decoration: underline;
-}
-
-.conditions a:hover {
-    color: rgba(111, 202, 89, 0.8);
-}
-
 #about-main .btn {
-    font-family: "Arial";
     padding: 10px 0 !important;
     margin: 15px 0px 30px !important;
     background-color: rgb(255, 133, 10);
@@ -158,7 +146,6 @@ body {
 }
 
 .conditions {
-    font-size: 12px !important;
     line-height: 1.7rem;
     margin: 0 -30px;
 }
