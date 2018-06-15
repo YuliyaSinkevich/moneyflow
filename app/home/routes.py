@@ -129,7 +129,8 @@ def register():
         confirm_url = url_for('home.confirm_email', token=token, _external=True)
         config = app.config['PUBLIC_CONFIG']
         html = render_template('home/email/activate.html', confirm_url=confirm_url,
-                               contact_email=config['support']['contact_email'], title=config['site']['title'])
+                               contact_email=config['support']['contact_email'], title=config['site']['title'],
+                               company=config['company']['title'])
         msg = Message(subject=gettext(u'Confirm Email'), recipients=[email], html=html)
         mail.send(msg)
         flash_success(gettext(u'Please check email: {0}.'.format(email)))
