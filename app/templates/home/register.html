@@ -7,7 +7,8 @@
     <div class="container">
         <div class="panel panel-default center-block text-center">
             <div class="panel-heading">
-                <h1 class="panel-title">{{ config['PUBLIC_CONFIG'].site.title }}</h1>
+                <h1 class="panel-title"><a
+                        href="{{ url_for('home.start') }}">{{ config['PUBLIC_CONFIG'].site.title }}</a></h1>
             </div>
             <div class="panel-body">
                 <h3>{% trans %}Sign Up{% endtrans %}</h3>
@@ -40,7 +41,11 @@
                     {{ form_field(form.submit, class="btn") }}
                 </form>
             </div>
-            <div class="panel-footer text-left">Already registered?<span class="pull-right"><b>Sign In</b></span></div>
+            <div class="panel-footer text-left">Already registered?
+                <a class="pull-right" href={{ url_for('home.login') }}><b>{% trans %}Sign in{% endtrans %}</b></a>
+            </div>
         </div>
+        <div class="text-center"><a class="back-to-site" href="{{ url_for('home.start') }}">&#8592;&nbsp;return to the
+            web-site {{ config['PUBLIC_CONFIG'].site.title }}</a></div>
     </div>
 {%- endblock %}
