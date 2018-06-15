@@ -37,7 +37,9 @@ def _remove_from_scheduler(mid: str):
         return
 
 
-def _add_to_scheduler(uid: ObjectId, mid: str, date: datetime):
+def _add_to_scheduler(uid: ObjectId, entry: MoneyEntry):
+    mid = str(entry.id)
+    date = entry.date
     scheduler.add_job(recurring, 'date', run_date=date, id=mid, args=[uid, mid])
 
 
@@ -52,6 +54,28 @@ def relativedelta_from_recurring(rec: MoneyEntry.Recurring):
         return None
 
 
+def add_to_scheduler_pending_entry(us: User, entry: MoneyEntry):
+    if entry.state == MoneyEntry.State.PENDING:
+        _add_to_scheduler(us.id, entry)
+
+    assert (entry.state == MoneyEntry.State.APPROVED), "Entry state should be APPROVED!"
+    rel = relativedelta_from_recurring(entry.recurring)
+    if not rel:
+        return
+
+    date = entry.date + rel
+    if date < datetime.now():
+        return
+
+    cloned = entry.clone()
+    cloned.date = date
+    cloned.state = MoneyEntry.State.PENDING
+
+    us.entries.append(cloned)
+    us.save()
+    _add_to_scheduler(us.id, cloned)
+
+
 def recurring(uid: ObjectId, mid: str):
     us = User.objects(id=uid).first()
     if not us:
@@ -59,46 +83,32 @@ def recurring(uid: ObjectId, mid: str):
 
     for entry in us.entries:
         if str(entry.id) == mid:
-            if not entry.is_recurring():
-                return
+            if entry.state == MoneyEntry.State.PENDING:
+                entry.state = MoneyEntry.State.APPROVED
+                entry.save()
 
-            cloned = entry.clone()
-            date = datetime.now()
-            cloned.date = utils.stable_date(date)
-
-            add_entry(us, cloned)
+            add_to_scheduler_pending_entry(us, entry)
             return
 
 
 def add_entry(us: User, entry: MoneyEntry):
     us.entries.append(entry)
     us.save()
-
-    rel = relativedelta_from_recurring(entry.recurring)
-    if not rel:
-        return
-
-    date = entry.date + rel
-    mid = str(entry.id)
-    _add_to_scheduler(us.id, mid, date)
+    add_to_scheduler_pending_entry(us, entry)
 
 
 def edit_entry(us: User, entry: MoneyEntry):
     entry.save()
 
+    # remove from scheduler
     mid = str(entry.id)
     _remove_from_scheduler(mid)
 
-    rel = relativedelta_from_recurring(entry.recurring)
-    if not rel:
-        return
-
-    date = entry.date + rel
-    _add_to_scheduler(us.id, mid, date)
+    add_to_scheduler_pending_entry(us, entry)
 
 
 def remove_entry(us: User, mid: str):
-    for entry in current_user.entries:
+    for entry in us.entries:
         if str(entry.id) == mid:
             us.entries.remove(entry)
             us.save()

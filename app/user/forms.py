@@ -27,6 +27,10 @@ class MoneyEntryForm(FlaskForm):
                                      (int(MoneyEntry.Recurring.EVERY_MONTH), gettext(u'Every month')),
                                      (int(MoneyEntry.Recurring.EVERY_YEAR), gettext(u'Every year'))],
                             default=MoneyEntry.Recurring.SINGLE)
+    state = SelectField(gettext(u'State:'), coerce=int, validators=[InputRequired()],
+                        choices=[(int(MoneyEntry.State.APPROVED), gettext(u'Approved')),
+                                 (int(MoneyEntry.State.PENDING), gettext(u'Pending'))],
+                        default=MoneyEntry.State.APPROVED)
     submit = SubmitField(gettext(u'Confirm'))
 
     def __init__(self, categories: list, **kwargs):

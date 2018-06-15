@@ -69,7 +69,11 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </thead>
                 <tbody>
                 {% for rev in incomes %}
+                {% if rev.state == 0 %}
+                <tr class="danger">
+                {% else %}
                 <tr>
+                {% endif %}
                     <td>{{ loop.index }}</td>
                     <td>{{ rev.value }}</td>
                     <td>{{ rev.date }}</td>
@@ -111,7 +115,11 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 </thead>
                 <tbody>
                 {% for exp in expenses %}
+                {% if exp.state == 0 %}
+                <tr class="danger">
+                {% else %}
                 <tr>
+                {% endif %}
                     <td>{{ loop.index }}</td>
                     <td>{{ exp.value }}</td>
                     <td>{{ exp.date }}</td>

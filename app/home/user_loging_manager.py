@@ -24,6 +24,10 @@ class MoneyEntry(db.EmbeddedDocument):
         INCOME = 0
         EXPENSE = 1
 
+    class State(IntEnum):
+        PENDING = 0,
+        APPROVED = 1
+
     id = db.ObjectIdField(required=True, default=ObjectId,
                           unique=True, primary_key=True)
     type = db.IntField(required=True, default=Type.INCOME)
@@ -31,8 +35,9 @@ class MoneyEntry(db.EmbeddedDocument):
     value = db.FloatField(required=True, default=1.00)
     currency = db.StringField(required=True, default=constants.DEFAULT_CURRENCY)
     category = db.StringField(required=True)
-    date = db.DateTimeField(default=datetime.now)
+    date = db.DateTimeField(required=True, default=datetime.now)
     recurring = db.IntField(default=Recurring.SINGLE)
+    state = db.IntField(required=True, default=State.APPROVED)
 
     def is_recurring(self) -> bool:
         return self.recurring != MoneyEntry.Recurring.SINGLE
@@ -46,6 +51,7 @@ class MoneyEntry(db.EmbeddedDocument):
         entry.category = self.category
         entry.date = self.date
         entry.recurring = self.recurring
+        entry.state = self.state
         return entry
 
 
