@@ -418,3 +418,43 @@ def remove_category_expense():
 
     response = {}
     return jsonify(response), 200
+
+
+# flow
+def render_flow(title: str, income_dict: defaultdict(float), expense_dict: defaultdict(float)):
+    labels = []
+    data = []
+    colors = []
+    for key, value in expense_dict.items():
+        labels.append(key)
+        data.append(value)
+        colors.append('Red')
+
+    for key, value in income_dict.items():
+        labels.append(key)
+        data.append(value)
+        colors.append('Green')
+
+    return render_template('user/flow.html', title=title, labels=labels, data=data, colors=colors)
+
+
+@user.route('/flow/details', methods=['GET'])
+@login_required
+def details_flow():
+    income_dict = defaultdict(float)
+    expense_dict = defaultdict(float)
+
+    currency, locale, start_date, end_date = get_runtime_settings()
+    for entry in current_user.entries:
+        entry_date = entry.date
+        if entry.type == MoneyEntry.Type.INCOME:
+            if (start_date <= entry_date) and (entry_date <= end_date):
+                val = exchange_currency(entry.currency, currency, entry.value)
+                income_dict[entry.category] += val
+
+        elif entry.type == MoneyEntry.Type.EXPENSE:
+            if (start_date <= entry_date) and (entry_date <= end_date):
+                val = exchange_currency(entry.currency, currency, entry.value)
+                expense_dict[entry.category] += val
+
+    return render_flow(gettext(u'Flow details'), income_dict, expense_dict)
