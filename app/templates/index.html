@@ -1,105 +1,99 @@
 {% extends 'layouts/layout.html' %}
 
 {% block title %}
-    {{ config['PUBLIC_CONFIG'].site.title }}
+{{ config['PUBLIC_CONFIG'].site.title }}
 {% endblock %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/media-queries.css') }}"/>
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/main.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/media-queries.css') }}"/>
 {% endblock %}
 
 {% block content %}
-    <header>
-        <!--Navigation-->
-        <nav class="navbar navbar-default navbar-fixed-top" id="main-top-navbar">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+<header>
+    <!--Navigation-->
+    <nav class="navbar navbar-default navbar-fixed-top" id="main-top-navbar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-top">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#about-main">{{ config['PUBLIC_CONFIG'].site.title }}</a>
+            </div>
+            <div class="navbar-collapse collapse navbar-right" id="navbar-top">
+                <ul class="nav navbar-nav">
+                    <li><a href="#how-to-use">{% trans %}How to use{% endtrans %}</a></li>
+                    <li><a href="#statistic">{% trans %}Statistic{% endtrans %}</a></li>
+                </ul>
+                <div class="dropdown pull-right hidden-xs">
+                    <button class="btn btn-default dropdown-toggle pull-right" type="button" data-target="#" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="true">{% trans %}Language{% endtrans %} <b class="caret"></b>
                     </button>
-                    <a class="navbar-brand" href="#about-main">{{ config['PUBLIC_CONFIG'].site.title }}</a>
-                </div>
-                <div class="navbar-collapse collapse navbar-right" id="navbar-top">
-                    <ul class="nav navbar-nav">
-                        <li><a href="#how-to-use">{% trans %}How to use{% endtrans %}</a></li>
-                        <li><a href="#statistic">{% trans %}Statistic{% endtrans %}</a></li>
+                    <ul class="dropdown-menu">
+                        {% for language in languages %}
+                        <li><a href="{{ url_for('home.set_language', language=language[0]) }}">{{ language[1] }}</a>
+                        </li>
+                        {% endfor %}
                     </ul>
-                    <div class="dropdown pull-right hidden-xs">
-                        <button class="btn btn-default dropdown-toggle pull-right" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="true">English
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#" data-value="english">{% trans %}English{% endtrans %}</a></li>
-                            <li><a href="#" data-value="russian">{% trans %}Russian{% endtrans %}</a></li>
-                        </ul>
-                    </div>
-                    <div class="dropdown dropup visible-xs-block pull-right">
-                        <button class="btn btn-default dropdown-toggle pull-right" type="button" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="true">English
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#" data-value="english">{% trans %}English{% endtrans %}</a></li>
-                            <li><a href="#" data-value="russian">{% trans %}Russian{% endtrans %}</a></li>
-                        </ul>
-                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
-    <main>
-        <!--Section About and buttons 'sign in', 'register'-->
-        <section id="about-main" class="vertical-align">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-xs-12 col-sm-8 col-md-7">
-                        <h1>We help you effortlessly manage your finances and save your time.</h1>
-                        <ul class="about-description">
-                            <b>{% trans %}Why are we better than others:{% endtrans %}</b>
-                            <li>{% trans %}We support more than 150 currencies with historical
-                                exchanges{% endtrans %}</li>
-                            <li>{% trans %}Amazing graphics of Money Flow{% endtrans %}</li>
-                            <li>{% trans %}Free and Open source{% endtrans %}</li>
-                            <li>{% trans %}Motivation to encrise money income{% endtrans %}</li>
-                            <li>{% trans %}Simple to use{% endtrans %}</li>
-                            <li>{% trans %}Save money{% endtrans %}</li>
-                            <li>{% trans %}Recuiring entries with notifications{% endtrans %}</li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-3 main-buttons">
-                        <a class="btn btn-block" href={{ url_for('home.register') }}><span
-                                class="glyphicon glyphicon-user"></span> {% trans %}Register{% endtrans %}</a>
-                        <a class="btn btn-block" href={{ url_for('home.login') }}><span
-                                class="glyphicon glyphicon-log-in"></span> {% trans %}Sign in{% endtrans %}</a>
-                        <p class="conditions text-center">By clicking “Register”, you agree to our <a
-                                href="{{ url_for('home.term_of_use') }}">Term
-                            of use</a> and <a href={{ url_for('home.private_policy') }}>Private policy</a>.</p>
-                    </div>
-                    <div class="col-md-1"></div>
+<main>
+    <!--Section About and buttons 'sign in', 'register'-->
+    <section id="about-main" class="vertical-align">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-xs-12 col-sm-8 col-md-7">
+                    <h1>We help you effortlessly manage your finances and save your time.</h1>
+                    <ul class="about-description">
+                        <b>{% trans %}Why are we better than others:{% endtrans %}</b>
+                        <li>{% trans %}We support more than 150 currencies with historical
+                            exchanges{% endtrans %}
+                        </li>
+                        <li>{% trans %}Amazing graphics of Money Flow{% endtrans %}</li>
+                        <li>{% trans %}Free and Open source{% endtrans %}</li>
+                        <li>{% trans %}Motivation to encrise money income{% endtrans %}</li>
+                        <li>{% trans %}Simple to use{% endtrans %}</li>
+                        <li>{% trans %}Save money{% endtrans %}</li>
+                        <li>{% trans %}Recuiring entries with notifications{% endtrans %}</li>
+                    </ul>
                 </div>
+                <div class="col-xs-12 col-sm-4 col-md-3 main-buttons">
+                    <a class="btn btn-block" href="{{ url_for('home.register') }}"><span
+                            class="glyphicon glyphicon-user"></span> {% trans %}Register{% endtrans %}</a>
+                    <a class="btn btn-block" href="{{ url_for('home.login') }}"><span
+                            class="glyphicon glyphicon-log-in"></span> {% trans %}Sign in{% endtrans %}</a>
+                    <p class="conditions text-center">By clicking “Register”, you agree to our <a
+                            href="{{ url_for('home.term_of_use') }}">Term
+                        of use</a> and <a href="{{ url_for('home.private_policy') }}">Private policy</a>.</p>
+                </div>
+                <div class="col-md-1"></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!--Section How to use-->
-        <section id="how-to-use" class="vertical-align">
-            <div class="container">
-            </div>
-        </section>
+    <!--Section How to use-->
+    <section id="how-to-use" class="vertical-align">
+        <div class="container">
+        </div>
+    </section>
 
-        <!--Section Statistic-->
-        <section id="statistic" class="vertical-align">
-            <div class="container">
-            </div>
-        </section>
-    </main>
+    <!--Section Statistic-->
+    <section id="statistic" class="vertical-align">
+        <div class="container">
+        </div>
+    </section>
+</main>
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    <script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
+{{ super() }}
+<script src="{{ url_for('static', filename='assets/js/script.js') }}"></script>
 {% endblock %}

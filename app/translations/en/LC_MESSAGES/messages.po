@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-12 22:54-0400\n"
-"PO-Revision-Date: 2018-06-12 22:54-0400\n"
+"POT-Creation-Date: 2018-06-17 04:33-0400\n"
+"PO-Revision-Date: 2018-06-17 04:33-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -30,36 +30,36 @@ msgstr ""
 msgid "Password:"
 msgstr ""
 
-#: home/forms.py:12 templates/home/register.html:10
+#: home/forms.py:12 templates/home/register.html:14
 msgid "Sign Up"
 msgstr ""
 
-#: home/forms.py:19 templates/home/login.html:10
+#: home/forms.py:19 templates/home/login.html:15
 msgid "Sign In"
 msgstr ""
 
-#: home/routes.py:71
+#: home/routes.py:73
 msgid "User not found."
 msgstr ""
 
-#: home/routes.py:75
+#: home/routes.py:77
 msgid "User not active."
 msgstr ""
 
-#: home/routes.py:79
+#: home/routes.py:81
 msgid "Invalid password."
 msgstr ""
 
-#: home/routes.py:121
+#: home/routes.py:123
 msgid "Invalid email."
 msgstr ""
 
-#: home/routes.py:133
+#: home/routes.py:141
 msgid "Confirm Email"
 msgstr ""
 
-#: home/routes.py:137
-msgid "Please check email:{0}."
+#: home/routes.py:143
+msgid "Please check email: {0}."
 msgstr ""
 
 #: templates/404.html:10
@@ -74,75 +74,77 @@ msgstr ""
 msgid "go somewhere nice"
 msgstr ""
 
-#: templates/index.html:29
+#: templates/index.html:28
 msgid "How to use"
 msgstr ""
 
-#: templates/index.html:30
+#: templates/index.html:29
 msgid "Statistic"
 msgstr ""
 
-#: templates/index.html:37
-msgid "English"
-msgstr ""
-
-#: templates/index.html:38
-msgid "Russian"
-msgstr ""
-
-#: templates/index.html:55
-msgid "Why are we better than others:"
+#: templates/index.html:33
+msgid "Language"
 msgstr ""
 
 #: templates/index.html:56
-msgid "We support more than 150 currencies with historical exchanges"
+msgid "Why are we better than others:"
 msgstr ""
 
 #: templates/index.html:57
-msgid "Amazing graphics of Money Flow"
-msgstr ""
-
-#: templates/index.html:58
-msgid "Free and Open source"
-msgstr ""
-
-#: templates/index.html:59
-msgid "Motivation to encrise money income"
+msgid ""
+"We support more than 150 currencies with historical\n"
+"                            exchanges"
 msgstr ""
 
 #: templates/index.html:60
-msgid "Simple to use"
+msgid "Amazing graphics of Money Flow"
 msgstr ""
 
 #: templates/index.html:61
-msgid "Save money"
+msgid "Free and Open source"
 msgstr ""
 
 #: templates/index.html:62
+msgid "Motivation to encrise money income"
+msgstr ""
+
+#: templates/index.html:63
+msgid "Simple to use"
+msgstr ""
+
+#: templates/index.html:64
+msgid "Save money"
+msgstr ""
+
+#: templates/index.html:65
 msgid "Recuiring entries with notifications"
 msgstr ""
 
-#: templates/index.html:67
+#: templates/index.html:70
 msgid "Register"
 msgstr ""
 
-#: templates/index.html:69
+#: templates/home/register.html:45 templates/index.html:72
 msgid "Sign in"
 msgstr ""
 
-#: templates/home/login.html:11 templates/home/register.html:11
+#: templates/home/login.html:16 templates/home/register.html:15
 msgid "Note: Your data isn't going anywhere."
 msgstr ""
 
-#: templates/home/login.html:19
+#: templates/home/login.html:23
 msgid "Your registered email."
 msgstr ""
 
-#: templates/home/login.html:25 templates/home/register.html:26
+#: templates/home/login.html:30 templates/home/register.html:30
 msgid "Enter a password."
 msgstr ""
 
-#: templates/home/register.html:19
+#: templates/home/login.html:37
+msgid "Sign up"
+msgstr ""
+
+#: templates/home/register.html:22
 msgid "Your email will be used to contact you."
 msgstr ""
 
@@ -158,47 +160,48 @@ msgstr ""
 msgid "Incomes:"
 msgstr ""
 
-#: templates/user/dashboard.html:64 templates/user/dashboard.html:106
+#: templates/user/dashboard.html:64 templates/user/dashboard.html:110
 msgid "Value"
 msgstr ""
 
-#: templates/user/dashboard.html:65 templates/user/dashboard.html:107
+#: templates/user/dashboard.html:65 templates/user/dashboard.html:111
 msgid "Date"
 msgstr ""
 
-#: templates/user/dashboard.html:66 templates/user/dashboard.html:108
+#: templates/user/dashboard.html:66 templates/user/dashboard.html:112
 msgid "Currency"
 msgstr ""
 
-#: templates/user/dashboard.html:67 templates/user/dashboard.html:109
+#: templates/user/dashboard.html:67 templates/user/dashboard.html:113
 msgid "Actions"
 msgstr ""
 
-#: templates/user/dashboard.html:80 templates/user/dashboard.html:122
+#: templates/user/dashboard.html:84 templates/user/dashboard.html:130
 msgid "Edit"
 msgstr ""
 
-#: templates/user/dashboard.html:84 templates/user/dashboard.html:126
+#: templates/user/dashboard.html:88 templates/user/dashboard.html:134
 msgid "Remove"
 msgstr ""
 
-#: templates/user/dashboard.html:93 templates/user/dashboard.html:135
+#: templates/user/dashboard.html:97 templates/user/dashboard.html:143
+#: templates/user/dashboard.html:161
 msgid "Details"
 msgstr ""
 
-#: templates/user/dashboard.html:96 templates/user/dashboard.html:138
+#: templates/user/dashboard.html:100 templates/user/dashboard.html:146
 msgid "Add"
 msgstr ""
 
-#: templates/user/dashboard.html:101
+#: templates/user/dashboard.html:105
 msgid "Expenses:"
 msgstr ""
 
-#: templates/user/dashboard.html:326
+#: templates/user/dashboard.html:337
 msgid "Income"
 msgstr ""
 
-#: templates/user/dashboard.html:333
+#: templates/user/dashboard.html:344
 msgid "Expense"
 msgstr ""
 
@@ -206,83 +209,99 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: templates/user/money/base.html:62
+#: templates/user/money/base.html:64
 msgid "Cancel"
 msgstr ""
 
-#: user/forms.py:15
+#: user/forms.py:16
 msgid "Type:"
 msgstr ""
 
-#: user/forms.py:16
+#: user/forms.py:17
 msgid "Date:"
 msgstr ""
 
-#: user/forms.py:18
+#: user/forms.py:19
 msgid "Category:"
 msgstr ""
 
-#: user/forms.py:19
+#: user/forms.py:20
 msgid "Value:"
 msgstr ""
 
-#: user/forms.py:20
+#: user/forms.py:21
 msgid "Invalid value"
 msgstr ""
 
-#: user/forms.py:22 user/forms.py:62
+#: user/forms.py:23 user/forms.py:67
 msgid "Currency:"
 msgstr ""
 
-#: user/forms.py:23
+#: user/forms.py:24
 msgid "Description:"
 msgstr ""
 
-#: user/forms.py:24
+#: user/forms.py:25
 msgid "Recurring:"
 msgstr ""
 
-#: user/forms.py:25
+#: user/forms.py:26
 msgid "Single"
 msgstr ""
 
-#: user/forms.py:26
+#: user/forms.py:27
 msgid "Every day"
 msgstr ""
 
-#: user/forms.py:27
+#: user/forms.py:28
 msgid "Every month"
 msgstr ""
 
-#: user/forms.py:28
+#: user/forms.py:29
 msgid "Every year"
 msgstr ""
 
-#: user/forms.py:30
+#: user/forms.py:31
+msgid "State:"
+msgstr ""
+
+#: user/forms.py:32
+msgid "Approved"
+msgstr ""
+
+#: user/forms.py:33
+msgid "Pending"
+msgstr ""
+
+#: user/forms.py:35
 msgid "Confirm"
 msgstr ""
 
-#: user/forms.py:60
+#: user/forms.py:65
 msgid "Locale:"
 msgstr ""
 
-#: user/forms.py:63
+#: user/forms.py:68
 msgid "Start date:"
 msgstr ""
 
-#: user/forms.py:64
+#: user/forms.py:69
 msgid "End date:"
 msgstr ""
 
-#: user/forms.py:65
+#: user/forms.py:70
 msgid "Apply"
 msgstr ""
 
-#: user/routes.py:291
+#: user/routes.py:207
 msgid "Income details"
 msgstr ""
 
-#: user/routes.py:360
+#: user/routes.py:276
 msgid "Expense details"
+msgstr ""
+
+#: user/routes.py:366
+msgid "Flow details"
 msgstr ""
 

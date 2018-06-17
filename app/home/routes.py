@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, session
 from flask_login import login_user, current_user
 from flask_mail import Message
 from flask_babel import gettext
@@ -38,7 +38,14 @@ def load_user(user_id):
 
 @home.route('/')
 def start():
-    return render_template('index.html')
+    languages = constants.AVAILABLE_LOCALES_PAIRS
+    return render_template('index.html', languages=languages)
+
+
+@home.route('/language/<language>')
+def set_language(language=None):
+    session['language'] = language
+    return redirect(url_for('home.start'))
 
 
 @home.route('/confirm_email/<token>')
@@ -144,6 +151,10 @@ def get_locale():
     # if a user is logged in, use the locale from the user settings
     if current_user and current_user.is_authenticated:
         return current_user.settings.locale
+
+    if session.get('language'):
+        return session['language']
+
     # otherwise try to guess the language from the user accept
     # header the browser transmits.  We support de/fr/en in this
     # example.  The best match wins.
