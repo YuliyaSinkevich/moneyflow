@@ -28,13 +28,14 @@
                     <li><a href="#how-to-use">{% trans %}How to use{% endtrans %}</a></li>
                     <li><a href="#statistic">{% trans %}Statistic{% endtrans %}</a></li>
                 </ul>
-                <div class="dropdown pull-right hidden-xs">
-                    <button class="btn btn-default dropdown-toggle pull-right" type="button" data-target="#" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="true">{% trans %}Language{% endtrans %} <b class="caret"></b>
+                <div class="dropdown pull-right">
+                    <button class="btn btn-default" data-toggle="dropdown">{% trans %}Language{% endtrans %} <b
+                            class="caret"></b>
                     </button>
                     <ul class="dropdown-menu">
                         {% for language in languages %}
-                        <li><a href="{{ url_for('home.set_language', language=language[0]) }}">{{ language[1] }}</a>
+                        <li>
+                            <a href="{{ url_for('home.set_language', language=language[0]) }}">{{ language[1] }}</a>
                         </li>
                         {% endfor %}
                     </ul>

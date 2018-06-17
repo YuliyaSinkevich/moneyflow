@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-17 04:33-0400\n"
-"PO-Revision-Date: 2018-06-17 04:33-0400\n"
+"POT-Creation-Date: 2018-06-17 05:44-0400\n"
+"PO-Revision-Date: 2018-06-17 05:44-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -38,27 +38,27 @@ msgstr ""
 msgid "Sign In"
 msgstr ""
 
-#: home/routes.py:73
+#: home/routes.py:76
 msgid "User not found."
 msgstr ""
 
-#: home/routes.py:77
+#: home/routes.py:80
 msgid "User not active."
 msgstr ""
 
-#: home/routes.py:81
+#: home/routes.py:84
 msgid "Invalid password."
 msgstr ""
 
-#: home/routes.py:123
+#: home/routes.py:126
 msgid "Invalid email."
 msgstr ""
 
-#: home/routes.py:141
+#: home/routes.py:144
 msgid "Confirm Email"
 msgstr ""
 
-#: home/routes.py:143
+#: home/routes.py:146
 msgid "Please check email: {0}."
 msgstr ""
 
@@ -82,49 +82,49 @@ msgstr ""
 msgid "Statistic"
 msgstr ""
 
-#: templates/index.html:33
+#: templates/index.html:32
 msgid "Language"
 msgstr ""
 
-#: templates/index.html:56
+#: templates/index.html:57
 msgid "Why are we better than others:"
 msgstr ""
 
-#: templates/index.html:57
+#: templates/index.html:58
 msgid ""
 "We support more than 150 currencies with historical\n"
 "                            exchanges"
 msgstr ""
 
-#: templates/index.html:60
+#: templates/index.html:61
 msgid "Amazing graphics of Money Flow"
 msgstr ""
 
-#: templates/index.html:61
+#: templates/index.html:62
 msgid "Free and Open source"
 msgstr ""
 
-#: templates/index.html:62
+#: templates/index.html:63
 msgid "Motivation to encrise money income"
 msgstr ""
 
-#: templates/index.html:63
+#: templates/index.html:64
 msgid "Simple to use"
 msgstr ""
 
-#: templates/index.html:64
+#: templates/index.html:65
 msgid "Save money"
 msgstr ""
 
-#: templates/index.html:65
+#: templates/index.html:66
 msgid "Recuiring entries with notifications"
 msgstr ""
 
-#: templates/index.html:70
+#: templates/index.html:71
 msgid "Register"
 msgstr ""
 
-#: templates/home/register.html:45 templates/index.html:72
+#: templates/home/register.html:45 templates/index.html:73
 msgid "Sign in"
 msgstr ""
 

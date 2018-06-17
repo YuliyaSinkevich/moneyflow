@@ -43,8 +43,11 @@ def start():
 
 
 @home.route('/language/<language>')
-def set_language(language=None):
-    session['language'] = language
+def set_language(language=constants.DEFAULT_LOCALE):
+    founded = next((x for x in constants.AVAILABLE_LOCALES if x == language), None)
+    if founded:
+        session['language'] = founded
+        
     return redirect(url_for('home.start'))
 
 
@@ -153,7 +156,8 @@ def get_locale():
         return current_user.settings.locale
 
     if session.get('language'):
-        return session['language']
+        lang = session['language']
+        return lang
 
     # otherwise try to guess the language from the user accept
     # header the browser transmits.  We support de/fr/en in this
