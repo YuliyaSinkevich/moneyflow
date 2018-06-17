@@ -1,10 +1,5 @@
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from random import shuffle
 from collections import defaultdict
-from bson.objectid import ObjectId
-
-from apscheduler.schedulers.base import JobLookupError
 
 from flask_babel import gettext
 from flask import render_template, redirect, url_for, jsonify, request, session
@@ -12,11 +7,12 @@ from flask_login import logout_user, login_required, current_user
 
 import app.constants as constants
 import app.utils as utils
-from app import exchange, scheduler
+from app import exchange
 from app.user import user
-from app.home.user_loging_manager import MoneyEntry, User
+from app.home.money_entry import MoneyEntry
 
 from .forms import MoneyEntryForm, SettingsForm
+from .entry_scheduler import add_entry, remove_entry, edit_entry
 
 AVAILABLE_CURRENCIES_FOR_COMBO = ','.join("%s" % currency for currency in constants.AVAILABLE_CURRENCIES)
 
@@ -28,93 +24,6 @@ class GraphNode(object):
 
     expenses = float
     incomes = float
-
-
-def _remove_from_scheduler(mid: str):
-    try:
-        scheduler.remove_job(job_id=mid)
-    except JobLookupError:
-        return
-
-
-def _add_to_scheduler(uid: ObjectId, entry: MoneyEntry):
-    mid = str(entry.id)
-    date = entry.date
-    scheduler.add_job(recurring, 'date', run_date=date, id=mid, args=[uid, mid])
-
-
-def relativedelta_from_recurring(rec: MoneyEntry.Recurring):
-    if rec == MoneyEntry.Recurring.EVERY_DAY:
-        return relativedelta(days=1)
-    elif rec == MoneyEntry.Recurring.EVERY_MONTH:
-        return relativedelta(months=1)
-    elif rec == MoneyEntry.Recurring.EVERY_YEAR:
-        return relativedelta(years=1)
-    else:
-        return None
-
-
-def add_to_scheduler_pending_entry(us: User, entry: MoneyEntry):
-    if entry.state == MoneyEntry.State.PENDING:
-        _add_to_scheduler(us.id, entry)
-
-    assert (entry.state == MoneyEntry.State.APPROVED), "Entry state should be APPROVED!"
-    rel = relativedelta_from_recurring(entry.recurring)
-    if not rel:
-        return
-
-    date = entry.date + rel
-    if date < datetime.now():
-        return
-
-    cloned = entry.clone()
-    cloned.date = date
-    cloned.state = MoneyEntry.State.PENDING
-
-    us.entries.append(cloned)
-    us.save()
-    _add_to_scheduler(us.id, cloned)
-
-
-def recurring(uid: ObjectId, mid: str):
-    us = User.objects(id=uid).first()
-    if not us:
-        return
-
-    for entry in us.entries:
-        if str(entry.id) == mid:
-            if entry.state == MoneyEntry.State.PENDING:
-                entry.state = MoneyEntry.State.APPROVED
-                entry.save()
-
-            add_to_scheduler_pending_entry(us, entry)
-            return
-
-
-def add_entry(us: User, entry: MoneyEntry):
-    us.entries.append(entry)
-    us.save()
-    add_to_scheduler_pending_entry(us, entry)
-
-
-def edit_entry(us: User, entry: MoneyEntry):
-    entry.save()
-
-    # remove from scheduler
-    mid = str(entry.id)
-    _remove_from_scheduler(mid)
-
-    add_to_scheduler_pending_entry(us, entry)
-
-
-def remove_entry(us: User, mid: str):
-    for entry in us.entries:
-        if str(entry.id) == mid:
-            us.entries.remove(entry)
-            us.save()
-            break
-
-    _remove_from_scheduler(mid)
 
 
 def exchange_currency(base: str, to: str, amount: float) -> float:
@@ -238,16 +147,13 @@ def dashboard():
     chart_expenses = []
     for key, value in sorted(graph_dict.items()):
         chart_labels.append(key.strftime('%B %Y'))
-        rounded_incomes = constants.round_value(value.incomes)
-        chart_incomes.append(rounded_incomes)
-        rounded_expenses = constants.round_value(value.expenses)
-        chart_expenses.append(rounded_expenses)
+        chart_incomes.append(value.incomes)
+        chart_expenses.append(value.expenses)
 
-    rounded_total = constants.round_value(total)
     start_date_str = start_date.strftime(constants.DATE_JS_FORMAT)
     end_date_str = end_date.strftime(constants.DATE_JS_FORMAT)
 
-    return render_template('user/dashboard.html', total=rounded_total, incomes=incomes, expenses=expenses,
+    return render_template('user/dashboard.html', total=total, incomes=incomes, expenses=expenses,
                            start_date=start_date_str, end_date=end_date_str, locale=locale,  # for date range
                            currency=currency, available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO,  # for total balance
                            chart_labels=chart_labels, chart_incomes=chart_incomes, chart_expenses=chart_expenses)

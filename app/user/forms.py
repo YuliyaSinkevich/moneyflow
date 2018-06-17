@@ -8,7 +8,8 @@ from wtforms.validators import InputRequired, NumberRange
 
 import app.utils as utils
 import app.constants as constants
-from app.home.user_loging_manager import MoneyEntry, Settings
+from app.home.money_entry import MoneyEntry
+from app.home.settings import Settings
 
 
 class MoneyEntryForm(FlaskForm):
