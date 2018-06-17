@@ -35,7 +35,7 @@ def exchange_currency(base: str, to: str, amount: float) -> float:
         return 0.00
 
     rates = json[to]
-    return amount * rates
+    return constants.round_value(amount * rates)
 
 
 def add_money_entry(method: str, entry_type: MoneyEntry.Type, locale: str):
