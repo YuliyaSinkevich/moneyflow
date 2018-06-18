@@ -81,13 +81,12 @@ def edit_money_entry(method: str, entry: MoneyEntry, categories: list, locale: s
                            available_currencies=AVAILABLE_CURRENCIES_FOR_COMBO)
 
 
-def render_details(title: str, data_dict: defaultdict(float), total: float):
+def render_details(title: str, data_dict: defaultdict(float)):
     labels = []
     data = []
     for key, value in data_dict.items():
         labels.append(key)
-        r = constants.round_value(value / total)
-        data.append(r)
+        data.append(value)
 
     colors = list(constants.AVAILIBLE_CHART_COLORS)
     shuffle(colors)
@@ -193,7 +192,6 @@ def logout():
 @login_required
 def details_income():
     data_dict = defaultdict(float)
-    total = 0.00
 
     currency, locale, start_date, end_date = get_runtime_settings()
     for entry in current_user.entries:
@@ -202,9 +200,8 @@ def details_income():
             if (start_date <= entry_date) and (entry_date <= end_date):
                 val = exchange_currency(entry.currency, currency, entry.value)
                 data_dict[entry.category] += val
-                total += val
 
-    return render_details(gettext(u'Income details'), data_dict, total)
+    return render_details(gettext(u'Income details'), data_dict)
 
 
 @user.route('/income/add', methods=['GET', 'POST'])
@@ -262,7 +259,6 @@ def remove_category_income():
 @login_required
 def details_expense():
     data_dict = defaultdict(float)
-    total = 0.00
 
     currency, locale, start_date, end_date = get_runtime_settings()
     for entry in current_user.entries:
@@ -271,9 +267,8 @@ def details_expense():
             if (start_date <= entry_date) and (entry_date <= end_date):
                 val = exchange_currency(entry.currency, currency, entry.value)
                 data_dict[entry.category] += val
-                total += val
 
-    return render_details(gettext(u'Expense details'), data_dict, total)
+    return render_details(gettext(u'Expense details'), data_dict)
 
 
 @user.route('/expense/add', methods=['GET', 'POST'])

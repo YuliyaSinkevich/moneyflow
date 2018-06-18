@@ -29,8 +29,8 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     </div>
 </div>
 <br>
-<div class="container well">
-    <div class="row">
+<div class="container">
+    <div class="row well">
         <label class="col-md-6">{% trans %}Display range:{% endtrans %}</label>
         <div class="col-md-3">
             <div class="form-group">
@@ -157,9 +157,6 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
     <div class="row">
         <canvas id="my_chart" width="100%" height="20%"></canvas>
     </div>
-    <form action="/user/flow/details" method="get" class="col-md-2">
-        <button type="submit" class="btn btn-info">{% trans %}Details{% endtrans %}</button>
-    </form>
 </div>
 <br>
 <br>
@@ -170,15 +167,20 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
         <h2 class="col-md-6">Balance:</h2>
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-6">
-                    <input type="number" value="{{total}}" name="value" class="form-control" readonly>
+                <div class="col-md-4">
+                    <input type="text" value="{{total}}" name="value" class="form-control" readonly>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <form id="apply_currency_form">
                         <div class="bfh-selectbox bfh-currencies" data-name="currency"
                              data-currency="{{currency}}" id="apply_currency"
                              data-available="{{available_currencies}}" data-flags="true">
                         </div>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <form action="/user/flow/details" method="get" class="col-md-2">
+                        <button type="submit" class="btn btn-info">{% trans %}Details{% endtrans %}</button>
                     </form>
                 </div>
             </div>
@@ -336,15 +338,13 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
                 {
                     label: '{% trans %}Income{% endtrans %}',
                     fill: false,
-                    backgroundColor: 'rgb(75, 192, 192)',
-                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'Green',
                     data: {{chart_incomes}},
                 },
                 {
                     label: '{% trans %}Expense{% endtrans %}',
                     fill: false,
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'Red',
                     data: {{chart_expenses}},
                 }
             ]
@@ -385,7 +385,5 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             defaultDate:'{{end_date}}'
         });
     });
-
-
 </script>
 {% endblock %}

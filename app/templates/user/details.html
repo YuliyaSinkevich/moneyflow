@@ -15,6 +15,7 @@
 <script src="{{url_for('static', filename='assets/js/Chart.bundle.min.js')}}"></script>
 <script>
 		var config = {
+		    type: 'pie',
 			data: {
 				datasets: [{
 					data: {{data}},
@@ -26,20 +27,14 @@
 			options: {
 				responsive: true,
 				legend: {
-					position: 'right',
+					position: 'top',
 				},
 				title: {
 					display: true,
 					text: '{{title}}'
 				},
-				scale: {
-					ticks: {
-						beginAtZero: true
-					},
-					reverse: false
-				},
 				animation: {
-					animateRotate: false,
+					animateRotate: true,
 					animateScale: true
 				}
 			}
@@ -47,7 +42,7 @@
 
 		window.onload = function() {
 			var ctx = document.getElementById('chart-area');
-			window.myPolarArea = Chart.PolarArea(ctx, config);
+			window.myPolarArea = new Chart(ctx, config);
 		};
 </script>
 {% endblock %}
