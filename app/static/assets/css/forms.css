@@ -37,6 +37,10 @@ body {
     padding: 5px 30px 30px;
 }
 
+.alert {
+    text-align: left !important;
+}
+
 .form .btn {
     width: 100%;
     background-color: rgb(255, 133, 10);
