@@ -1,11 +1,4 @@
-html {
-/ / position: relative;
-/ / min-height: 100 %;
-}
-
 body {
-    font-style: normal;
-    font-weight: 100;
     color: #fff !important;
     letter-spacing: 0.9px;
     line-height: 3rem !important;
@@ -58,8 +51,7 @@ body {
 }
 
 .dropdown {
-    width: 80px;
-    margin-left: 30px;
+    margin-left: 20px;
     letter-spacing: normal;
 }
 
@@ -72,12 +64,13 @@ body {
 }
 
 .dropdown-menu {
-    min-width: 120px;
+    min-width: 118px;
     border: none;
+/ / right: - 38 px !important;
 }
 
 .dropdown-menu li {
-    padding: 0px 4px;
+/ / padding: 0 px 4 px;
 }
 
 .dropdown .btn-default:hover {
@@ -99,13 +92,23 @@ body {
     border-radius: 0px !important;
 }
 
+section {
+    min-height: 100vh;
+/ / min-height: 600 px;
+}
+
 #about-main {
     background: url(../images/bg_section_main.jpg) no-repeat top center scroll;
     background-size: cover;
 }
 
-#how-to-use {
-    background-color: rgb(163, 180, 190);
+#advantages {
+    color: rgb(0, 0, 0);
+}
+
+.advantages-title {
+    margin-top: 110px;
+    margin-bottom: 50px;
 }
 
 #statistic {
@@ -118,20 +121,19 @@ body {
 }
 
 #about-main .row h1 {
-/ / font-size: 35 px !important;
-    margin-top: 0 !important;
-/ / line-height: 3.5 rem;
-    margin-bottom: 10px !important;
+/ / font-size: 30 px !important;
+/ / margin-top: 0 !important;
+    margin-bottom: 15px !important;
 }
 
 .about-description {
-/ / font-size: 16 px !important;
-/ / color: rgb(215, 215, 215);
+    font-size: 20px !important;
+    line-height: 2.5rem;
 }
 
 #about-main .btn {
     padding: 10px 0 !important;
-    margin: 15px 0px 30px !important;
+    margin: 30px 0px 30px !important;
     background-color: rgb(255, 133, 10);
     color: white;
     font-weight: bold !important;
@@ -143,6 +145,11 @@ body {
 
 #about-main .btn:hover {
     background-color: rgb(255, 152, 48);
+}
+
+.main-buttons {
+    padding-left: 70px;
+    padding-right: 70px;
 }
 
 .conditions {
@@ -159,9 +166,3 @@ body {
     border-bottom: 1px solid rgb(255, 255, 255);
     text-decoration: none;
 }
-
-
-
-
-
-

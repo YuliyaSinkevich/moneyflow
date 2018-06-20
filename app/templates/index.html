@@ -25,13 +25,13 @@
             </div>
             <div class="navbar-collapse collapse navbar-right" id="navbar-top">
                 <ul class="nav navbar-nav">
-                    <li><a href="#how-to-use">{% trans %}How to use{% endtrans %}</a></li>
+                    <li><a href="#advantages">{% trans %}Advantages{% endtrans %}</a></li>
                     <li><a href="#statistic">{% trans %}Statistic{% endtrans %}</a></li>
                 </ul>
                 <div class="dropdown pull-right">
-                    <button class="btn btn-default" data-toggle="dropdown">{% trans %}Language{% endtrans %} <b
+                    <a class="btn btn-default" data-toggle="dropdown">{% trans %}Language{% endtrans %} <b
                             class="caret"></b>
-                    </button>
+                    </a>
                     <ul class="dropdown-menu">
                         {% for language in languages %}
                         <li>
@@ -52,19 +52,11 @@
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-xs-12 col-sm-8 col-md-7">
-                    <h1>{% trans %}We help you effortlessly manage your finances and save your time.{% endtrans %}</h1>
-                    <ul class="about-description">
-                        <b>{% trans %}Why are we better than others:{% endtrans %}</b>
-                        <li>{% trans %}We support more than 150 currencies with historical
-                            exchanges{% endtrans %}
-                        </li>
-                        <li>{% trans %}Amazing graphics of Money Flow{% endtrans %}</li>
-                        <li>{% trans %}Free and Open source{% endtrans %}</li>
-                        <li>{% trans %}Motivation to encrise money income{% endtrans %}</li>
-                        <li>{% trans %}Simple to use{% endtrans %}</li>
-                        <li>{% trans %}Save money{% endtrans %}</li>
-                        <li>{% trans %}Recuiring entries with notifications{% endtrans %}</li>
-                    </ul>
+                    <h1>Manage your finances</h1>
+                    <p class="about-description">{{ config['PUBLIC_CONFIG'].site.title }} is a financial platform,
+                        which helps you control costs,
+                        plan your budget, save money. {{ config['PUBLIC_CONFIG'].site.title }} is free and easy to
+                        use.</p>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-3 main-buttons">
                     <a class="btn btn-block" href="{{ url_for('home.register') }}"><span
@@ -80,9 +72,49 @@
         </div>
     </section>
 
-    <!--Section How to use-->
-    <section id="how-to-use" class="vertical-align">
+    <!--Section Advantages-->
+    <section id="advantages" class="vertical-align">
         <div class="container">
+            <h2 class="text-center advantages-title">Why are we better than others</h2>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-6 text-center advantage">
+                    <img src="../static/assets/images/icon-currencies.png">
+                    <h4>{% trans %}More than 150 currencies with historical
+                        exchanges{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-free.png">
+                    <h4>{% trans %}Free and open source{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-encrise-money.png">
+                    <h4>{% trans %}Motivation to encrise money income{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-graphics.png">
+                    <h4>{% trans %}Amazing graphics of Money Flow{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-simple-to-use.png">
+                    <h4>{% trans %}Simple to use{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-save-money.png">
+                    <h4>{% trans %}Save money{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="../static/assets/images/icon-notifications.png">
+                    <h4>{% trans %}Recuiring entries with notifications{% endtrans %}</h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage">
+                    <img src="">
+                    <h4></h4>
+                </div>
+                <div class="col-xs-6 col-md-4 col-lg-4 text-center advantage hidden-item">
+                    <img src="">
+                    <h4></h4>
+                </div>
+            </div>
         </div>
     </section>
 

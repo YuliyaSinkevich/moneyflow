@@ -8,20 +8,44 @@
         margin: 0px 30%;
     }
 
+    .dropdown {
+        margin: 0 auto !important;
+        float: none !important;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        width: 80px;
+        top: -60px;
+        float: none !important;
+        margin: 0 auto !important;
+    }
+
     .row {
         text-align: center;
     }
 
-    section {
-        min-height: 700px;
+    #about-main .row h1 {
+        font-size: 30px !important;
+        margin-top: 0 !important;
+    }
+
+    .about-description {
+        padding: 0 1%;
     }
 
     #about-main .btn {
         margin: 20px 0px 20px !important;
     }
 
-    .main-buttons {
-        padding: 0 25% !important;;
+    .advantage {
+        height: 180px;
+    }
+
+    .hidden-item {
+        display: none;
     }
 }
 
@@ -35,24 +59,36 @@
         margin: 0px 30%;
     }
 
+    .dropdown {
+        margin: 0 auto !important;
+        float: none !important;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        width: 80px;
+        top: -60px;
+        float: none !important;
+        margin: 0 auto !important;
+    }
+
     .row {
         text-align: center;
     }
 
-    section {
-        min-height: 600px;
-        height: 100vh;
+    .about-description {
+        padding: 0 10%;
     }
 
     #about-main .row h1 {
-    / / font-size: 48 px !important;
-    / / line-height: 5 rem;
-        margin-bottom: 15px !important;
+        font-size: 46px !important;
     }
 
     .about-description {
-    / / font-size: 18 px !important;
-    / / line-height: 3 rem;
+        font-size: 26px !important;
+        line-height: 3rem;
     }
 
     .main-buttons {
@@ -61,6 +97,14 @@
 
     .conditions {
         margin: 0px;
+    }
+
+    .advantage {
+        height: 180px;
+    }
+
+    .hidden-item {
+        display: none;
     }
 }
 
@@ -74,8 +118,32 @@
         margin: 0px 23px;
     }
 
+    .dropdown {
+        margin-left: 20px !important;
+        float: right !important;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        top: 100%;
+        float: none !important;
+        margin: 2px 0 0 !important;
+    }
+
     .row {
         text-align: left;
+    }
+
+    #about-main .row h1 {
+        font-size: 54px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .about-description {
+        font-size: 30px !important;
+        line-height: 3.5rem;
+        padding: 0;
     }
 
     .main-buttons {
@@ -85,19 +153,17 @@
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
+
     #about-main .row h1 {
-    / / font-size: 55 px !important;
-    / / line-height: 5.8 rem;
+        font-size: 54px !important;
         margin-bottom: 20px !important;
-        font-size: 38px !important;
-        line-height: 3.5rem;
+        padding-right: 50px !important;
     }
 
     .about-description {
-    / / font-size: 24 px !important;
-    / / line-height: 3.7 rem;
-        font-size: 22px !important;
-        line-height: 3rem;
+        font-size: 30px !important;
+        line-height: 3.8rem;
+        padding-right: 50px !important;
     }
 
     .main-buttons {
@@ -107,10 +173,19 @@
     .conditions {
         margin: 20px -30px;
     }
+
+    .hidden-item {
+        display: block;
+    }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+    #about-main .row h1 {
+        font-size: 60px !important;
+        line-height: 6rem;
+    }
+
     .main-buttons {
         padding: 0 3% !important;
     }
