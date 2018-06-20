@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-17 05:44-0400\n"
-"PO-Revision-Date: 2018-06-17 05:44-0400\n"
+"POT-Creation-Date: 2018-06-19 22:12-0400\n"
+"PO-Revision-Date: 2018-06-19 22:12-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -185,7 +185,7 @@ msgid "Remove"
 msgstr ""
 
 #: templates/user/dashboard.html:97 templates/user/dashboard.html:143
-#: templates/user/dashboard.html:161
+#: templates/user/dashboard.html:183
 msgid "Details"
 msgstr ""
 
@@ -197,11 +197,11 @@ msgstr ""
 msgid "Expenses:"
 msgstr ""
 
-#: templates/user/dashboard.html:337
+#: templates/user/dashboard.html:339
 msgid "Income"
 msgstr ""
 
-#: templates/user/dashboard.html:344
+#: templates/user/dashboard.html:345
 msgid "Expense"
 msgstr ""
 
@@ -293,15 +293,15 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: user/routes.py:207
+#: user/routes.py:204
 msgid "Income details"
 msgstr ""
 
-#: user/routes.py:276
+#: user/routes.py:271
 msgid "Expense details"
 msgstr ""
 
-#: user/routes.py:366
+#: user/routes.py:361
 msgid "Flow details"
 msgstr ""
 
