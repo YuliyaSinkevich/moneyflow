@@ -153,7 +153,8 @@ def register():
 def get_locale():
     # if a user is logged in, use the locale from the user settings
     if current_user and current_user.is_authenticated:
-        return current_user.settings.locale
+        lc = current_user.settings.locale
+        return lc
 
     if session.get('language'):
         lang = session['language']

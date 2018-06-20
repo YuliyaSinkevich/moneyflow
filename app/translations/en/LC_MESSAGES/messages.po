@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-19 22:12-0400\n"
-"PO-Revision-Date: 2018-06-19 22:12-0400\n"
+"POT-Creation-Date: 2018-06-20 00:32-0400\n"
+"PO-Revision-Date: 2018-06-20 00:26-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -86,6 +86,10 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: templates/index.html:55
+msgid "We help you effortlessly manage your finances and save your time."
+msgstr ""
+
 #: templates/index.html:57
 msgid "Why are we better than others:"
 msgstr ""
@@ -140,16 +144,38 @@ msgstr ""
 msgid "Enter a password."
 msgstr ""
 
+#: templates/home/login.html:36
+msgid "Don`t have an account?"
+msgstr ""
+
 #: templates/home/login.html:37
 msgid "Sign up"
+msgstr ""
+
+#: templates/home/login.html:40 templates/home/register.html:48
+msgid ""
+"return to the\n"
+"        web-site"
 msgstr ""
 
 #: templates/home/register.html:22
 msgid "Your email will be used to contact you."
 msgstr ""
 
+#: templates/home/register.html:44
+msgid "Already registered?"
+msgstr ""
+
 #: templates/user/dashboard.html:21
 msgid "Welcome"
+msgstr ""
+
+#: templates/user/dashboard.html:24 templates/user/settings.html:26
+msgid "Settings"
+msgstr ""
+
+#: templates/user/dashboard.html:27
+msgid "Logout"
 msgstr ""
 
 #: templates/user/dashboard.html:34
@@ -203,10 +229,6 @@ msgstr ""
 
 #: templates/user/dashboard.html:345
 msgid "Expense"
-msgstr ""
-
-#: templates/user/settings.html:26
-msgid "Settings"
 msgstr ""
 
 #: templates/user/money/base.html:64
