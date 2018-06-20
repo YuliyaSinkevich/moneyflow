@@ -21,10 +21,10 @@ Dashboard | {{ config['PUBLIC_CONFIG'].site.title }}
             <p>{% trans %}Welcome{% endtrans %} {{ current_user.email }}</p>
         </div>
         <div class="col-md-1">
-            <a href="{{ url_for('user.settings') }}" class="btn btn-info" role="button">Settings</a>
+            <a href="{{ url_for('user.settings') }}" class="btn btn-info" role="button">{% trans %}Settings{% endtrans %}</a>
         </div>
         <div class="col-md-1">
-            <a href="{{ url_for('user.logout') }}" class="btn btn-info" role="button">Logout</a>
+            <a href="{{ url_for('user.logout') }}" class="btn btn-info" role="button">{% trans %}Logout{% endtrans %}</a>
         </div>
     </div>
 </div>

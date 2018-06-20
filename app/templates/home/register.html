@@ -41,11 +41,11 @@ Register | {{ config['PUBLIC_CONFIG'].site.title }}
                 {{ form_field(form.submit, class="btn") }}
             </form>
         </div>
-        <div class="panel-footer text-left">Already registered?
+        <div class="panel-footer text-left">{% trans %}Already registered?{% endtrans %}
             <a class="pull-right" href={{ url_for('home.login') }}><b>{% trans %}Sign in{% endtrans %}</b></a>
         </div>
     </div>
-    <div class="text-center"><a class="back-to-site" href="{{ url_for('home.start') }}">&#8592;&nbsp;return to the
-        web-site {{ config['PUBLIC_CONFIG'].site.title }}</a></div>
+    <div class="text-center"><a class="back-to-site" href="{{ url_for('home.start') }}">&#8592;&nbsp;{% trans %}return to the
+        web-site{% endtrans %} {{ config['PUBLIC_CONFIG'].site.title }}</a></div>
 </div>
 {%- endblock %}
