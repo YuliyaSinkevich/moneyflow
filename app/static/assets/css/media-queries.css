@@ -23,6 +23,21 @@
         margin: 0 auto !important;
     }
 
+    .dropdown {
+        margin: 0 auto !important;
+        float: none !important;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        width: 80px;
+        top: -60px;
+        float: none !important;
+        margin: 0 auto !important;
+    }
+
     .row {
         text-align: center;
     }
@@ -78,6 +93,21 @@
         margin: 0 auto !important;
     }
 
+    .dropdown {
+        margin: 0 auto !important;
+        float: none !important;
+        text-align: center;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        width: 80px;
+        top: -60px;
+        float: none !important;
+        margin: 0 auto !important;
+    }
+
     .row {
         text-align: center;
     }
@@ -110,6 +140,14 @@
     .hidden-item {
         display: none;
     }
+
+    .advantage {
+        height: 180px;
+    }
+
+    .hidden-item {
+        display: none;
+    }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -120,6 +158,19 @@
 
     .navbar-nav li a {
         margin: 0 23px;
+    }
+
+    .dropdown {
+        margin-left: 20px !important;
+        float: right !important;
+    }
+
+    .dropdown-menu {
+        right: 0 !important;
+        left: 0 !important;
+        top: 100%;
+        float: none !important;
+        margin: 2px 0 0 !important;
     }
 
     .dropdown {
