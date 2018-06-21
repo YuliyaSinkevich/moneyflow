@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-20 00:32-0400\n"
-"PO-Revision-Date: 2018-06-20 00:26-0400\n"
+"POT-Creation-Date: 2018-06-20 23:11-0400\n"
+"PO-Revision-Date: 2018-06-20 23:11-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -76,7 +76,7 @@ msgid "go somewhere nice"
 msgstr ""
 
 #: templates/index.html:28
-msgid "How to use"
+msgid "Advantages"
 msgstr ""
 
 #: templates/index.html:29
@@ -87,50 +87,42 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: templates/index.html:55
-msgid "We help you effortlessly manage your finances and save your time."
-msgstr ""
-
-#: templates/index.html:57
-msgid "Why are we better than others:"
-msgstr ""
-
-#: templates/index.html:58
-msgid ""
-"We support more than 150 currencies with historical\n"
-"                            exchanges"
-msgstr ""
-
-#: templates/index.html:61
-msgid "Amazing graphics of Money Flow"
-msgstr ""
-
-#: templates/index.html:62
-msgid "Free and Open source"
-msgstr ""
-
 #: templates/index.html:63
-msgid "Motivation to encrise money income"
-msgstr ""
-
-#: templates/index.html:64
-msgid "Simple to use"
-msgstr ""
-
-#: templates/index.html:65
-msgid "Save money"
-msgstr ""
-
-#: templates/index.html:66
-msgid "Recuiring entries with notifications"
-msgstr ""
-
-#: templates/index.html:71
 msgid "Register"
 msgstr ""
 
-#: templates/home/register.html:45 templates/index.html:73
+#: templates/home/register.html:45 templates/index.html:65
 msgid "Sign in"
+msgstr ""
+
+#: templates/index.html:82
+msgid ""
+"More than 150 currencies with historical\n"
+"                        exchanges"
+msgstr ""
+
+#: templates/index.html:87
+msgid "Free and open source"
+msgstr ""
+
+#: templates/index.html:91
+msgid "Motivation to encrise money income"
+msgstr ""
+
+#: templates/index.html:95
+msgid "Amazing graphics of Money Flow"
+msgstr ""
+
+#: templates/index.html:99
+msgid "Simple to use"
+msgstr ""
+
+#: templates/index.html:103
+msgid "Save money"
+msgstr ""
+
+#: templates/index.html:107
+msgid "Recuiring entries with notifications"
 msgstr ""
 
 #: templates/home/login.html:16 templates/home/register.html:15
@@ -155,7 +147,8 @@ msgstr ""
 
 #: templates/home/login.html:40 templates/home/register.html:48
 msgid ""
-"return to the\n"
+"return\n"
+"        to the\n"
 "        web-site"
 msgstr ""
 
