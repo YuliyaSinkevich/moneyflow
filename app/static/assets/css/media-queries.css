@@ -44,6 +44,10 @@
         height: 180px;
     }
 
+    .advantage img {
+        width: 50px;
+    }
+
     .hidden-item {
         display: none;
     }
