@@ -1,6 +1,6 @@
 body {
     color: #fff !important;
-    letter-spacing: 0.9px;
+    letter-spacing: 0.3px;
     line-height: 3rem !important;
 }
 
@@ -12,15 +12,13 @@ body {
 }
 
 .navbar-default, .navbar-collapse {
-/ / border-color: rgb(170, 170, 170) !important;
     border-color: transparent !important;
-    box-shadow: inset 0 0px 0 rgba(255, 255, 255, .1) !important;
+    box-shadow: inset 0 0 0 rgba(255, 255, 255, .1) !important;
 }
 
 .navbar-brand {
     font-size: 26px !important;
     font-weight: 900;
-/ / color: rgb(223, 0, 27) !important;
     color: rgb(255, 255, 255) !important;
 }
 
@@ -30,9 +28,9 @@ body {
 
 .navbar-nav li a {
     color: white !important;
-    margin: 0px 23px;
-    padding-left: 0px;
-    padding-right: 0px;
+    margin: 0 23px;
+    padding-left: 0;
+    padding-right: 0;
     padding-bottom: 12px;
 }
 
@@ -66,11 +64,6 @@ body {
 .dropdown-menu {
     min-width: 118px;
     border: none;
-/ / right: - 38 px !important;
-}
-
-.dropdown-menu li {
-/ / padding: 0 px 4 px;
 }
 
 .dropdown .btn-default:hover {
@@ -89,7 +82,7 @@ body {
     background-color: white !important;
     height: 3px !important;
     width: 25px !important;
-    border-radius: 0px !important;
+    border-radius: 0 !important;
 }
 
 section {
@@ -121,8 +114,6 @@ section {
 }
 
 #about-main .row h1 {
-/ / font-size: 30 px !important;
-/ / margin-top: 0 !important;
     margin-bottom: 15px !important;
 }
 
@@ -133,7 +124,7 @@ section {
 
 #about-main .btn {
     padding: 10px 0 !important;
-    margin: 30px 0px 30px !important;
+    margin: 30px 0 30px !important;
     background-color: rgb(255, 133, 10);
     color: white;
     font-weight: bold !important;
