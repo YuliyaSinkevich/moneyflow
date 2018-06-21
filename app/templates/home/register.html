@@ -45,7 +45,8 @@ Register | {{ config['PUBLIC_CONFIG'].site.title }}
             <a class="pull-right" href={{ url_for('home.login') }}><b>{% trans %}Sign in{% endtrans %}</b></a>
         </div>
     </div>
-    <div class="text-center"><a class="back-to-site" href="{{ url_for('home.start') }}">&#8592;&nbsp;{% trans %}return to the
+    <div class="text-center"><a class="back-to-site" href="{{ url_for('home.start') }}">&#8592;&nbsp;{% trans %}return
+        to the
         web-site{% endtrans %} {{ config['PUBLIC_CONFIG'].site.title }}</a></div>
 </div>
 {%- endblock %}
