@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2018-06-20 23:11-0400\n"
-"PO-Revision-Date: 2018-06-20 23:11-0400\n"
+"POT-Creation-Date: 2018-06-23 03:40-0400\n"
+"PO-Revision-Date: 2018-06-23 03:40-0400\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -78,50 +78,54 @@ msgstr ""
 msgid "Advantages"
 msgstr ""
 
-#: templates/index.html:29
-msgid "Statistic"
-msgstr ""
-
-#: templates/index.html:32
+#: templates/index.html:31
 msgid "Language"
 msgstr ""
 
-#: templates/index.html:63
+#: templates/index.html:62
 msgid "Register"
 msgstr ""
 
-#: templates/home/register.html:45 templates/index.html:65
+#: templates/home/register.html:43 templates/index.html:64
 msgid "Sign in"
 msgstr ""
 
-#: templates/index.html:82
+#: templates/index.html:81
 msgid ""
 "More than 150 currencies with historical\n"
 "                        exchanges"
 msgstr ""
 
-#: templates/index.html:87
+#: templates/index.html:86
 msgid "Free and open source"
 msgstr ""
 
-#: templates/index.html:91
-msgid "Motivation to encrise money income"
-msgstr ""
-
-#: templates/index.html:95
-msgid "Amazing graphics of Money Flow"
-msgstr ""
-
-#: templates/index.html:99
-msgid "Simple to use"
-msgstr ""
-
-#: templates/index.html:103
+#: templates/index.html:90
 msgid "Save money"
 msgstr ""
 
-#: templates/index.html:107
+#: templates/index.html:94
 msgid "Recuiring entries with notifications"
+msgstr ""
+
+#: templates/index.html:98
+msgid "Save time"
+msgstr ""
+
+#: templates/index.html:102
+msgid "Flow analytics"
+msgstr ""
+
+#: templates/index.html:106
+msgid "Motivation to encrise money income"
+msgstr ""
+
+#: templates/index.html:110
+msgid "Amazing graphics of Money Flow"
+msgstr ""
+
+#: templates/index.html:114
+msgid "Simple to use"
 msgstr ""
 
 #: templates/home/login.html:16 templates/home/register.html:15
@@ -132,7 +136,7 @@ msgstr ""
 msgid "Your registered email."
 msgstr ""
 
-#: templates/home/login.html:30 templates/home/register.html:30
+#: templates/home/login.html:30 templates/home/register.html:29
 msgid "Enter a password."
 msgstr ""
 
@@ -144,7 +148,7 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
-#: templates/home/login.html:40 templates/home/register.html:48
+#: templates/home/login.html:40 templates/home/register.html:46
 msgid ""
 "return\n"
 "        to the\n"
@@ -155,7 +159,7 @@ msgstr ""
 msgid "Your email will be used to contact you."
 msgstr ""
 
-#: templates/home/register.html:44
+#: templates/home/register.html:42
 msgid "Already registered?"
 msgstr ""
 
