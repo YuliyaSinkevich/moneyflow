@@ -25,129 +25,129 @@ msgstr ""
 
 #: home/forms.py:10 home/forms.py:17
 msgid "Invalid email"
-msgstr ""
+msgstr "Неверный email"
 
 #: home/forms.py:11 home/forms.py:18
 msgid "Password:"
-msgstr ""
+msgstr "Пароль:"
 
 #: home/forms.py:12 templates/home/register.html:14
 msgid "Sign Up"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 #: home/forms.py:19 templates/home/login.html:15
 msgid "Sign In"
-msgstr ""
+msgstr "Войти"
 
 #: home/routes.py:76
 msgid "User not found."
-msgstr ""
+msgstr "Пользователь не найден."
 
 #: home/routes.py:80
 msgid "User not active."
-msgstr ""
+msgstr "Пользователь не активирован."
 
 #: home/routes.py:84
 msgid "Invalid password."
-msgstr ""
+msgstr "Неправильный пароль."
 
 #: home/routes.py:126
 msgid "Invalid email."
-msgstr ""
+msgstr "Неправильный email."
 
 #: home/routes.py:144
 msgid "Confirm Email"
-msgstr ""
+msgstr "Подтверите email"
 
 #: home/routes.py:146
 msgid "Please check email: {0}."
-msgstr ""
+msgstr "Пожалуйта проверьте email: {0}"
 
 #: templates/404.html:10
 msgid "Page Not Found"
-msgstr ""
+msgstr "Страница не найдена"
 
 #: templates/404.html:11
 msgid "What you were looking for is just not there."
-msgstr ""
+msgstr "Чего вы ищите здесь нету."
 
 #: templates/404.html:12
 msgid "go somewhere nice"
-msgstr ""
+msgstr "Перейдите сюда"
 
 #: templates/index.html:28
 msgid "Advantages"
-msgstr ""
+msgstr "Приимущества"
 
 #: templates/index.html:31
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: templates/index.html:62
 msgid "Register"
-msgstr ""
+msgstr "Зарегистрироваться"
 
 #: templates/home/register.html:43 templates/index.html:64
 msgid "Sign in"
-msgstr ""
+msgstr "Войти"
 
 #: templates/index.html:81
 msgid ""
 "More than 150 currencies with historical\n"
 "                        exchanges"
-msgstr ""
+msgstr "Более 150 валют и историей обмена"
 
 #: templates/index.html:86
 msgid "Free and open source"
-msgstr ""
+msgstr "Открытый код"
 
 #: templates/index.html:90
 msgid "Save money"
-msgstr ""
+msgstr "Сохрани деньги"
 
 #: templates/index.html:94
 msgid "Recuiring entries with notifications"
-msgstr ""
+msgstr "Повторяющиеся записи с нотификацией"
 
 #: templates/index.html:98
 msgid "Save time"
-msgstr ""
+msgstr "Сохранить время"
 
 #: templates/index.html:102
 msgid "Flow analytics"
-msgstr ""
+msgstr "Аналитика денежного потока"
 
 #: templates/index.html:106
 msgid "Motivation to encrise money income"
-msgstr ""
+msgstr "Мотивация увеличивать доход"
 
 #: templates/index.html:110
 msgid "Amazing graphics of Money Flow"
-msgstr ""
+msgstr "Качественные графики"
 
 #: templates/index.html:114
 msgid "Simple to use"
-msgstr ""
+msgstr "Простой в использовании"
 
 #: templates/home/login.html:16 templates/home/register.html:15
 msgid "Note: Your data isn't going anywhere."
-msgstr ""
+msgstr "Замечание: Ваши данные останутся конфеденциальными."
 
 #: templates/home/login.html:23
 msgid "Your registered email."
-msgstr ""
+msgstr "Ваш заригистрированный email."
 
 #: templates/home/login.html:30 templates/home/register.html:29
 msgid "Enter a password."
-msgstr ""
+msgstr "ВВедите пароль."
 
 #: templates/home/login.html:36
 msgid "Don`t have an account?"
-msgstr ""
+msgstr "Нету аккаунта?"
 
 #: templates/home/login.html:37
 msgid "Sign up"
-msgstr ""
+msgstr "Войти"
 
 #: templates/home/login.html:40 templates/home/register.html:46
 msgid ""
@@ -158,23 +158,23 @@ msgstr ""
 
 #: templates/home/register.html:22
 msgid "Your email will be used to contact you."
-msgstr ""
+msgstr "Ваша почта для связи с вами."
 
 #: templates/home/register.html:42
 msgid "Already registered?"
-msgstr ""
+msgstr "Уже зарегистрированны?"
 
 #: templates/user/dashboard.html:21
 msgid "Welcome"
-msgstr ""
+msgstr "Добро пожаловать"
 
 #: templates/user/dashboard.html:24 templates/user/settings.html:26
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: templates/user/dashboard.html:27
 msgid "Logout"
-msgstr ""
+msgstr "Выйти"
 
 #: templates/user/dashboard.html:34
 msgid "Display range:"
@@ -182,146 +182,146 @@ msgstr ""
 
 #: templates/user/dashboard.html:59
 msgid "Incomes:"
-msgstr ""
+msgstr "Доходы:"
 
 #: templates/user/dashboard.html:64 templates/user/dashboard.html:110
 msgid "Value"
-msgstr ""
+msgstr "Значение"
 
 #: templates/user/dashboard.html:65 templates/user/dashboard.html:111
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: templates/user/dashboard.html:66 templates/user/dashboard.html:112
 msgid "Currency"
-msgstr ""
+msgstr "Валюта"
 
 #: templates/user/dashboard.html:67 templates/user/dashboard.html:113
 msgid "Actions"
-msgstr ""
+msgstr "Действия"
 
 #: templates/user/dashboard.html:84 templates/user/dashboard.html:130
 msgid "Edit"
-msgstr ""
+msgstr "Изменить"
 
 #: templates/user/dashboard.html:88 templates/user/dashboard.html:134
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: templates/user/dashboard.html:97 templates/user/dashboard.html:143
 #: templates/user/dashboard.html:183
 msgid "Details"
-msgstr ""
+msgstr "Детали"
 
 #: templates/user/dashboard.html:100 templates/user/dashboard.html:146
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: templates/user/dashboard.html:105
 msgid "Expenses:"
-msgstr ""
+msgstr "Расходы:"
 
 #: templates/user/dashboard.html:339
 msgid "Income"
-msgstr ""
+msgstr "Даходы"
 
 #: templates/user/dashboard.html:345
 msgid "Expense"
-msgstr ""
+msgstr "Расходы"
 
 #: templates/user/money/base.html:64
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
 
 #: user/forms.py:16
 msgid "Type:"
-msgstr ""
+msgstr "Тип:"
 
 #: user/forms.py:17
 msgid "Date:"
-msgstr ""
+msgstr "Дата:"
 
 #: user/forms.py:19
 msgid "Category:"
-msgstr ""
+msgstr "Категория:"
 
 #: user/forms.py:20
 msgid "Value:"
-msgstr ""
+msgstr "Значение:"
 
 #: user/forms.py:21
 msgid "Invalid value"
-msgstr ""
+msgstr "неправильное значение"
 
 #: user/forms.py:23 user/forms.py:67
 msgid "Currency:"
-msgstr ""
+msgstr "Валюта:"
 
 #: user/forms.py:24
 msgid "Description:"
-msgstr ""
+msgstr "Описание:"
 
 #: user/forms.py:25
 msgid "Recurring:"
-msgstr ""
+msgstr "Повторение:"
 
 #: user/forms.py:26
 msgid "Single"
-msgstr ""
+msgstr "Единожды"
 
 #: user/forms.py:27
 msgid "Every day"
-msgstr ""
+msgstr "Каждый день"
 
 #: user/forms.py:28
 msgid "Every month"
-msgstr ""
+msgstr "Каждый месяц"
 
 #: user/forms.py:29
 msgid "Every year"
-msgstr ""
+msgstr "Каждый год"
 
 #: user/forms.py:31
 msgid "State:"
-msgstr ""
+msgstr "Статус:"
 
 #: user/forms.py:32
 msgid "Approved"
-msgstr ""
+msgstr "Поддеверженно"
 
 #: user/forms.py:33
 msgid "Pending"
-msgstr ""
+msgstr "В Ожидании"
 
 #: user/forms.py:35
 msgid "Confirm"
-msgstr ""
+msgstr "Ok"
 
 #: user/forms.py:65
 msgid "Locale:"
-msgstr ""
+msgstr "Язык:"
 
 #: user/forms.py:68
 msgid "Start date:"
-msgstr ""
+msgstr "Начальная дата:"
 
 #: user/forms.py:69
 msgid "End date:"
-msgstr ""
+msgstr "Конечная дата:"
 
 #: user/forms.py:70
 msgid "Apply"
-msgstr ""
+msgstr "Применить"
 
 #: user/routes.py:204
 msgid "Income details"
-msgstr ""
+msgstr "Даходы детали"
 
 #: user/routes.py:271
 msgid "Expense details"
-msgstr ""
+msgstr "Расходы детали"
 
 #: user/routes.py:361
 msgid "Flow details"
-msgstr ""
+msgstr "Поток детали"
 
